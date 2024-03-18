@@ -1,0 +1,15 @@
+TIPO_DATO = "INT" | "DOUBLE" | "BOOL" | "CHAR" | "STRING"
+OP_ARIT = "+" | "-" | "*" | "/" | "%" 
+MENOS = "-"
+ENTERO = [0-9]+
+NUM = ENTERO | ENTERO\.ENTERO
+OP_IGUAL "="
+PYC = ";"
+OP_REL = "==" | "!=" | ">" | "<=" | ">="
+OP_LOGIC = "||" | "&&" | "!"
+PAR_A = "{"
+PAR_C = "}"
+COUT = "cout"
+MENORQ = "<"
+
+ 
