@@ -4,8 +4,13 @@
   "description": "Proyecto 2 de Compi 1",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "jison": "jison gramatica\\gramatica.jison >> gramatica\\Gramatica.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "jison": "^0.4.18"
+  }
 }
