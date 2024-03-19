@@ -1,15 +1,80 @@
 TIPO_DATO = "INT" | "DOUBLE" | "BOOL" | "CHAR" | "STRING"
+RES_POW = "pow"
 OP_ARIT = "+" | "-" | "*" | "/" | "%" 
-MENOS = "-"
 ENTERO = [0-9]+
-NUM = ENTERO | ENTERO\.ENTERO
+DOUBLE = ENTERO | ENTERO\.ENTERO
 OP_IGUAL "="
 PYC = ";"
-OP_REL = "==" | "!=" | ">" | "<=" | ">="
+DOSP = ":"
+OP_REL = "==" | "!=" | ">" | "<=" | ">=" | "<"
 OP_LOGIC = "||" | "&&" | "!"
-PAR_A = "{"
-PAR_C = "}"
+LLAV_A = "{"
+LLAV_C = "}"
+PAR_A = "("
+PAR_C = ")"
+CORC_A = "["
+CORC_C = "]"
+RES_IF = "if"
+RES_POW = "pow"
+RES_ELSE = "else"
+RES_SWITCH = switch"
+RES_CASE = "case"
+RES_DEFAULT = "default"
+RES_WHILE = "while"
+RES_FOR = "for"
+RES_DO = "do"
+RES_BREAK = "break"
+RES_CONTINUE = "continue"
+RES_RETURN = return"
+RES_VOID = "void"
 COUT = "cout"
-MENORQ = "<"
+DOBLE_MENORQ = "<<"
+RES_TOLOWER = "tolower"
+RES_TOUPER = "touper"
+RES_ROUND = "round"
+RES_LENGTH = "length"
+RES_TYPEOF = "typeof"
+RES_TOSTRING = "tostring"
+RES_C_STR = "c_str"
+RES_EXECUTE = "execute"
+BOOLEANO = true | false
+CARACTER = [.] // Todos los caracteres posibles
+CADENA = [^" ]+
+COMILLAS_D = "
+COMILLAS_S
+CADENA_TEXTO = COMILLAS_D CADENA COMILLAS_D
+CARACTER_TEXTO = COMULLAS_S CARACTER COMILLAS_S
+DATO = DOUBLE | ENTERO | BOOLEANO | CADENA_TEXTO | CARACTER_TEXTO
+ID = CADENA (CADENA)* (ENTERO)* | CADENA (CADENA)*
+
+No terminales = <inicio>
+
+Empieza = <inicio>
+
+<inicio> ::= <decl_variables>
+
+<decl_variables> ::= TIPO_DATO <decl_varias_variables> <asignacion_valor_variable>
+
+<asignacion_valor_variable> ::= OP_IGUAL <expresion_decl_variable> PYC 
+                                | PYC
+
+<exp_decl_variable> ::= <exp_decl_variable_3>
+                    | <exp_decl_variable_2>
+
+<exp_decl_variable_2> ::= BOOLEANO
+                        | <exp_decl_variable_texto>
+
+<expresion_decl_variable_texto> ::= CADENA_TEXTO
+                                    | CARACTER_TEXTO
+
+<exp_decl_variable_3> ::= <exp_decl_variable_numero>
+                            | ID
+
+<exp_declaracion_variable_numero> ::= NUM
+                                    | DOUBLE
+
+
+<decl_varias_variables> ::= <decl_varias_variables> ,ID
+                            | ID
 
  
