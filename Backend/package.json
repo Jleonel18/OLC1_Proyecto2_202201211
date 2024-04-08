@@ -1,12 +1,12 @@
 {
-  "name": "olc1_proyecto2_202201211",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "Proyecto 2 de Compi 1",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "jison": "jison gramatica\\gramatica.jison >> gramatica\\Gramatica.js"
+    "jison": "jison gramatica/gramatica.jison && move gramatica.js gramatica"
   },
   "author": "",
   "license": "ISC",
