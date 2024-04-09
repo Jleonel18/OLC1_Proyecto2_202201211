@@ -171,9 +171,15 @@ instrucciones: instrucciones instruccion
 instruccion: evaluar
 ;
 
-evaluar: tipos asignacion R_PUNTOYCOMA;
+evaluar: tipos asignacion asignacion_expresion {console.log("la expresion es", $3);};
 
-asignacion: ID R_IGUAL expresion {console.log("la expresion es: ", $3);}
+
+asignacion:     asignacion R_COMA ID {console.log("la variable es: ", $3);}
+                | ID {console.log("la variable es: ", $1);}
+;
+
+asignacion_expresion: R_IGUAL expresion R_PUNTOYCOMA { $$= $2;}
+                        | R_PUNTOYCOMA {$$ = 0;}
 ;
 
 expresion: expresion R_MAS expresion {$$ = $1 + $3;}
