@@ -144,9 +144,67 @@ var errores = [];
 
 /lex
 
+//Precedencias
+%left 'R_TERNARIO'
+%left 'OR'
+%left 'AND'
+%right 'NOT'
+%left 'R_IGUALIGUAL' 'R_DISTINTO' 'R_MENOR' 'R_MENORIGUAL' 'R_MAYOR' 'R_MAYORIGUAL'
+%left 'R_MAS' 'R_MENOS'
+%left 'R_POR' 'R_DIV' 'R_MOD'
+%left 'R_POW'
+%left 'R_INC' 'R_DEC'
+%left umenos
+%left 'R_PARIZQ'
+
 
 %start inicio
 
 %%
 
-inicio: EOF {return 0};
+inicio: instrucciones EOF;
+
+instrucciones: instrucciones instruccion
+                | instruccion
+;
+
+instruccion: evaluar
+;
+
+evaluar: tipos asignacion R_PUNTOYCOMA;
+
+asignacion: ID R_IGUAL expresion {console.log("la expresion es: ", $3);}
+;
+
+expresion: expresion R_MAS expresion {$$ = $1 + $3;}
+            | expresion R_MENOS expresion {$$ = $1 - $3;}
+            | expresion R_POR expresion {$$ = $1 * $3;}
+            | expresion R_DIV expresion
+            | expresion R_MOD expresion
+            | R_POW R_PARIZQ expresion R_COMA expresion R_PARDER
+            | R_PARIZQ expresion R_PARDER {$$ = $2;}
+            | R_MENOS expresion %prec umenos {$$ = $2 *-1;}
+            | expresion R_IGUALIGUAL expresion
+            | expresion R_DISTINTO expresion
+            | expresion R_MENOR expresion
+            | expresion R_MENORIGUAL expresion
+            | expresion R_MAYOR expresion
+            | expresion R_MAYORIGUAL expresion
+            | R_NOT expresion
+            | expresion R_AND expresion
+            | expresion R_OR expresion
+            | R_TRUE
+            | R_FALSE
+            | ENTERO {$$ = Number($1);}
+            | DECIMAL {$$ = Number($1);}
+            | CARACTER
+            | CADENA {$$ = $1;}
+            | ID
+;
+
+tipos: R_INT
+        | R_FLOAT
+        | R_CHAR
+        | R_STRING
+        | R_BOOL
+;

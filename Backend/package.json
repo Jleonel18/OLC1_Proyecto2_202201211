@@ -1,16 +1,31 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "jison": "jison gramatica/gramatica.jison && move gramatica.js gramatica"
+    "start": "nodemon build/index.js",
+    "jison": "jison gramatica/gramatica.jison && move gramatica.js gramatica",
+    "build": "tsc -w",
+    "server": "node build/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jison": "^0.4.18"
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jison": "^0.4.18",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.0",
+    "typescript": "^5.4.4"
+  },
+  "keywords": [],
+  "description": "",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.12.5"
   }
 }
