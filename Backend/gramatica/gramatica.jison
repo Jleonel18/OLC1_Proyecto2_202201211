@@ -4,6 +4,11 @@ const Tipo = require('../build/controllers/simbol/tipo')
 const Nativo = require('../build/controllers/expr/Nativo')
 const Aritmeticas = require('../build/controllers/expr/Aritmeticas')
 
+const Print = require('../build/controllers/instruc/print')
+const Declaracion = require('../build/controllers/instruc/declaracion')
+const AccesoVar = require('../build/controllers/expr/accesoVar')
+const AsignacionVar = require('../build/controllers/instruc/asignacionVar')
+
 var cadena  = '';
 var errores = [];
 
@@ -24,7 +29,7 @@ var errores = [];
 // TIPOS DE DATOS
 //---------------------------------------------------
 "int"                                return 'R_INT';
-"float"                              return 'R_FLOAT';
+"double"                              return 'R_DOUBLE';
 "char"                               return 'R_CHAR';
 "string"                             return 'R_STRING';
 "bool"                               return 'R_BOOL';
@@ -173,7 +178,18 @@ instrucciones : instrucciones instruccion   {$1.push($2); $$=$1;}
               | instruccion                 {$$=[$1];}
 ;
 
-instruccion : expresion R_PUNTOYCOMA            {$$=$1;}
+instruccion : impresion R_PUNTOYCOMA            {$$=$1;}
+            | declaracion R_PUNTOYCOMA          {$$=$1;}
+            | asignacion R_PUNTOYCOMA           {$$=$1;}
+;
+
+impresion : R_COUT R_PARIZQ expresion R_PARDER    {$$= new Print.default($3, @1.first_line, @1.first_column);}
+;
+
+declaracion : tipos ID R_IGUAL expresion      {$$ = new Declaracion.default($1, @1.first_line, @1.first_column, $2, $4);}
+;
+
+asignacion : ID R_IGUAL expresion             {$$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column);}
 ;
 
 expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Aritmeticas.Operadores.SUMA, @1.first_line, @1.first_column, $1, $3);}
@@ -182,4 +198,11 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | R_MENOS expresion %prec umenos     {$$ = new Aritmeticas.default(Aritmeticas.Operadores.NEG, @1.first_line, @1.first_column, $2);}
           | ENTERO                           {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.ENTERO), $1, @1.first_line, @1.first_column );}
           | DECIMAL                          {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.DECIMAL), $1, @1.first_line, @1.first_column );}
+          | CADENA                           {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.CADENA), $1, @1.first_line, @1.first_column );}
+          | ID                               {$$ = new AccesoVar.default($1, @1.first_line, @1.first_column);}      
+;
+
+tipos : R_INT             {$$ = new Tipo.default(Tipo.tipoDato.ENTERO);}
+      |  R_DOUBLE         {$$ = new Tipo.default(Tipo.tipoDato.DECIMAL);}
+      | R_STRING          {$$ = new Tipo.default(Tipo.tipoDato.CADENA);}
 ;

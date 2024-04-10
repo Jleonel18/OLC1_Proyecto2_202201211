@@ -27,7 +27,9 @@ class controller {
                 var resultado = i.interpretar(ast, tabla);
                 console.log(resultado);
             }
-            res.send({ message: "analizado con exito" });
+            console.log(tabla);
+            res.send({ message: ast.getConsola() });
+            console.log(ast.getConsola());
         }
         catch (error) {
             res.json({ message: "Error en el analisis" });

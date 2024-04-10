@@ -11,6 +11,9 @@ class Arbol {
         this.tablaGlobal = new tablaSimbolos_1.default();
         this.errores = new Array;
     }
+    Print(contenido) {
+        this.consola = `${this.consola}${contenido}\n`;
+    }
     getConsola() {
         return this.consola;
     }

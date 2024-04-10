@@ -19,9 +19,15 @@ class tablaSimbolo {
         this.tablaActual = tabla;
     }
     getVariable(id) {
-        return "";
+        return this.getTabla().get(id.toLocaleLowerCase());
     }
     setVariable(simbolo) {
+        let busqueda = this.getTabla().get(simbolo.getId().toLocaleLowerCase());
+        if (busqueda == null) {
+            this.tablaActual.set(simbolo.getId().toLocaleLowerCase(), simbolo);
+            return true;
+        }
+        return false;
     }
     getNombre() {
         return this.nombre;
