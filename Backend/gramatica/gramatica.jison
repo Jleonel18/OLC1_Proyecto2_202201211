@@ -1,5 +1,9 @@
 %{
 
+const Tipo = require('../build/controllers/simbol/tipo')
+const Nativo = require('../build/controllers/expr/Nativo')
+const Aritmeticas = require('../build/controllers/expr/Aritmeticas')
+
 var cadena  = '';
 var errores = [];
 
@@ -162,55 +166,20 @@ var errores = [];
 
 %%
 
-inicio: instrucciones EOF;
-
-instrucciones: instrucciones instruccion
-                | instruccion
+inicio : instrucciones EOF                  {return $1;}
 ;
 
-instruccion: evaluar
+instrucciones : instrucciones instruccion   {$1.push($2); $$=$1;}
+              | instruccion                 {$$=[$1];}
 ;
 
-evaluar: tipos asignacion asignacion_expresion {console.log("la expresion es", $3);};
-
-
-asignacion:     asignacion R_COMA ID {console.log("la variable es: ", $3);}
-                | ID {console.log("la variable es: ", $1);}
+instruccion : expresion R_PUNTOYCOMA            {$$=$1;}
 ;
 
-asignacion_expresion: R_IGUAL expresion R_PUNTOYCOMA { $$= $2;}
-                        | R_PUNTOYCOMA {$$ = 0;}
-;
-
-expresion: expresion R_MAS expresion {$$ = $1 + $3;}
-            | expresion R_MENOS expresion {$$ = $1 - $3;}
-            | expresion R_POR expresion {$$ = $1 * $3;}
-            | expresion R_DIV expresion
-            | expresion R_MOD expresion
-            | R_POW R_PARIZQ expresion R_COMA expresion R_PARDER
-            | R_PARIZQ expresion R_PARDER {$$ = $2;}
-            | R_MENOS expresion %prec umenos {$$ = $2 *-1;}
-            | expresion R_IGUALIGUAL expresion
-            | expresion R_DISTINTO expresion
-            | expresion R_MENOR expresion
-            | expresion R_MENORIGUAL expresion
-            | expresion R_MAYOR expresion
-            | expresion R_MAYORIGUAL expresion
-            | R_NOT expresion
-            | expresion R_AND expresion
-            | expresion R_OR expresion
-            | R_TRUE
-            | R_FALSE
-            | ENTERO {$$ = Number($1);}
-            | DECIMAL {$$ = Number($1);}
-            | CARACTER
-            | CADENA {$$ = $1;}
-            | ID
-;
-
-tipos: R_INT
-        | R_FLOAT
-        | R_CHAR
-        | R_STRING
-        | R_BOOL
+expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Aritmeticas.Operadores.SUMA, @1.first_line, @1.first_column, $1, $3);}
+          | expresion R_MENOS expresion        {$$ = new Aritmeticas.default(Aritmeticas.Operadores.RESTA, @1.first_line, @1.first_column, $1, $3);}
+          | R_PARIZQ expresion R_PARDER              {$$ = $2;}
+          | R_MENOS expresion %prec umenos     {$$ = new Aritmeticas.default(Aritmeticas.Operadores.NEG, @1.first_line, @1.first_column, $2);}
+          | ENTERO                           {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.ENTERO), $1, @1.first_line, @1.first_column );}
+          | DECIMAL                          {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.DECIMAL), $1, @1.first_line, @1.first_column );}
 ;

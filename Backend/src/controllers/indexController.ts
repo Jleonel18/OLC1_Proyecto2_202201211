@@ -1,4 +1,6 @@
 import {Request, Response} from 'express'
+import Arbol from './simbol/arbol';
+import tablaSimbolo from './simbol/tablaSimbolos';
 
 class controller{
     public prueba(req: Request, res: Response){
@@ -11,12 +13,22 @@ class controller{
         res.json({message: 'Metodo post'});
     }
 
-    public analizar(req: Request, res: Response){
+    public interpretar(req: Request, res: Response){
         try{
-            let parser = require('../../gramatica/gramatica.js')
-            let contenido = req.body.message
-            let resultado = parser.parse(contenido)
-            res.json({message: contenido, "parseado": resultado});
+            let parser = require('../../gramatica/gramatica')
+            let ast = new Arbol(parser.parse(req.body.message));
+            let tabla = new tablaSimbolo();
+            tabla.setNombre("Global");
+            ast.setTablaGlobal(tabla);
+            ast.setConsola("");
+
+            for(let i of ast.getInstrucciones()){
+                var resultado = i.interpretar(ast, tabla);
+                console.log(resultado);
+
+            }
+
+            res.send({message: "analizado con exito"})
 
         }catch(error: any){
             res.json({message: "Error en el analisis"});
