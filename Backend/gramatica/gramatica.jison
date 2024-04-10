@@ -3,6 +3,7 @@
 const Tipo = require('../build/controllers/simbol/tipo')
 const Nativo = require('../build/controllers/expr/Nativo')
 const Aritmeticas = require('../build/controllers/expr/Aritmeticas')
+const Relacionales = require('../build/controllers/expr/Relacionales')
 
 const Print = require('../build/controllers/instruc/print')
 const Declaracion = require('../build/controllers/instruc/declaracion')
@@ -198,14 +199,20 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | expresion R_DIV expresion          {$$ = new Aritmeticas.default(Aritmeticas.Operadores.DIVISION, @1.first_line, @1.first_column, $1, $3);}
           | expresion R_MOD expresion          {$$ = new Aritmeticas.default(Aritmeticas.Operadores.MODULO, @1.first_line, @1.first_column, $1, $3);}
           | R_PARIZQ expresion R_PARDER              {$$ = $2;}
+          | expresion R_IGUALIGUAL expresion {$$ = new Relacionales.default(Relacionales.Operadores.IGUAL, @1.first_line, @1.first_column, $1, $3);}
           | R_MENOS expresion %prec umenos     {$$ = new Aritmeticas.default(Aritmeticas.Operadores.NEG, @1.first_line, @1.first_column, $2);}
           | ENTERO                           {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.ENTERO), $1, @1.first_line, @1.first_column );}
           | DECIMAL                          {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.DECIMAL), $1, @1.first_line, @1.first_column );}
           | CADENA                           {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.CADENA), $1, @1.first_line, @1.first_column );}
-          | ID                               {$$ = new AccesoVar.default($1, @1.first_line, @1.first_column);}      
+          | ID                               {$$ = new AccesoVar.default($1, @1.first_line, @1.first_column);} 
+          | CARACTER                        {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.CARACTER), $1, @1.first_line, @1.first_column );} 
+          | R_TRUE                           {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.BOOL), true, @1.first_line, @1.first_column );}
+          | R_FALSE                          {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.BOOL), false, @1.first_line, @1.first_column );}  
 ;
 
 tipos : R_INT             {$$ = new Tipo.default(Tipo.tipoDato.ENTERO);}
       |  R_DOUBLE         {$$ = new Tipo.default(Tipo.tipoDato.DECIMAL);}
       | R_STRING          {$$ = new Tipo.default(Tipo.tipoDato.CADENA);}
+      | R_BOOL            {$$ = new Tipo.default(Tipo.tipoDato.BOOL);}
+      | R_CHAR            {$$ = new Tipo.default(Tipo.tipoDato.CARACTER);}
 ;
