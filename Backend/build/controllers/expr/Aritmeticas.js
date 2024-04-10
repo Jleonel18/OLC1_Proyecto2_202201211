@@ -62,8 +62,14 @@ class Aritmeticas extends instruccion_1.Instruccion {
                 return this.suma(opIzq, opDer);
             case Operadores.RESTA:
                 return this.resta(opIzq, opDer);
+            case Operadores.MULTIPLICACION:
+                return this.multiplicacion(opIzq, opDer);
             case Operadores.NEG:
                 return this.negacion(Unico);
+            case Operadores.DIVISION:
+                return this.division(opIzq, opDer);
+            case Operadores.MODULO:
+                return this.modulo(opIzq, opDer);
             default:
                 return new errores_1.default("Semantico", "Operador Aritmetico Invalido", this.linea, this.columna);
         }
@@ -130,6 +136,89 @@ class Aritmeticas extends instruccion_1.Instruccion {
                 return new errores_1.default("Semantico", "Resta Invalida", this.linea, this.columna);
         }
     }
+    multiplicacion(op1, op2) {
+        var _a, _b;
+        let tipo1 = (_a = this.operando1) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
+        let tipo2 = (_b = this.operando2) === null || _b === void 0 ? void 0 : _b.tipoDato.getTipo();
+        switch (tipo1) {
+            case tipo_1.tipoDato.ENTERO:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
+                        return parseInt(op1) * parseInt(op2);
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
+                        return parseFloat(op1) * parseFloat(op2);
+                    default:
+                        return new errores_1.default("Semantico", "Resta Invalida", this.linea, this.columna);
+                }
+            case tipo_1.tipoDato.DECIMAL:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
+                        return parseFloat(op1) * parseFloat(op2);
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
+                        return parseFloat(op1) * parseFloat(op2);
+                    default:
+                        return new errores_1.default("Semantico", "Resta Invalida", this.linea, this.columna);
+                }
+            default:
+                return new errores_1.default("Semantico", "Resta Invalida", this.linea, this.columna);
+        }
+    }
+    division(op1, op2) {
+        var _a, _b;
+        let tipo1 = (_a = this.operando1) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
+        let tipo2 = (_b = this.operando2) === null || _b === void 0 ? void 0 : _b.tipoDato.getTipo();
+        switch (tipo1) {
+            case tipo_1.tipoDato.ENTERO:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
+                        return parseInt(op1) / parseInt(op2);
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
+                        return parseFloat(op1) / parseFloat(op2);
+                    default:
+                        return new errores_1.default("Semantico", "Division Invalida", this.linea, this.columna);
+                }
+            case tipo_1.tipoDato.DECIMAL:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
+                        return parseFloat(op1) / parseFloat(op2);
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
+                        return parseFloat(op1) / parseFloat(op2);
+                    default:
+                        return new errores_1.default("Semantico", "Division Invalida", this.linea, this.columna);
+                }
+            default:
+                return new errores_1.default("Semantico", "Division Invalida", this.linea, this.columna);
+        }
+    }
+    modulo(op1, op2) {
+        var _a, _b;
+        let tipo1 = (_a = this.operando1) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
+        let tipo2 = (_b = this.operando2) === null || _b === void 0 ? void 0 : _b.tipoDato.getTipo();
+        switch (tipo1) {
+            case tipo_1.tipoDato.ENTERO:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
+                        return parseInt(op1) % parseInt(op2);
+                    case tipo_1.tipoDato.DECIMAL:
+                        return new errores_1.default("Semantico", "Modulo Invalido", this.linea, this.columna);
+                    default:
+                        return new errores_1.default("Semantico", "Modulo Invalido", this.linea, this.columna);
+                }
+            case tipo_1.tipoDato.DECIMAL:
+                return new errores_1.default("Semantico", "Modulo Invalido", this.linea, this.columna);
+            default:
+                return new errores_1.default("Semantico", "Modulo Invalido", this.linea, this.columna);
+        }
+    }
     negacion(op1) {
         var _a;
         let opU = (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
@@ -150,5 +239,8 @@ var Operadores;
 (function (Operadores) {
     Operadores[Operadores["SUMA"] = 0] = "SUMA";
     Operadores[Operadores["RESTA"] = 1] = "RESTA";
-    Operadores[Operadores["NEG"] = 2] = "NEG";
+    Operadores[Operadores["MULTIPLICACION"] = 2] = "MULTIPLICACION";
+    Operadores[Operadores["DIVISION"] = 3] = "DIVISION";
+    Operadores[Operadores["MODULO"] = 4] = "MODULO";
+    Operadores[Operadores["NEG"] = 5] = "NEG";
 })(Operadores || (exports.Operadores = Operadores = {}));
