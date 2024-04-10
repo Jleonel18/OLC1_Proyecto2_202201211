@@ -111,6 +111,58 @@ class Relacionales extends instruccion_1.Instruccion {
         }
     }
     diferente(op1, op2) {
+        var _a, _b;
+        let tipo1 = (_a = this.operando1) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
+        let tipo2 = (_b = this.operando2) === null || _b === void 0 ? void 0 : _b.tipoDato.getTipo();
+        switch (tipo1) {
+            case tipo_1.tipoDato.ENTERO:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 != op2;
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 != op2;
+                }
+            case tipo_1.tipoDato.DECIMAL:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 != op2;
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 != op2;
+                }
+            case tipo_1.tipoDato.CADENA:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.CADENA:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 != op2;
+                }
+            case tipo_1.tipoDato.BOOL:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.BOOL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 != op2;
+                }
+            case tipo_1.tipoDato.CARACTER:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.CARACTER:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 != op2;
+                    case tipo_1.tipoDato.CADENA:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 != op2;
+                }
+        }
+    }
+    mayor(op1, op2) {
+    }
+    menor(op1, op2) {
+    }
+    menorIgual(op1, op2) {
+    }
+    mayorIgual(op1, op2) {
     }
 }
 exports.default = Relacionales;

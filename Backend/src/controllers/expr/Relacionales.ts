@@ -23,17 +23,17 @@ export default class Relacionales extends Instruccion {
 
     interpretar(arbol: Arbol, tabla: tablaSimbolo) {
         let opIzq, opDer, Unico = null
-        if(this.operandoUnico != null){
+        if (this.operandoUnico != null) {
             Unico = this.operandoUnico.interpretar(arbol, tabla)
-            if(Unico instanceof Errores) return Unico
-        } else{
+            if (Unico instanceof Errores) return Unico
+        } else {
             opIzq = this.operando1?.interpretar(arbol, tabla)
-            if(opIzq instanceof Errores) return opIzq
+            if (opIzq instanceof Errores) return opIzq
             opDer = this.operando2?.interpretar(arbol, tabla)
-            if(opDer instanceof Errores) return opDer
+            if (opDer instanceof Errores) return opDer
         }
 
-        switch(this.operacion){
+        switch (this.operacion) {
             case Operadores.IGUAL:
                 return this.igual(opIzq, opDer)
             case Operadores.DIFERENTE:
@@ -41,13 +41,13 @@ export default class Relacionales extends Instruccion {
         }
     }
 
-    igual(op1: any, op2: any){
+    igual(op1: any, op2: any) {
         let tipo1 = this.operando1?.tipoDato.getTipo()
         let tipo2 = this.operando2?.tipoDato.getTipo()
 
-        switch(tipo1){
+        switch (tipo1) {
             case tipoDato.ENTERO:
-                switch(tipo2){
+                switch (tipo2) {
                     case tipoDato.ENTERO:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
                         return op1 == op2
@@ -56,7 +56,7 @@ export default class Relacionales extends Instruccion {
                         return op1 == op2
                 }
             case tipoDato.DECIMAL:
-                switch(tipo2){
+                switch (tipo2) {
                     case tipoDato.ENTERO:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
                         return op1 == op2
@@ -65,33 +65,95 @@ export default class Relacionales extends Instruccion {
                         return op1 == op2
                 }
             case tipoDato.CADENA:
-                switch(tipo2){
+                switch (tipo2) {
                     case tipoDato.CADENA:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
                         return op1 == op2
                 }
             case tipoDato.BOOL:
-                switch(tipo2){
+                switch (tipo2) {
                     case tipoDato.BOOL:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
                         return op1 == op2
                 }
             case tipoDato.CARACTER:
-                switch(tipo2){
+                switch (tipo2) {
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
                         return op1 == op2
                     case tipoDato.CADENA:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return op1 == op2                }
+                        return op1 == op2
+                }
         }
     }
 
-    diferente(op1: any, op2: any){
+    diferente(op1: any, op2: any) {
+
+        let tipo1 = this.operando1?.tipoDato.getTipo()
+        let tipo2 = this.operando2?.tipoDato.getTipo()
+
+        switch (tipo1) {
+            case tipoDato.ENTERO:
+                switch (tipo2) {
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.BOOL)
+                        return op1 != op2
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.BOOL)
+                        return op1 != op2
+                }
+            case tipoDato.DECIMAL:
+                switch (tipo2) {
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.BOOL)
+                        return op1 != op2
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.BOOL)
+                        return op1 != op2
+                }
+            case tipoDato.CADENA:
+                switch (tipo2) {
+                    case tipoDato.CADENA:
+                        this.tipoDato = new Tipo(tipoDato.BOOL)
+                        return op1 != op2
+                }
+            case tipoDato.BOOL:
+                switch (tipo2) {
+                    case tipoDato.BOOL:
+                        this.tipoDato = new Tipo(tipoDato.BOOL)
+                        return op1 != op2
+                }
+            case tipoDato.CARACTER:
+                switch (tipo2) {
+                    case tipoDato.CARACTER:
+                        this.tipoDato = new Tipo(tipoDato.BOOL)
+                        return op1 != op2
+                    case tipoDato.CADENA:
+                        this.tipoDato = new Tipo(tipoDato.BOOL)
+                        return op1 != op2
+                }
+        }
+    }
+
+    mayor(op1: any, op2: any) {
+
+    }
+
+    menor(op1: any, op2: any) {
+
+    }
+
+    menorIgual(op1: any, op2: any) {
+
+    }
+
+    mayorIgual(op1: any, op2: any) {
+
     }
 }
 
-export enum Operadores{
+export enum Operadores {
     IGUAL,
     DIFERENTE,
     MENOR,
