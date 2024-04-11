@@ -239,7 +239,7 @@ tipos : R_INT             {$$ = new Tipo.default(Tipo.tipoDato.ENTERO);}
 
 f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(FNativas.Operadores.TOLOWER, @1.first_line, @1.first_column, $3);} 
             | R_TOUPPER R_PARIZQ expresion R_PARDER {$$ = new FNativas.default(FNativas.Operadores.TOUPPER, @1.first_line, @1.first_column, $3);}
-            | R_ROUND R_PARIZQ expresion R_PARDER 
+            | R_ROUND R_PARIZQ expresion R_PARDER   {$$ = new FNativas.default(FNativas.Operadores.ROUND, @1.first_line, @1.first_column, $3);}
             | R_LENGTH R_PARIZQ expresion R_PARDER 
             | R_TYPEOF R_PARIZQ expresion R_PARDER 
             | R_STD R_DOSPUNTOS R_DOSPUNTOS R_TOSTRING R_PARIZQ expresion R_PARDER 

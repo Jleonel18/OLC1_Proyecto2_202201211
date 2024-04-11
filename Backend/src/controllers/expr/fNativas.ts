@@ -69,7 +69,7 @@ export default class FNativas extends Instruccion{
                 this.tipoDato = new Tipo(tipoDato.ENTERO)
                 return Math.round(op1)
             default:
-                return new Errores("Semantico", "Operador Logico Invalido", this.linea, this.columna)
+                return new Errores("Semantico", "Solo se pueden redondear Decimales", this.linea, this.columna)
         }
     }
 

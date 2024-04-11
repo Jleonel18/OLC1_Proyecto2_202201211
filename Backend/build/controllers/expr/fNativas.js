@@ -89,7 +89,7 @@ class FNativas extends instruccion_1.Instruccion {
                 this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
                 return Math.round(op1);
             default:
-                return new errores_1.default("Semantico", "Operador Logico Invalido", this.linea, this.columna);
+                return new errores_1.default("Semantico", "Solo se pueden redondear Decimales", this.linea, this.columna);
         }
     }
     typeof(op1) { }
