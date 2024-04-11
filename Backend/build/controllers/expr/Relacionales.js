@@ -62,6 +62,14 @@ class Relacionales extends instruccion_1.Instruccion {
                 return this.igual(opIzq, opDer);
             case Operadores.DIFERENTE:
                 return this.diferente(opIzq, opDer);
+            case Operadores.MAYOR:
+                return this.mayor(opIzq, opDer);
+            case Operadores.MENOR:
+                return this.menor(opIzq, opDer);
+            case Operadores.MAYORIGUAL:
+                return this.mayorIgual(opIzq, opDer);
+            case Operadores.MENORIGUAL:
+                return this.menorIgual(opIzq, opDer);
         }
     }
     igual(op1, op2) {
@@ -77,6 +85,8 @@ class Relacionales extends instruccion_1.Instruccion {
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
                         return op1 == op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna);
                 }
             case tipo_1.tipoDato.DECIMAL:
                 switch (tipo2) {
@@ -86,18 +96,24 @@ class Relacionales extends instruccion_1.Instruccion {
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
                         return op1 == op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
                 }
             case tipo_1.tipoDato.CADENA:
                 switch (tipo2) {
                     case tipo_1.tipoDato.CADENA:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
                         return op1 == op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar una CADENA con un " + tipo2, this.linea, this.columna);
                 }
             case tipo_1.tipoDato.BOOL:
                 switch (tipo2) {
                     case tipo_1.tipoDato.BOOL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
                         return op1 == op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un BOOL con un " + tipo2, this.linea, this.columna);
                 }
             case tipo_1.tipoDato.CARACTER:
                 switch (tipo2) {
@@ -107,6 +123,8 @@ class Relacionales extends instruccion_1.Instruccion {
                     case tipo_1.tipoDato.CADENA:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
                         return op1 == op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un CARACTER con un " + tipo2, this.linea, this.columna);
                 }
         }
     }
@@ -123,6 +141,8 @@ class Relacionales extends instruccion_1.Instruccion {
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
                         return op1 != op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
                 }
             case tipo_1.tipoDato.DECIMAL:
                 switch (tipo2) {
@@ -132,18 +152,24 @@ class Relacionales extends instruccion_1.Instruccion {
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
                         return op1 != op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna);
                 }
             case tipo_1.tipoDato.CADENA:
                 switch (tipo2) {
                     case tipo_1.tipoDato.CADENA:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
                         return op1 != op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar una CADENA con un " + tipo2, this.linea, this.columna);
                 }
             case tipo_1.tipoDato.BOOL:
                 switch (tipo2) {
                     case tipo_1.tipoDato.BOOL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
                         return op1 != op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un BOOL con un " + tipo2, this.linea, this.columna);
                 }
             case tipo_1.tipoDato.CARACTER:
                 switch (tipo2) {
@@ -153,16 +179,134 @@ class Relacionales extends instruccion_1.Instruccion {
                     case tipo_1.tipoDato.CADENA:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
                         return op1 != op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un CARACTER con un " + tipo2, this.linea, this.columna);
                 }
         }
     }
     mayor(op1, op2) {
+        var _a, _b;
+        let tipo1 = (_a = this.operando1) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
+        let tipo2 = (_b = this.operando2) === null || _b === void 0 ? void 0 : _b.tipoDato.getTipo();
+        switch (tipo1) {
+            case tipo_1.tipoDato.ENTERO:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 > op2;
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 > op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna);
+                }
+            case tipo_1.tipoDato.DECIMAL:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 > op2;
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 > op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
+                }
+            default:
+                return new errores_1.default("Semantico", "Comparación inválida " + tipo2, this.linea, this.columna);
+        }
     }
     menor(op1, op2) {
+        var _a, _b;
+        let tipo1 = (_a = this.operando1) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
+        let tipo2 = (_b = this.operando2) === null || _b === void 0 ? void 0 : _b.tipoDato.getTipo();
+        switch (tipo1) {
+            case tipo_1.tipoDato.ENTERO:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 < op2;
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 < op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna);
+                }
+            case tipo_1.tipoDato.DECIMAL:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 < op2;
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 < op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
+                }
+            default:
+                return new errores_1.default("Semantico", "Comparación inválida " + tipo2, this.linea, this.columna);
+        }
     }
     menorIgual(op1, op2) {
+        var _a, _b;
+        let tipo1 = (_a = this.operando1) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
+        let tipo2 = (_b = this.operando2) === null || _b === void 0 ? void 0 : _b.tipoDato.getTipo();
+        switch (tipo1) {
+            case tipo_1.tipoDato.ENTERO:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 <= op2;
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 <= op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
+                }
+            case tipo_1.tipoDato.DECIMAL:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 <= op2;
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 <= op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
+                }
+            default:
+                return new errores_1.default("Semantico", "Comparación inválida " + tipo2, this.linea, this.columna);
+        }
     }
     mayorIgual(op1, op2) {
+        var _a, _b;
+        let tipo1 = (_a = this.operando1) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
+        let tipo2 = (_b = this.operando2) === null || _b === void 0 ? void 0 : _b.tipoDato.getTipo();
+        switch (tipo1) {
+            case tipo_1.tipoDato.ENTERO:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 >= op2;
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 >= op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna);
+                }
+            case tipo_1.tipoDato.DECIMAL:
+                switch (tipo2) {
+                    case tipo_1.tipoDato.ENTERO:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 >= op2;
+                    case tipo_1.tipoDato.DECIMAL:
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
+                        return op1 >= op2;
+                    default:
+                        return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
+                }
+            default:
+                return new errores_1.default("Semantico", "Comparación inválida " + tipo2, this.linea, this.columna);
+        }
     }
 }
 exports.default = Relacionales;
@@ -174,5 +318,4 @@ var Operadores;
     Operadores[Operadores["MAYOR"] = 3] = "MAYOR";
     Operadores[Operadores["MENORIGUAL"] = 4] = "MENORIGUAL";
     Operadores[Operadores["MAYORIGUAL"] = 5] = "MAYORIGUAL";
-    Operadores[Operadores["NOT"] = 6] = "NOT";
 })(Operadores || (exports.Operadores = Operadores = {}));

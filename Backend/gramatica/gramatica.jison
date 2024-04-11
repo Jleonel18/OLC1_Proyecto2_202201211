@@ -4,6 +4,7 @@ const Tipo = require('../build/controllers/simbol/tipo')
 const Nativo = require('../build/controllers/expr/Nativo')
 const Aritmeticas = require('../build/controllers/expr/Aritmeticas')
 const Relacionales = require('../build/controllers/expr/Relacionales')
+const Logicos = require('../build/controllers/expr/Logicos')
 
 const Print = require('../build/controllers/instruc/print')
 const Declaracion = require('../build/controllers/instruc/declaracion')
@@ -99,6 +100,8 @@ var errores = [];
 ">="					return 'R_MAYORIGUAL';
 ">"                   	return 'R_MAYOR';
 "<"                   	return 'R_MENOR';
+"&&"                   	return 'R_AND';
+"||"                   	return 'R_OR';
 //----------------------------------------------------
 
 //operadores aritméticos
@@ -156,14 +159,14 @@ var errores = [];
 
 //Precedencias
 %left 'R_TERNARIO'
-%left 'OR'
-%left 'AND'
-%right 'NOT'
-%left 'R_IGUALIGUAL' 'R_DISTINTO' 'R_MENOR' 'R_MENORIGUAL' 'R_MAYOR' 'R_MAYORIGUAL'
-%left 'R_MAS' 'R_MENOS'
-%left 'R_POR' 'R_DIV' 'R_MOD'
+%left 'R_OR'
+%left 'R_AND'
+%right 'R_NOT'
+%left 'R_IGUALIGUAL', 'R_DISTINTO', 'R_MENOR', 'R_MENORIGUAL', 'R_MAYOR', 'R_MAYORIGUAL'
+%left 'R_MAS', 'R_MENOS'
+%left 'R_POR', 'R_DIV', 'R_MOD'
 %left 'R_POW'
-%left 'R_INC' 'R_DEC'
+%left 'R_INC', 'R_DEC'
 %left umenos
 %left 'R_PARIZQ'
 
@@ -201,6 +204,13 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | R_PARIZQ expresion R_PARDER              {$$ = $2;}
           | expresion R_IGUALIGUAL expresion {$$ = new Relacionales.default(Relacionales.Operadores.IGUAL, @1.first_line, @1.first_column, $1, $3);}
           | expresion R_DISTINTO expresion {$$ =  new Relacionales.default(Relacionales.Operadores.DIFERENTE, @1.first_line, @1.first_column, $1, $3);}
+          | expresion R_MAYOR expresion    {$$ = new Relacionales.default(Relacionales.Operadores.MAYOR, @1.first_line, @1.first_column, $1, $3);}
+          | expresion R_MENOR expresion   {$$ = new Relacionales.default(Relacionales.Operadores.MENOR, @1.first_line, @1.first_column, $1, $3);}
+          | expresion R_MAYORIGUAL expresion {$$ = new Relacionales.default(Relacionales.Operadores.MAYORIGUAL, @1.first_line, @1.first_column, $1, $3);}
+          | expresion R_MENORIGUAL expresion {$$ = new Relacionales.default(Relacionales.Operadores.MENORIGUAL, @1.first_line, @1.first_column, $1, $3);}
+          | R_NOT expresion               {$$ = new Logicos.default(Logicos.Operadores.NOT, @1.first_line, @1.first_column, $2);}
+          | expresion R_AND expresion    {$$ = new Logicos.default(Logicos.Operadores.AND, @1.first_line, @1.first_column, $1, $3);}
+          | expresion R_OR expresion     {$$ = new Logicos.default(Logicos.Operadores.OR, @1.first_line, @1.first_column, $1, $3);}
           | R_MENOS expresion %prec umenos     {$$ = new Aritmeticas.default(Aritmeticas.Operadores.NEG, @1.first_line, @1.first_column, $2);}
           | ENTERO                           {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.ENTERO), $1, @1.first_line, @1.first_column );}
           | DECIMAL                          {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.DECIMAL), $1, @1.first_line, @1.first_column );}
