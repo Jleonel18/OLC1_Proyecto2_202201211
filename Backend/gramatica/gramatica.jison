@@ -7,6 +7,7 @@ const Relacionales = require('../build/controllers/expr/Relacionales')
 const Logicos = require('../build/controllers/expr/Logicos')
 
 const Print = require('../build/controllers/instruc/print')
+const PrintSeguido = require('../build/controllers/instruc/printSeguido')
 const Declaracion = require('../build/controllers/instruc/declaracion')
 const AccesoVar = require('../build/controllers/expr/accesoVar')
 const AsignacionVar = require('../build/controllers/instruc/asignacionVar')
@@ -184,13 +185,17 @@ instrucciones : instrucciones instruccion   {$1.push($2); $$=$1;}
               | instruccion                 {$$=[$1];}
 ;
 
-instruccion : impresion R_PUNTOYCOMA            {$$=$1;}
+instruccion : impresion            {$$=$1;}
             | declaracion R_PUNTOYCOMA          {$$=$1;}
             | asignacion R_PUNTOYCOMA           {$$=$1;}
             | if                                {$$=$1;}
 ;
 
-impresion : R_COUT R_PARIZQ expresion R_PARDER    {$$= new Print.default($3, @1.first_line, @1.first_column);}
+impresion : R_COUT R_DOBLEMENOR expresion final_cout    {if($4 == true){$$= new Print.default($3, @1.first_line, @1.first_column);}else{$$= new PrintSeguido.default($3, @1.first_line, @1.first_column);} }
+;
+
+final_cout: R_DOBLEMENOR R_ENDL R_PUNTOYCOMA {$$= true;}
+          | R_PUNTOYCOMA      {$$= false;}
 ;
 
 declaracion : tipos declaraciones_varias R_IGUAL expresion      {$$ = new Declaracion.default($1, @1.first_line, @1.first_column, $2, $4);}
@@ -202,6 +207,15 @@ declaraciones_varias: declaraciones_varias R_COMA ID          { $$.push($3); $$=
 
 asignacion : ID R_IGUAL expresion             {$$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column);}
 ;
+
+tipos : R_INT             {$$ = new Tipo.default(Tipo.tipoDato.ENTERO);}
+      |  R_DOUBLE         {$$ = new Tipo.default(Tipo.tipoDato.DECIMAL);}
+      |R_STD R_DOSPUNTOS R_DOSPUNTOS R_STRING          {$$ = new Tipo.default(Tipo.tipoDato.CADENA);}
+      | R_BOOL            {$$ = new Tipo.default(Tipo.tipoDato.BOOL);}
+      | R_CHAR            {$$ = new Tipo.default(Tipo.tipoDato.CARACTER);}
+;
+
+
 
 expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Aritmeticas.Operadores.SUMA, @1.first_line, @1.first_column, $1, $3);}
           | expresion R_MENOS expresion        {$$ = new Aritmeticas.default(Aritmeticas.Operadores.RESTA, @1.first_line, @1.first_column, $1, $3);}
@@ -228,13 +242,6 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | R_TRUE                           {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.BOOL), true, @1.first_line, @1.first_column );}
           | R_FALSE                          {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.BOOL), false, @1.first_line, @1.first_column );}  
           | f_nativas                       {$$ = $1;}
-;
-
-tipos : R_INT             {$$ = new Tipo.default(Tipo.tipoDato.ENTERO);}
-      |  R_DOUBLE         {$$ = new Tipo.default(Tipo.tipoDato.DECIMAL);}
-      |R_STD R_DOSPUNTOS R_DOSPUNTOS R_STRING          {$$ = new Tipo.default(Tipo.tipoDato.CADENA);}
-      | R_BOOL            {$$ = new Tipo.default(Tipo.tipoDato.BOOL);}
-      | R_CHAR            {$$ = new Tipo.default(Tipo.tipoDato.CARACTER);}
 ;
 
 f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(FNativas.Operadores.TOLOWER, @1.first_line, @1.first_column, $3);} 

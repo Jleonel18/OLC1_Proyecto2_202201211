@@ -14,6 +14,9 @@ class Arbol {
     Print(contenido) {
         this.consola = `${this.consola}${contenido}\n`;
     }
+    PrintSeguido(contenido) {
+        this.consola = `${this.consola}${contenido}`;
+    }
     getConsola() {
         return this.consola;
     }
