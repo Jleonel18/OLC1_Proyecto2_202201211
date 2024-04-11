@@ -45,6 +45,8 @@ export default class Aritmeticas extends Instruccion {
                 return this.division(opIzq, opDer)
             case Operadores.MODULO:
                 return this.modulo(opIzq, opDer)
+            case Operadores.POTENCIA:
+                return this.potencia(opIzq, opDer)
             default:
                 return new Errores("Semantico", "Operador Aritmetico Invalido", this.linea, this.columna)
         }
@@ -62,6 +64,20 @@ export default class Aritmeticas extends Instruccion {
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
                         return parseFloat(op1) + parseFloat(op2)
+                    case tipoDato.CADENA:
+                        this.tipoDato = new Tipo(tipoDato.CADENA)
+                        return op1 + op2
+                    case tipoDato.BOOL:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        if(op2 == 'true'){
+                            return parseInt(op1) + 1
+                        }else{
+                            return parseInt(op1) + 0
+                        }
+                    case tipoDato.CARACTER:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        return parseInt(op1) + parseInt(op2.charCodeAt(0))
+                        
                     default:
                         return new Errores("Semantico", "Suma Invalida", this.linea, this.columna)
                 }
@@ -73,6 +89,87 @@ export default class Aritmeticas extends Instruccion {
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
                         return parseFloat(op1) + parseFloat(op2)
+                    case tipoDato.CADENA:
+                        this.tipoDato = new Tipo(tipoDato.CADENA)
+                        return op1 + op2
+                    case tipoDato.BOOL:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        if(op2 == 'true'){
+                            return parseFloat(op1) + 1
+                        }else{
+                            return parseFloat(op1) + 0
+                        }
+                    case tipoDato.CARACTER:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return parseFloat(op1) + parseFloat(op2.charCodeAt(0))
+                    default:
+                        return new Errores("Semantico", "Suma Invalida", this.linea, this.columna)
+                }
+
+            case tipoDato.BOOL:
+                switch(tipo2){
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        if(op1 == 'true'){
+                            return 1 + parseInt(op2)
+                        }else{
+                            return 0 + parseInt(op2)
+                        }
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        if(op1 == 'true'){
+                            return 1 + parseFloat(op2)
+                        }else{
+                            return 0 + parseFloat(op2)
+                        }
+                    case tipoDato.CADENA:
+                        this.tipoDato = new Tipo(tipoDato.CADENA)
+                        if(op1 == 'true'){
+                            return 'true' + op2
+                        }else{
+                            return 'false' + op2
+                        }
+                    default:
+                        return new Errores("Semantico", "Suma Invalida", this.linea, this.columna)
+                }
+            case tipoDato.CARACTER:
+                switch(tipo2){
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        return parseInt(op1.charCodeAt(0)) + parseInt(op2)
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return parseInt(op1.charCodeAt(0)) + parseFloat(op2)
+                    case tipoDato.CADENA:
+                        this.tipoDato = new Tipo(tipoDato.CADENA)
+                        return op1 + op2
+                    case tipoDato.CARACTER:
+                        this.tipoDato = new Tipo(tipoDato.CADENA)
+                        return op1 + op2
+                    default:
+                        return new Errores("Semantico", "Suma Invalida", this.linea, this.columna)
+                }
+            case tipoDato.CADENA:
+                switch(tipo2){
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.CADENA)
+                        return op1 + op2
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.CADENA)
+                        return op1 + op2
+                    case tipoDato.CADENA:
+                        this.tipoDato = new Tipo(tipoDato.CADENA)
+                        return op1 + op2
+                    case tipoDato.BOOL:
+                        this.tipoDato = new Tipo(tipoDato.CADENA)
+                        if(op2 == 'true'){
+                            return op1 + 'true'
+                        }else{
+                            return op1 + 'false'
+                        }
+                    case tipoDato.CARACTER:
+                        this.tipoDato = new Tipo(tipoDato.CADENA)
+                        return op1 + op2
                     default:
                         return new Errores("Semantico", "Suma Invalida", this.linea, this.columna)
                 }
@@ -94,6 +191,16 @@ export default class Aritmeticas extends Instruccion {
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
                         return parseFloat(op1) - parseFloat(op2)
+                    case tipoDato.CARACTER:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        return parseInt(op1) - parseInt(op2.charCodeAt(0))
+                    case tipoDato.BOOL:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        if(op2 == 'true'){
+                            return parseInt(op1) - 1
+                        }else{
+                            return parseInt(op1) - 0
+                        }
                     default:
                         return new Errores("Semantico", "Resta Invalida", this.linea, this.columna)
                 }
@@ -105,6 +212,46 @@ export default class Aritmeticas extends Instruccion {
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
                         return parseFloat(op1) - parseFloat(op2)
+                    case tipoDato.CARACTER:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return parseFloat(op1) - parseFloat(op2.charCodeAt(0))
+                    case tipoDato.BOOL:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        if(op2 == 'true'){
+                            return parseFloat(op1) - 1
+                        }else{
+                            return parseFloat(op1) - 0
+                        }
+                    default:
+                        return new Errores("Semantico", "Resta Invalida", this.linea, this.columna)
+                }
+            case tipoDato.CARACTER:
+                switch (tipo2) {
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        return parseInt(op1.charCodeAt(0)) - parseInt(op2)
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return parseInt(op1.charCodeAt(0)) - parseFloat(op2)
+                    default:
+                        return new Errores("Semantico", "Resta Invalida", this.linea, this.columna)
+                }
+            case tipoDato.BOOL:
+                switch (tipo2) {
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        if(op1 == 'true'){
+                            return 1 - parseInt(op2)
+                        }else{
+                            return 0 - parseInt(op2)
+                        }
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        if(op1 == 'true'){
+                            return 1 - parseFloat(op2)
+                        }else{
+                            return 0 - parseFloat(op2)
+                        }
                     default:
                         return new Errores("Semantico", "Resta Invalida", this.linea, this.columna)
                 }
@@ -127,6 +274,9 @@ export default class Aritmeticas extends Instruccion {
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
                         return parseFloat(op1) * parseFloat(op2)
+                    case tipoDato.CARACTER:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        return parseInt(op1) * parseInt(op2.charCodeAt(0))
                     default:
                         return new Errores("Semantico", "Resta Invalida", this.linea, this.columna)
                 }
@@ -138,6 +288,20 @@ export default class Aritmeticas extends Instruccion {
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
                         return parseFloat(op1) * parseFloat(op2)
+                    case tipoDato.CARACTER:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return parseFloat(op1) * parseFloat(op2.charCodeAt(0))
+                    default:
+                        return new Errores("Semantico", "Resta Invalida", this.linea, this.columna)
+                }
+            case tipoDato.CARACTER:
+                switch (tipo2) {
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        return parseInt(op1.charCodeAt(0)) * parseInt(op2)
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return parseInt(op1.charCodeAt(0)) * parseFloat(op2)
                     default:
                         return new Errores("Semantico", "Resta Invalida", this.linea, this.columna)
                 }
@@ -148,6 +312,7 @@ export default class Aritmeticas extends Instruccion {
     }
 
     division(op1: any, op2: any) {
+
         let tipo1 = this.operando1?.tipoDato.getTipo()
         let tipo2 = this.operando2?.tipoDato.getTipo()
         switch (tipo1) {
@@ -159,8 +324,11 @@ export default class Aritmeticas extends Instruccion {
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
                         return parseFloat(op1) / parseFloat(op2)
+                    case tipoDato.CARACTER:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        return parseInt(op1) / parseInt(op2.charCodeAt(0))
                     default:
-                        return new Errores("Semantico", "Division Invalida", this.linea, this.columna)
+                        return new Errores("Semantico", "Resta Invalida", this.linea, this.columna)
                 }
             case tipoDato.DECIMAL:
                 switch (tipo2) {
@@ -170,12 +338,27 @@ export default class Aritmeticas extends Instruccion {
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
                         return parseFloat(op1) / parseFloat(op2)
+                    case tipoDato.CARACTER:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return parseFloat(op1) / parseFloat(op2.charCodeAt(0))
                     default:
-                        return new Errores("Semantico", "Division Invalida", this.linea, this.columna)
+                        return new Errores("Semantico", "Resta Invalida", this.linea, this.columna)
+                }
+            case tipoDato.CARACTER:
+                switch (tipo2) {
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        return parseInt(op1.charCodeAt(0)) / parseInt(op2)
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return parseInt(op1.charCodeAt(0)) / parseFloat(op2)
+                    default:
+                        return new Errores("Semantico", "Resta Invalida", this.linea, this.columna)
                 }
             default:
-                return new Errores("Semantico", "Division Invalida", this.linea, this.columna)
+                return new Errores("Semantico", "Resta Invalida", this.linea, this.columna)
         }
+
     }
 
     modulo(op1: any, op2: any) {
@@ -188,12 +371,22 @@ export default class Aritmeticas extends Instruccion {
                         this.tipoDato = new Tipo(tipoDato.ENTERO)
                         return parseInt(op1) % parseInt(op2)
                     case tipoDato.DECIMAL:
-                        return new Errores("Semantico", "Modulo Invalido", this.linea, this.columna)
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return parseFloat(op1) % parseFloat(op2)
                     default:
                         return new Errores("Semantico", "Modulo Invalido", this.linea, this.columna)
                 }
             case tipoDato.DECIMAL:
-                return new Errores("Semantico", "Modulo Invalido", this.linea, this.columna)
+                switch (tipo2) {
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return parseFloat(op1) % parseFloat(op2)
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return parseFloat(op1) % parseFloat(op2)
+                    default:
+                        return new Errores("Semantico", "Modulo Invalido", this.linea, this.columna)
+                }
             default:
                 return new Errores("Semantico", "Modulo Invalido", this.linea, this.columna)
         }
@@ -212,6 +405,37 @@ export default class Aritmeticas extends Instruccion {
                 return new Errores("Semantico", "Negacion Unaria invalida", this.linea, this.columna)
         }
     }
+    
+    potencia(op1: any, op2: any) {
+        let tipo1 = this.operando1?.tipoDato.getTipo()
+        let tipo2 = this.operando2?.tipoDato.getTipo()
+        switch (tipo1) {
+            case tipoDato.ENTERO:
+                switch (tipo2) {
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.ENTERO)
+                        return Math.pow(parseInt(op1), parseInt(op2))
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return Math.pow(parseInt(op1), parseFloat(op2))
+                    default:
+                        return new Errores("Semantico", "Potencia Invalida", this.linea, this.columna)
+                }
+            case tipoDato.DECIMAL:
+                switch (tipo2) {
+                    case tipoDato.ENTERO:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return Math.pow(parseFloat(op1), parseInt(op2))
+                    case tipoDato.DECIMAL:
+                        this.tipoDato = new Tipo(tipoDato.DECIMAL)
+                        return Math.pow(parseFloat(op1), parseFloat(op2))
+                    default:
+                        return new Errores("Semantico", "Potencia Invalida", this.linea, this.columna)
+                }
+            default:
+                return new Errores("Semantico", "Potencia Invalida", this.linea, this.columna)
+        }
+    }
 
 }
 
@@ -221,5 +445,6 @@ export enum Operadores {
     MULTIPLICACION,
     DIVISION,
     MODULO,
-    NEG
+    NEG,
+    POTENCIA
 }

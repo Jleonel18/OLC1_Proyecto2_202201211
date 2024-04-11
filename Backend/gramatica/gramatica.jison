@@ -206,6 +206,7 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | expresion R_DIV expresion          {$$ = new Aritmeticas.default(Aritmeticas.Operadores.DIVISION, @1.first_line, @1.first_column, $1, $3);}
           | expresion R_MOD expresion          {$$ = new Aritmeticas.default(Aritmeticas.Operadores.MODULO, @1.first_line, @1.first_column, $1, $3);}
           | R_PARIZQ expresion R_PARDER              {$$ = $2;}
+          | R_POW R_PARIZQ expresion R_COMA expresion R_PARDER {$$ = new Aritmeticas.default(Aritmeticas.Operadores.POTENCIA, @1.first_line, @1.first_column, $3, $5);}
           | expresion R_IGUALIGUAL expresion {$$ = new Relacionales.default(Relacionales.Operadores.IGUAL, @1.first_line, @1.first_column, $1, $3);}
           | expresion R_DISTINTO expresion {$$ =  new Relacionales.default(Relacionales.Operadores.DIFERENTE, @1.first_line, @1.first_column, $1, $3);}
           | expresion R_MAYOR expresion    {$$ = new Relacionales.default(Relacionales.Operadores.MAYOR, @1.first_line, @1.first_column, $1, $3);}
@@ -227,7 +228,7 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
 
 tipos : R_INT             {$$ = new Tipo.default(Tipo.tipoDato.ENTERO);}
       |  R_DOUBLE         {$$ = new Tipo.default(Tipo.tipoDato.DECIMAL);}
-      | R_STRING          {$$ = new Tipo.default(Tipo.tipoDato.CADENA);}
+      |R_STD R_DOSPUNTOS R_DOSPUNTOS R_STRING          {$$ = new Tipo.default(Tipo.tipoDato.CADENA);}
       | R_BOOL            {$$ = new Tipo.default(Tipo.tipoDato.BOOL);}
       | R_CHAR            {$$ = new Tipo.default(Tipo.tipoDato.CARACTER);}
 ;
