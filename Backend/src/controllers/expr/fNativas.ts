@@ -33,6 +33,8 @@ export default class FNativas extends Instruccion{
                 return this.round(Unico);
             case Operadores.TYPEOF:
                 return this.typeof(Unico);
+            case Operadores.TOSTRING:
+                return this.toString(Unico);
             default:
                 return new Errores("Semantico", "Operador Logico Invalido", this.linea, this.columna)
         }
@@ -73,7 +75,48 @@ export default class FNativas extends Instruccion{
         }
     }
 
-    typeof(op1: any) {}
+    typeof(op1: any) {
+        let tipo1 = this.operandoUnico?.tipoDato.getTipo()
+        switch (tipo1) {
+            case tipoDato.ENTERO:
+                this.tipoDato = new Tipo(tipoDato.CADENA)
+                return "ENTERO"
+            case tipoDato.DECIMAL:
+                this.tipoDato = new Tipo(tipoDato.CADENA)
+                return "DECIMAL"
+            case tipoDato.CADENA:
+                this.tipoDato = new Tipo(tipoDato.CADENA)
+                return "CADENA"
+            case tipoDato.BOOL:
+                this.tipoDato = new Tipo(tipoDato.CADENA)
+                return "BOOL"
+            case tipoDato.CARACTER:
+                this.tipoDato = new Tipo(tipoDato.CADENA)
+                return "CARACTER"
+            default:
+                return new Errores("Semantico", "No es posible convertir tipo de dato", this.linea, this.columna)
+        }
+    }
+
+    toString(op1: any) {
+        let tipo1 = this.operandoUnico?.tipoDato.getTipo()
+        switch (tipo1) {
+            case tipoDato.ENTERO:
+                this.tipoDato = new Tipo(tipoDato.CADENA)
+                return op1.toString()
+            case tipoDato.DECIMAL:
+                this.tipoDato = new Tipo(tipoDato.CADENA)
+                return op1.toString()
+            case tipoDato.CARACTER:
+                this.tipoDato = new Tipo(tipoDato.CADENA)
+                return op1.toString()
+            case tipoDato.BOOL:
+                this.tipoDato = new Tipo(tipoDato.CADENA)
+                return op1.toString()
+            default:
+                return new Errores("Semantico", "No es posible convertir tipo de dato", this.linea, this.columna)
+        }
+    }
 
 }
 

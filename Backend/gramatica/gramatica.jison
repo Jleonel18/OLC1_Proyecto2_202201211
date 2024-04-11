@@ -241,8 +241,8 @@ f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(F
             | R_TOUPPER R_PARIZQ expresion R_PARDER {$$ = new FNativas.default(FNativas.Operadores.TOUPPER, @1.first_line, @1.first_column, $3);}
             | R_ROUND R_PARIZQ expresion R_PARDER   {$$ = new FNativas.default(FNativas.Operadores.ROUND, @1.first_line, @1.first_column, $3);}
             | R_LENGTH R_PARIZQ expresion R_PARDER 
-            | R_TYPEOF R_PARIZQ expresion R_PARDER 
-            | R_STD R_DOSPUNTOS R_DOSPUNTOS R_TOSTRING R_PARIZQ expresion R_PARDER 
+            | R_TYPEOF R_PARIZQ expresion R_PARDER  {$$ = new FNativas.default(FNativas.Operadores.TYPEOF, @1.first_line, @1.first_column, $3);}
+            | R_STD R_DOSPUNTOS R_DOSPUNTOS R_TOSTRING R_PARIZQ expresion R_PARDER {$$ = new FNativas.default(FNativas.Operadores.TOSTRING, @1.first_line, @1.first_column, $6);} 
             | R_C_STR R_PARIZQ expresion R_PARDER
 ;
 

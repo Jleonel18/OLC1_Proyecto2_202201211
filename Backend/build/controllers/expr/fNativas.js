@@ -54,6 +54,8 @@ class FNativas extends instruccion_1.Instruccion {
                 return this.round(Unico);
             case Operadores.TYPEOF:
                 return this.typeof(Unico);
+            case Operadores.TOSTRING:
+                return this.toString(Unico);
             default:
                 return new errores_1.default("Semantico", "Operador Logico Invalido", this.linea, this.columna);
         }
@@ -92,7 +94,49 @@ class FNativas extends instruccion_1.Instruccion {
                 return new errores_1.default("Semantico", "Solo se pueden redondear Decimales", this.linea, this.columna);
         }
     }
-    typeof(op1) { }
+    typeof(op1) {
+        var _a;
+        let tipo1 = (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
+        switch (tipo1) {
+            case tipo_1.tipoDato.ENTERO:
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                return "ENTERO";
+            case tipo_1.tipoDato.DECIMAL:
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                return "DECIMAL";
+            case tipo_1.tipoDato.CADENA:
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                return "CADENA";
+            case tipo_1.tipoDato.BOOL:
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                return "BOOL";
+            case tipo_1.tipoDato.CARACTER:
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                return "CARACTER";
+            default:
+                return new errores_1.default("Semantico", "No es posible convertir tipo de dato", this.linea, this.columna);
+        }
+    }
+    toString(op1) {
+        var _a;
+        let tipo1 = (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
+        switch (tipo1) {
+            case tipo_1.tipoDato.ENTERO:
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                return op1.toString();
+            case tipo_1.tipoDato.DECIMAL:
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                return op1.toString();
+            case tipo_1.tipoDato.CARACTER:
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                return op1.toString();
+            case tipo_1.tipoDato.BOOL:
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                return op1.toString();
+            default:
+                return new errores_1.default("Semantico", "No es posible convertir tipo de dato", this.linea, this.columna);
+        }
+    }
 }
 exports.default = FNativas;
 var Operadores;

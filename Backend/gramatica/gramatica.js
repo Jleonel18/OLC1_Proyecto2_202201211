@@ -212,6 +212,12 @@ break;
 case 45:
 this.$ = new FNativas.default(FNativas.Operadores.ROUND, _$[$0-3].first_line, _$[$0-3].first_column, $$[$0-1]);
 break;
+case 47:
+this.$ = new FNativas.default(FNativas.Operadores.TYPEOF, _$[$0-3].first_line, _$[$0-3].first_column, $$[$0-1]);
+break;
+case 48:
+this.$ = new FNativas.default(FNativas.Operadores.TOSTRING, _$[$0-6].first_line, _$[$0-6].first_column, $$[$0-1]);
+break;
 case 50:
 this.$ = new If.default($$[$0-4], $$[$0-1], _$[$0-6].first_line, _$[$0-6].first_column);
 break;
