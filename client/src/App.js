@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"
+import { useRef } from "react"
 import './App.css';
 import Editor from '@monaco-editor/react';
 
@@ -47,39 +47,56 @@ function App() {
 
   return (
     <div className="App">
-      <div class='text-center'>
-        <h1>Proyecto 2 - OLC1</h1>
-      </div>
-      <br></br>
-      <div class='text-center'>
-        <div class="container">
-          <div class="row">
-            <input type="file" id="file" class="form-control form-control-lg" onChange={CargarArchivo} />
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">CompiScript+</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" >Reporte Errores</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" >Reporte Símbolos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" >Reporte AST</a>
+              </li>
+            </ul>
           </div>
-          <br></br>
-          <div class="row">
-            <input type="button" value="compilar" id="btnCargar" class="form-control form-control-lg" onClick={compilar} />
+        </div>
+      </nav>
+      <br></br>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+          <input type="file" id="file" class="form-control form-control-lg" onChange={CargarArchivo} />
+          </div>
+          <div class="col">
+          <input type="button" value="compilar" id="btnCargar" class="btn btn-secondary form-control form-control-lg" onClick={compilar} />
           </div>
         </div>
       </div>
-      <br></br>
-      <div class='text-center style={{ height: "80%", width: "80%" }} '>
-        <div class="container" >
-          <div class="row">
-            <div class="col">
-              <p>Entrada</p>
-              <Editor height="90vh" defaultLanguage="java" defaultValue="" theme="vs-dark" onMount={(editor) => handleEditorDidMount(editor, "editor")} />
-            </div>
-            <div class="col">
-              <p>Consola</p>
-              <Editor height="90vh" defaultLanguage="cpp" defaultValue="" theme="vs-dark" options={{ readOnly: true }} onMount={(editor) => handleEditorDidMount(editor, "consola")} />
+        <br></br>
+        <div class='text-center style={{ height: "80%", width: "80%" }} '>
+          <div class="container" >
+            <div class="row">
+              <div class="col">
+                <h1>Entrada</h1>
+                <Editor height="90vh" defaultLanguage="javascript" defaultValue="" theme="vs-dark" onMount={(editor) => handleEditorDidMount(editor, "editor")} />
+              </div>
+              <div class="col">
+                <h1>Consola</h1>
+                <Editor height="90vh" defaultLanguage="javascript" defaultValue="" theme="vs-dark" options={{ readOnly: true }} onMount={(editor) => handleEditorDidMount(editor, "consola")} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-    </div>
-  );
+      </div>
+      );
 }
 
-export default App;
+      export default App;
