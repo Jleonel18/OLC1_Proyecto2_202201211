@@ -11,6 +11,7 @@ const Declaracion = require('../build/controllers/instruc/declaracion')
 const AccesoVar = require('../build/controllers/expr/accesoVar')
 const AsignacionVar = require('../build/controllers/instruc/asignacionVar')
 const If = require('../build/controllers/instruc/if')
+const FNativas = require('../build/controllers/expr/fNativas')
 
 var cadena  = '';
 var errores = [];
@@ -226,6 +227,7 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | CARACTER                        {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.CARACTER), $1, @1.first_line, @1.first_column );} 
           | R_TRUE                           {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.BOOL), true, @1.first_line, @1.first_column );}
           | R_FALSE                          {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.BOOL), false, @1.first_line, @1.first_column );}  
+          | f_nativas                       {$$ = $1;}
 ;
 
 tipos : R_INT             {$$ = new Tipo.default(Tipo.tipoDato.ENTERO);}
@@ -233,6 +235,15 @@ tipos : R_INT             {$$ = new Tipo.default(Tipo.tipoDato.ENTERO);}
       |R_STD R_DOSPUNTOS R_DOSPUNTOS R_STRING          {$$ = new Tipo.default(Tipo.tipoDato.CADENA);}
       | R_BOOL            {$$ = new Tipo.default(Tipo.tipoDato.BOOL);}
       | R_CHAR            {$$ = new Tipo.default(Tipo.tipoDato.CARACTER);}
+;
+
+f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(FNativas.Operadores.TOLOWER, @1.first_line, @1.first_column, $3);} 
+            | R_TOUPPER R_PARIZQ expresion R_PARDER {$$ = new FNativas.default(FNativas.Operadores.TOUPPER, @1.first_line, @1.first_column, $3);}
+            | R_ROUND R_PARIZQ expresion R_PARDER 
+            | R_LENGTH R_PARIZQ expresion R_PARDER 
+            | R_TYPEOF R_PARIZQ expresion R_PARDER 
+            | R_STD R_DOSPUNTOS R_DOSPUNTOS R_TOSTRING R_PARIZQ expresion R_PARDER 
+            | R_C_STR R_PARIZQ expresion R_PARDER
 ;
 
 if: R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new If.default($3, $6, @1.first_line, @1.first_column);}
