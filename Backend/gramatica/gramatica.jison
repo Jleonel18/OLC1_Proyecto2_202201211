@@ -190,7 +190,11 @@ instruccion : impresion R_PUNTOYCOMA            {$$=$1;}
 impresion : R_COUT R_PARIZQ expresion R_PARDER    {$$= new Print.default($3, @1.first_line, @1.first_column);}
 ;
 
-declaracion : tipos ID R_IGUAL expresion      {$$ = new Declaracion.default($1, @1.first_line, @1.first_column, $2, $4);}
+declaracion : tipos declaraciones_varias R_IGUAL expresion      {$$ = new Declaracion.default($1, @1.first_line, @1.first_column, $2, $4);}
+;
+
+declaraciones_varias: declaraciones_varias R_COMA ID          { $$.push($3); $$=$1;}
+                        | ID                                    {$$ = [$1];}
 ;
 
 asignacion : ID R_IGUAL expresion             {$$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column);}
