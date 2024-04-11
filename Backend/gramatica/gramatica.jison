@@ -10,6 +10,7 @@ const Print = require('../build/controllers/instruc/print')
 const Declaracion = require('../build/controllers/instruc/declaracion')
 const AccesoVar = require('../build/controllers/expr/accesoVar')
 const AsignacionVar = require('../build/controllers/instruc/asignacionVar')
+const If = require('../build/controllers/instruc/if')
 
 var cadena  = '';
 var errores = [];
@@ -185,6 +186,7 @@ instrucciones : instrucciones instruccion   {$1.push($2); $$=$1;}
 instruccion : impresion R_PUNTOYCOMA            {$$=$1;}
             | declaracion R_PUNTOYCOMA          {$$=$1;}
             | asignacion R_PUNTOYCOMA           {$$=$1;}
+            | if                                {$$=$1;}
 ;
 
 impresion : R_COUT R_PARIZQ expresion R_PARDER    {$$= new Print.default($3, @1.first_line, @1.first_column);}
@@ -231,4 +233,7 @@ tipos : R_INT             {$$ = new Tipo.default(Tipo.tipoDato.ENTERO);}
       |R_STD R_DOSPUNTOS R_DOSPUNTOS R_STRING          {$$ = new Tipo.default(Tipo.tipoDato.CADENA);}
       | R_BOOL            {$$ = new Tipo.default(Tipo.tipoDato.BOOL);}
       | R_CHAR            {$$ = new Tipo.default(Tipo.tipoDato.CARACTER);}
+;
+
+if: R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new If.default($3, $6, @1.first_line, @1.first_column);}
 ;

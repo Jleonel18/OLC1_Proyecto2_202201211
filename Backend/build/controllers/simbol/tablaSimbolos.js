@@ -19,7 +19,13 @@ class tablaSimbolo {
         this.tablaActual = tabla;
     }
     getVariable(id) {
-        return this.getTabla().get(id.toLocaleLowerCase());
+        for (let i = this; i != null; i = i.getAnterior()) {
+            let buscar = i.getTabla().get(id.toLocaleLowerCase());
+            if (buscar != null) {
+                return buscar;
+            }
+        }
+        return null;
     }
     setVariable(simbolo) {
         let busqueda = this.getTabla().get(simbolo.getId().toLocaleLowerCase());
