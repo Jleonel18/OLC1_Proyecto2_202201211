@@ -17,6 +17,7 @@ const FNativas = require('../build/controllers/expr/fNativas')
 const While = require('../build/controllers/instruc/while')
 const Break = require('../build/controllers/instruc/Break')
 const DoWhile = require('../build/controllers/instruc/doWhile')
+const IncreDecre = require('../build/controllers/instruc/increDecre')
 
 var cadena  = '';
 var errores = [];
@@ -197,6 +198,7 @@ instruccion : impresion            {$$=$1;}
             | while                             {$$=$1;}
             | break                             {$$=$1;}
             | do_while                          {$$=$1;}
+            | incre_decre                       {$$=$1;}
 ;
 
 impresion : R_COUT R_DOBLEMENOR expresion final_cout    {if($4 == true){$$= new Print.default($3, @1.first_line, @1.first_column);}else{$$= new PrintSeguido.default($3, @1.first_line, @1.first_column);} }
@@ -281,4 +283,11 @@ do_while: R_DO R_LLAVEIZQ instrucciones R_LLAVEDER R_WHILE R_PARIZQ expresion R_
 ;
 
 break: R_BREAK R_PUNTOYCOMA {$$ = new Break.default(@1.first_line, @1.first_column);}
+;
+
+incre_decre: ID signo_incre_decre R_PUNTOYCOMA {$$ = new IncreDecre.default($1, @1.first_line, @1.first_column,$2);}
+;
+
+signo_incre_decre: R_INC {$$ = true;}
+                  | R_DEC {$$ = false;}
 ;
