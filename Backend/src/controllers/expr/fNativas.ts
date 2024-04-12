@@ -24,7 +24,7 @@ export default class FNativas extends Instruccion{
 
         switch (this.operacion) {
             case Operadores.LENGTH:
-                return this.length(Unico);
+                return this.longitud(Unico);
             case Operadores.TOUPPER:
                 return this.toUpper(Unico);
             case Operadores.TOLOWER:
@@ -40,7 +40,16 @@ export default class FNativas extends Instruccion{
         }
     }
 
-    length(op1: any) {}
+    longitud(op1: any) {
+        let tipo1 = this.operandoUnico?.tipoDato.getTipo()
+        switch (tipo1) {
+            case tipoDato.CADENA:
+                this.tipoDato = new Tipo(tipoDato.ENTERO)
+                return op1.length;
+            default:
+                return new Errores("Semantico", "Solo es posible con Cadenas", this.linea, this.columna)
+        }
+    }
 
     toUpper(op1: any) {
         let tipo1 = this.operandoUnico?.tipoDato.getTipo()

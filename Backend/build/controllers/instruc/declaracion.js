@@ -21,7 +21,7 @@ class Declaracion extends instruccion_1.Instruccion {
             this.identificador.forEach(elemento => {
                 valorFinal = parseFloat(valorFinal);
                 if (!tabla.setVariable(new Simbolo_1.default(this.tipoDato, elemento, valorFinal))) {
-                    return new errores_1.default("SEMANTICO", "No se puede declarar variable porque ya existia", this.linea, this.columna);
+                    return new errores_1.default("Error Semantico", "No se puede declarar variable porque ya existia", this.linea, this.columna);
                 }
             });
         }

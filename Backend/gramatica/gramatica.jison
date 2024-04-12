@@ -79,7 +79,7 @@ var errores = [];
 "<<"                                return 'R_DOBLEMENOR'
 "tolower"                            return 'R_TOLOWER';
 "toupper"                            return 'R_TOUPPER';
-"length"                            return 'R_LENGTH';
+".length()"                            return 'R_LENGTH';
 "c_str"                             return 'R_C_STR';
 "std"                               return 'R_STD';
 "toString"                          return 'R_TOSTRING';
@@ -173,6 +173,7 @@ var errores = [];
 %left 'R_INC', 'R_DEC'
 %left umenos
 %left 'R_PARIZQ'
+%left 'R_LENGTH'
 
 
 %start inicio
@@ -253,12 +254,12 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | R_TRUE                           {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.BOOL), true, @1.first_line, @1.first_column );}
           | R_FALSE                          {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.BOOL), false, @1.first_line, @1.first_column );}  
           | f_nativas                       {$$ = $1;}
+          | expresion R_LENGTH                   {$$ = new FNativas.default(FNativas.Operadores.LENGTH, @1.first_line, @1.first_column, $1);}
 ;
 
 f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(FNativas.Operadores.TOLOWER, @1.first_line, @1.first_column, $3);} 
             | R_TOUPPER R_PARIZQ expresion R_PARDER {$$ = new FNativas.default(FNativas.Operadores.TOUPPER, @1.first_line, @1.first_column, $3);}
             | R_ROUND R_PARIZQ expresion R_PARDER   {$$ = new FNativas.default(FNativas.Operadores.ROUND, @1.first_line, @1.first_column, $3);}
-            | R_LENGTH R_PARIZQ expresion R_PARDER 
             | R_TYPEOF R_PARIZQ expresion R_PARDER  {$$ = new FNativas.default(FNativas.Operadores.TYPEOF, @1.first_line, @1.first_column, $3);}
             | R_STD R_DOSPUNTOS R_DOSPUNTOS R_TOSTRING R_PARIZQ expresion R_PARDER {$$ = new FNativas.default(FNativas.Operadores.TOSTRING, @1.first_line, @1.first_column, $6);} 
             | R_C_STR R_PARIZQ expresion R_PARDER
