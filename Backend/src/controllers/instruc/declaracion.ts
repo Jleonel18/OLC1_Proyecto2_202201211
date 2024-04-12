@@ -22,6 +22,15 @@ export default class Declaracion extends Instruccion{
 
         if(valorFinal instanceof Errores) return valorFinal;
 
+        if(this.valor.tipoDato.getTipo() == tipoDato.ENTERO && this.tipoDato.getTipo() == tipoDato.DECIMAL){
+            this.identificador.forEach(elemento => {
+                valorFinal = parseFloat(valorFinal);
+                if (!tabla.setVariable(new Simbolo(this.tipoDato, elemento, valorFinal))){
+                    return new Errores("SEMANTICO", "No se puede declarar variable porque ya existia", this.linea, this.columna)
+                }   
+            });
+        }
+
         if(this.valor.tipoDato.getTipo() != this.tipoDato.getTipo()){
             return new Errores("Error semántico", "No es posible declarar variable", this.linea, this.columna);
         }

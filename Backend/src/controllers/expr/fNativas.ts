@@ -34,7 +34,7 @@ export default class FNativas extends Instruccion{
             case Operadores.TYPEOF:
                 return this.typeof(Unico);
             case Operadores.TOSTRING:
-                return this.toString(Unico);
+                return this.aString(Unico);
             default:
                 return new Errores("Semantico", "Operador Logico Invalido", this.linea, this.columna)
         }
@@ -70,6 +70,9 @@ export default class FNativas extends Instruccion{
             case tipoDato.DECIMAL:
                 this.tipoDato = new Tipo(tipoDato.ENTERO)
                 return Math.round(op1)
+            case tipoDato.ENTERO:
+                this.tipoDato = new Tipo(tipoDato.ENTERO)
+                return op1
             default:
                 return new Errores("Semantico", "Solo se pueden redondear Decimales", this.linea, this.columna)
         }
@@ -98,7 +101,7 @@ export default class FNativas extends Instruccion{
         }
     }
 
-    toString(op1: any) {
+    aString(op1: any) {
         let tipo1 = this.operandoUnico?.tipoDato.getTipo()
         switch (tipo1) {
             case tipoDato.ENTERO:
