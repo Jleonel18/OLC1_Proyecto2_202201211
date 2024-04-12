@@ -6,6 +6,7 @@ const Aritmeticas = require('../build/controllers/expr/Aritmeticas')
 const Relacionales = require('../build/controllers/expr/Relacionales')
 const Logicos = require('../build/controllers/expr/Logicos')
 
+const DeclaracionVacia = require('../build/controllers/instruc/declaracionVacia')
 const Print = require('../build/controllers/instruc/print')
 const PrintSeguido = require('../build/controllers/instruc/printSeguido')
 const Declaracion = require('../build/controllers/instruc/declaracion')
@@ -186,8 +187,8 @@ instrucciones : instrucciones instruccion   {$1.push($2); $$=$1;}
 ;
 
 instruccion : impresion            {$$=$1;}
-            | declaracion R_PUNTOYCOMA          {$$=$1;}
-            | asignacion R_PUNTOYCOMA           {$$=$1;}
+            | declaracion                        {$$=$1;}
+            | asignacion  R_PUNTOYCOMA           {$$=$1;}
             | if                                {$$=$1;}
 ;
 
@@ -198,7 +199,17 @@ final_cout: R_DOBLEMENOR R_ENDL R_PUNTOYCOMA {$$= true;}
           | R_PUNTOYCOMA      {$$= false;}
 ;
 
-declaracion : tipos declaraciones_varias R_IGUAL expresion      {$$ = new Declaracion.default($1, @1.first_line, @1.first_column, $2, $4);}
+declaracion : tipos declaraciones_varias asignar_declaracion     {
+      if($3 == true){
+            $$ = new DeclaracionVacia.default($1, @1.first_line, @1.first_column, $2);
+      }else{
+            $$ = new Declaracion.default($1, @1.first_line, @1.first_column, $2, $3);}
+
+      }
+;
+
+asignar_declaracion: R_IGUAL expresion R_PUNTOYCOMA {$$ = $2;}
+                    | R_PUNTOYCOMA {$$ = true;}
 ;
 
 declaraciones_varias: declaraciones_varias R_COMA ID          { $$.push($3); $$=$1;}
