@@ -193,10 +193,10 @@ class Relacionales extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 > op2;
+                        return parseInt(op1) > parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 > op2;
+                        return parseInt(op1) > parseFloat(op2);
                     default:
                         return new errores_1.default("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna);
                 }
@@ -204,10 +204,10 @@ class Relacionales extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 > op2;
+                        return parseFloat(op1) > parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 > op2;
+                        return parseFloat(op1) > parseFloat(op2);
                     default:
                         return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
                 }
@@ -224,10 +224,10 @@ class Relacionales extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 < op2;
+                        return parseInt(op1) < parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 < op2;
+                        return parseInt(op1) < parseFloat(op2);
                     default:
                         return new errores_1.default("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna);
                 }
@@ -235,10 +235,10 @@ class Relacionales extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 < op2;
+                        return parseFloat(op1) < parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 < op2;
+                        return parseFloat(op1) < parseFloat(op2);
                     default:
                         return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
                 }
@@ -255,10 +255,10 @@ class Relacionales extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 <= op2;
+                        return parseInt(op1) <= parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 <= op2;
+                        return parseInt(op1) <= parseFloat(op2);
                     default:
                         return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
                 }
@@ -266,10 +266,10 @@ class Relacionales extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 <= op2;
+                        return parseFloat(op1) <= parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 <= op2;
+                        return parseFloat(op1) <= parseFloat(op2);
                     default:
                         return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
                 }
@@ -286,10 +286,10 @@ class Relacionales extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 >= op2;
+                        return parseInt(op1) >= parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 >= op2;
+                        return parseInt(op1) >= parseFloat(op2);
                     default:
                         return new errores_1.default("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna);
                 }
@@ -297,10 +297,10 @@ class Relacionales extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 >= op2;
+                        return parseFloat(op1) >= parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.BOOL);
-                        return op1 >= op2;
+                        return parseFloat(op1) >= parseFloat(op2);
                     default:
                         return new errores_1.default("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna);
                 }

@@ -31,11 +31,11 @@ const errores_1 = __importDefault(require("../excep/errores"));
 const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
-class If extends instruccion_1.Instruccion {
-    constructor(cond, inst, linea, columna) {
+class While extends instruccion_1.Instruccion {
+    constructor(condicion, instruccion, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
-        this.condicion = cond;
-        this.instrucciones = inst;
+        this.condicion = condicion;
+        this.instrucciones = instruccion;
     }
     interpretar(arbol, tabla) {
         let cond = this.condicion.interpretar(arbol, tabla);
@@ -44,19 +44,21 @@ class If extends instruccion_1.Instruccion {
         if (this.condicion.tipoDato.getTipo() != tipo_1.tipoDato.BOOL) {
             return new errores_1.default("Semantico", "La condicion no es booleana", this.linea, this.columna);
         }
-        let nuevaTabla = new tablaSimbolos_1.default(tabla);
-        nuevaTabla.setNombre("if");
-        if (cond) {
+        while (this.condicion.interpretar(arbol, tabla)) {
+            let nuevaTabla = new tablaSimbolos_1.default(tabla);
+            nuevaTabla.setNombre("while");
             for (let i of this.instrucciones) {
-                if (i instanceof Break_1.default) {
-                    return i;
-                }
-                let resultado = i.interpretar(arbol, nuevaTabla);
-                /*if(resultado instanceof Break){
+                if (i instanceof Break_1.default)
                     return;
+                let resultado = i.interpretar(arbol, nuevaTabla);
+                if (resultado instanceof Break_1.default)
+                    return;
+                /*if(resultado instanceof Errores) return resultado;
+                if(resultado != null || resultado != undefined){
+                    return resultado;
                 }*/
             }
         }
     }
 }
-exports.default = If;
+exports.default = While;

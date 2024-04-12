@@ -14,6 +14,8 @@ const AccesoVar = require('../build/controllers/expr/accesoVar')
 const AsignacionVar = require('../build/controllers/instruc/asignacionVar')
 const If = require('../build/controllers/instruc/if')
 const FNativas = require('../build/controllers/expr/fNativas')
+const While = require('../build/controllers/instruc/while')
+const Break = require('../build/controllers/instruc/Break')
 
 var cadena  = '';
 var errores = [];
@@ -191,6 +193,8 @@ instruccion : impresion            {$$=$1;}
             | declaracion                        {$$=$1;}
             | asignacion  R_PUNTOYCOMA           {$$=$1;}
             | if                                {$$=$1;}
+            | while                             {$$=$1;}
+            | break                             {$$=$1;}
 ;
 
 impresion : R_COUT R_DOBLEMENOR expresion final_cout    {if($4 == true){$$= new Print.default($3, @1.first_line, @1.first_column);}else{$$= new PrintSeguido.default($3, @1.first_line, @1.first_column);} }
@@ -266,4 +270,10 @@ f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(F
 ;
 
 if: R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new If.default($3, $6, @1.first_line, @1.first_column);}
+;
+
+while: R_WHILE R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new While.default($3, $6, @1.first_line, @1.first_column);}
+;
+
+break: R_BREAK R_PUNTOYCOMA {$$ = new Break.default(@1.first_line, @1.first_column);}
 ;

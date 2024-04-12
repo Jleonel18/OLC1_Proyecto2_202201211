@@ -22,41 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
-const errores_1 = __importDefault(require("../excep/errores"));
-const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
-const Break_1 = __importDefault(require("./Break"));
-class If extends instruccion_1.Instruccion {
-    constructor(cond, inst, linea, columna) {
+class Break extends instruccion_1.Instruccion {
+    constructor(linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
-        this.condicion = cond;
-        this.instrucciones = inst;
     }
     interpretar(arbol, tabla) {
-        let cond = this.condicion.interpretar(arbol, tabla);
-        if (cond instanceof errores_1.default)
-            return cond;
-        if (this.condicion.tipoDato.getTipo() != tipo_1.tipoDato.BOOL) {
-            return new errores_1.default("Semantico", "La condicion no es booleana", this.linea, this.columna);
-        }
-        let nuevaTabla = new tablaSimbolos_1.default(tabla);
-        nuevaTabla.setNombre("if");
-        if (cond) {
-            for (let i of this.instrucciones) {
-                if (i instanceof Break_1.default) {
-                    return i;
-                }
-                let resultado = i.interpretar(arbol, nuevaTabla);
-                /*if(resultado instanceof Break){
-                    return;
-                }*/
-            }
-        }
+        return;
     }
 }
-exports.default = If;
+exports.default = Break;

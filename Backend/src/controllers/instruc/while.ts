@@ -5,18 +5,18 @@ import Arbol from "../simbol/arbol";
 import Tipo, { tipoDato } from "../simbol/tipo";
 import Break from "./Break";
 
-export default class If extends Instruccion{
-
+export default class While extends Instruccion{
     private condicion: Instruccion;
     private instrucciones : Instruccion[];
 
-    constructor(cond: Instruccion, inst: Instruccion[], linea: number, columna: number){
+    constructor(condicion: Instruccion, instruccion:Instruccion[], linea: number, columna: number){
         super(new Tipo(tipoDato.VOID), linea, columna);
-        this.condicion = cond;
-        this.instrucciones = inst;
+        this.condicion = condicion;
+        this.instrucciones = instruccion;
     }
 
     interpretar(arbol: Arbol, tabla: tablaSimbolo) {
+
         let cond = this.condicion.interpretar(arbol, tabla);
         if(cond instanceof Errores) return cond;
 
@@ -24,20 +24,21 @@ export default class If extends Instruccion{
             return new Errores("Semantico", "La condicion no es booleana", this.linea, this.columna);
         }
 
-        let nuevaTabla = new tablaSimbolo(tabla);
-        nuevaTabla.setNombre("if");
+        while(this.condicion.interpretar(arbol,tabla)){
+            let nuevaTabla = new tablaSimbolo(tabla);
+            nuevaTabla.setNombre("while");
+            for (let i of this.instrucciones){
 
-        if(cond){
-            for(let i of this.instrucciones){
-                if(i instanceof Break){
-                    return i;
-                }
+                if(i instanceof Break)return;
+                
                 let resultado = i.interpretar(arbol, nuevaTabla);
-                /*if(resultado instanceof Break){
-                    return;
+
+                if(resultado instanceof Break) return;
+                /*if(resultado instanceof Errores) return resultado;
+                if(resultado != null || resultado != undefined){
+                    return resultado;
                 }*/
             }
         }
     }
-
 }
