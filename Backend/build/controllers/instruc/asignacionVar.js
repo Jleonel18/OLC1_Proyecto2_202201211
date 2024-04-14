@@ -42,8 +42,9 @@ class AsignacionVar extends instruccion_1.Instruccion {
         let valor = tabla.getVariable(this.id.toLocaleLowerCase());
         if (valor == null)
             return new errores_1.default("SEMANTICO", "Variable no existente", this.linea, this.columna);
-        if (this.exp.tipoDato.getTipo() != valor.getTipo().getTipo())
+        if (this.exp.tipoDato.getTipo() != valor.getTipo().getTipo()) {
             return new errores_1.default("SEMANTICO", "Asignacion incorrecta", this.linea, this.columna);
+        }
         this.tipoDato = valor.getTipo();
         valor.setValor(NewValor);
     }

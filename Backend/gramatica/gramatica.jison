@@ -19,6 +19,7 @@ const Break = require('../build/controllers/instruc/Break')
 const DoWhile = require('../build/controllers/instruc/doWhile')
 const IncreDecre = require('../build/controllers/instruc/increDecre')
 const Casteo = require('../build/controllers/expr/casteo')
+const For = require('../build/controllers/instruc/for')
 
 var cadena  = '';
 var errores = [];
@@ -199,7 +200,8 @@ instruccion : impresion            {$$=$1;}
             | while                             {$$=$1;}
             | break                             {$$=$1;}
             | do_while                          {$$=$1;}
-            | incre_decre                       {$$=$1;}
+            | incre_decre R_PUNTOYCOMA          {$$=$1;}
+            | for                               {$$=$1;}
 ;
 
 impresion : R_COUT R_DOBLEMENOR expresion final_cout    {if($4 == true){$$= new Print.default($3, @1.first_line, @1.first_column);}else{$$= new PrintSeguido.default($3, @1.first_line, @1.first_column);} }
@@ -284,10 +286,13 @@ while: R_WHILE R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {
 do_while: R_DO R_LLAVEIZQ instrucciones R_LLAVEDER R_WHILE R_PARIZQ expresion R_PARDER {$$ = new DoWhile.default($7, $3, @1.first_line, @1.first_column);}
 ;
 
+for: R_FOR R_PARIZQ declaracion expresion R_PUNTOYCOMA incre_decre R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER{ $$ = new For.default($3,$4,$6,$9,@1.first_line,@1.first_column);}
+;
+
 break: R_BREAK R_PUNTOYCOMA {$$ = new Break.default(@1.first_line, @1.first_column);}
 ;
 
-incre_decre: ID signo_incre_decre R_PUNTOYCOMA {$$ = new IncreDecre.default($1, @1.first_line, @1.first_column,$2);}
+incre_decre: ID signo_incre_decre {$$ = new IncreDecre.default($1, @1.first_line, @1.first_column,$2);}
 ;
 
 signo_incre_decre: R_INC {$$ = true;}

@@ -22,7 +22,9 @@ export default class AsignacionVar extends Instruccion {
         let valor = tabla.getVariable(this.id.toLocaleLowerCase())
         if (valor == null) return new Errores("SEMANTICO", "Variable no existente", this.linea, this.columna)
 
-        if (this.exp.tipoDato.getTipo() != valor.getTipo().getTipo()) return new Errores("SEMANTICO", "Asignacion incorrecta", this.linea, this.columna)
+        if (this.exp.tipoDato.getTipo() != valor.getTipo().getTipo()){
+            return new Errores("SEMANTICO", "Asignacion incorrecta", this.linea, this.columna)
+        } 
 
         this.tipoDato = valor.getTipo()
         valor.setValor(NewValor)
