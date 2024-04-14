@@ -18,6 +18,7 @@ const While = require('../build/controllers/instruc/while')
 const Break = require('../build/controllers/instruc/Break')
 const DoWhile = require('../build/controllers/instruc/doWhile')
 const IncreDecre = require('../build/controllers/instruc/increDecre')
+const Casteo = require('../build/controllers/expr/casteo')
 
 var cadena  = '';
 var errores = [];
@@ -263,6 +264,7 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | R_FALSE                          {$$ = new Nativo.default(new Tipo.default(Tipo.tipoDato.BOOL), false, @1.first_line, @1.first_column );}  
           | f_nativas                       {$$ = $1;}
           | expresion R_LENGTH                   {$$ = new FNativas.default(FNativas.Operadores.LENGTH, @1.first_line, @1.first_column, $1);}
+          | casteo                              {$$ = $1;}
 ;
 
 f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(FNativas.Operadores.TOLOWER, @1.first_line, @1.first_column, $3);} 
@@ -290,4 +292,7 @@ incre_decre: ID signo_incre_decre R_PUNTOYCOMA {$$ = new IncreDecre.default($1, 
 
 signo_incre_decre: R_INC {$$ = true;}
                   | R_DEC {$$ = false;}
+;
+
+casteo: R_PARIZQ tipos R_PARDER expresion {$$ = new Casteo.default($2, @1.first_line, @1.first_column, $4);} 
 ;

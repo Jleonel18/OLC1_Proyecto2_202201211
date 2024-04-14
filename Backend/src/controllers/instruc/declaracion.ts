@@ -31,9 +31,9 @@ export default class Declaracion extends Instruccion{
             });
         }
 
-        if(this.valor.tipoDato.getTipo() != this.tipoDato.getTipo()){
+        /*if(this.valor.tipoDato.getTipo() != this.tipoDato.getTipo()){
             return new Errores("Error semántico", "No es posible declarar variable", this.linea, this.columna);
-        }
+        }*/
 
         this.identificador.forEach(elemento => {
              

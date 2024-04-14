@@ -25,9 +25,9 @@ class Declaracion extends instruccion_1.Instruccion {
                 }
             });
         }
-        if (this.valor.tipoDato.getTipo() != this.tipoDato.getTipo()) {
-            return new errores_1.default("Error semántico", "No es posible declarar variable", this.linea, this.columna);
-        }
+        /*if(this.valor.tipoDato.getTipo() != this.tipoDato.getTipo()){
+            return new Errores("Error semántico", "No es posible declarar variable", this.linea, this.columna);
+        }*/
         this.identificador.forEach(elemento => {
             if (!tabla.setVariable(new Simbolo_1.default(this.tipoDato, elemento, valorFinal))) {
                 return new errores_1.default("SEMANTICO", "No se puede declarar variable porque ya existia", this.linea, this.columna);
