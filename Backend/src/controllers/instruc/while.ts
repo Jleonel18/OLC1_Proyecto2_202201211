@@ -33,14 +33,16 @@ export default class While extends Instruccion{
                 if(i instanceof Break){
                     return;
                 }
+
+                if(i instanceof Continue){
+                    break;
+                }
                 
                 let resultado = i.interpretar(arbol, nuevaTabla);
 
                 if(resultado instanceof Break) return;
-                /*if(resultado instanceof Errores) return resultado;
-                if(resultado != null || resultado != undefined){
-                    return resultado;
-                }*/
+                if(resultado instanceof Continue) break;
+                
             }
         }
     }

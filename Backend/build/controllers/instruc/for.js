@@ -31,6 +31,7 @@ const errores_1 = __importDefault(require("../excep/errores"));
 const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
+const Continue_1 = __importDefault(require("./Continue"));
 class For extends instruccion_1.Instruccion {
     constructor(declaracion, condicion, incremento, insctrucciones, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
@@ -54,9 +55,13 @@ class For extends instruccion_1.Instruccion {
             for (let i of this.instrucciones) {
                 if (i instanceof Break_1.default)
                     return;
+                if (i instanceof Continue_1.default)
+                    break;
                 let resultado = i.interpretar(arbol, nuevaTabla2);
                 if (resultado instanceof Break_1.default)
                     return;
+                if (resultado instanceof Continue_1.default)
+                    break;
             }
             this.incremento.interpretar(arbol, nuevaTabla2);
         }

@@ -31,6 +31,7 @@ const errores_1 = __importDefault(require("../excep/errores"));
 const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
+const Continue_1 = __importDefault(require("./Continue"));
 class If extends instruccion_1.Instruccion {
     constructor(cond, inst, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
@@ -51,10 +52,10 @@ class If extends instruccion_1.Instruccion {
                 if (i instanceof Break_1.default) {
                     return i;
                 }
+                if (i instanceof Continue_1.default) {
+                    return i;
+                }
                 let resultado = i.interpretar(arbol, nuevaTabla);
-                /*if(resultado instanceof Break){
-                    return;
-                }*/
             }
         }
     }

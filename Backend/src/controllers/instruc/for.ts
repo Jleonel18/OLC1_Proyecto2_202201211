@@ -4,6 +4,7 @@ import tablaSimbolo from "../simbol/tablaSimbolos";
 import Arbol from "../simbol/arbol";
 import Tipo, { tipoDato } from "../simbol/tipo";
 import Break from "./Break";
+import Continue from "./Continue";
 
 export default class For extends Instruccion{
     private condicion: Instruccion;
@@ -36,9 +37,14 @@ export default class For extends Instruccion{
             let nuevaTabla2 = new tablaSimbolo(nuevaTabla);
             nuevaTabla.setNombre("for");
             for(let i of this.instrucciones){
+                
                 if(i instanceof Break) return;
+                if(i instanceof Continue) break;
+
                 let resultado = i.interpretar(arbol, nuevaTabla2);
+
                 if(resultado instanceof Break) return;
+                if(resultado instanceof Continue) break;
             }
             this.incremento.interpretar(arbol, nuevaTabla2);
         }

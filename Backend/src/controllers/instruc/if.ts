@@ -35,10 +35,11 @@ export default class If extends Instruccion{
                     return i;
                 }
 
+                if(i instanceof Continue){
+                    return i;
+                }
+
                 let resultado = i.interpretar(arbol, nuevaTabla);
-                /*if(resultado instanceof Break){
-                    return;
-                }*/
             }
         }
     }
