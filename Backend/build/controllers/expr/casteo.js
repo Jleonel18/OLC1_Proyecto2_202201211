@@ -36,16 +36,17 @@ class Casteo extends instruccion_1.Instruccion {
         this.operandoUnico = operando;
     }
     interpretar(arbol, tabla) {
-        var _a, _b, _c, _d;
+        var _a;
+        let expresion = (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.interpretar(arbol, tabla);
         switch (this.tipoD.getTipo()) {
             case tipo_1.tipoDato.ENTERO:
-                return this.castearEntero((_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.interpretar(arbol, tabla));
+                return this.castearEntero(expresion);
             case tipo_1.tipoDato.DECIMAL:
-                return this.castearDouble((_b = this.operandoUnico) === null || _b === void 0 ? void 0 : _b.interpretar(arbol, tabla));
+                return this.castearDouble(expresion);
             case tipo_1.tipoDato.CARACTER:
-                return this.castearCaracter((_c = this.operandoUnico) === null || _c === void 0 ? void 0 : _c.interpretar(arbol, tabla));
+                return this.castearCaracter(expresion);
             case tipo_1.tipoDato.CADENA:
-                return this.castearCadena((_d = this.operandoUnico) === null || _d === void 0 ? void 0 : _d.interpretar(arbol, tabla));
+                return this.castearCadena(expresion);
         }
     }
     castearEntero(operando) {
@@ -53,11 +54,11 @@ class Casteo extends instruccion_1.Instruccion {
         let tipo = (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
         switch (tipo) {
             case tipo_1.tipoDato.DECIMAL:
-                this.tipoD = new tipo_1.default(tipo_1.tipoDato.ENTERO);
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
                 return parseInt(operando);
             case tipo_1.tipoDato.CARACTER:
-                this.tipoD = new tipo_1.default(tipo_1.tipoDato.ENTERO);
-                return parseInt(operando.charCodeAt(0));
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
+                return parseInt(operando.charCodeAt(1));
             default:
                 return new errores_1.default("Error Semantico", "No se puede castear el valor", this.linea, this.columna);
         }
@@ -67,11 +68,11 @@ class Casteo extends instruccion_1.Instruccion {
         let tipo = (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
         switch (tipo) {
             case tipo_1.tipoDato.ENTERO:
-                this.tipoD = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
                 return parseFloat(operando);
             case tipo_1.tipoDato.CARACTER:
-                this.tipoD = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
-                return parseFloat(operando.charCodeAt(0));
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
+                return parseFloat(operando.charCodeAt(1));
             default:
                 return new errores_1.default("Error Semantico", "No se puede castear el valor", this.linea, this.columna);
         }
@@ -81,11 +82,11 @@ class Casteo extends instruccion_1.Instruccion {
         let tipo = (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
         switch (tipo) {
             case tipo_1.tipoDato.ENTERO:
-                this.tipoD = new tipo_1.default(tipo_1.tipoDato.CARACTER);
-                return String.fromCharCode(operando);
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CARACTER);
+                return String.fromCharCode(parseInt(operando));
             case tipo_1.tipoDato.DECIMAL:
-                this.tipoD = new tipo_1.default(tipo_1.tipoDato.CARACTER);
-                return String.fromCharCode(operando);
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CARACTER);
+                return String.fromCharCode(parseFloat(operando));
             default:
                 return new errores_1.default("Error Semantico", "No se puede castear el valor", this.linea, this.columna);
         }
@@ -95,13 +96,13 @@ class Casteo extends instruccion_1.Instruccion {
         let tipo = (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
         switch (tipo) {
             case tipo_1.tipoDato.ENTERO:
-                this.tipoD = new tipo_1.default(tipo_1.tipoDato.CADENA);
-                return operando.toString();
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                return parseInt(operando).toString();
             case tipo_1.tipoDato.DECIMAL:
-                this.tipoD = new tipo_1.default(tipo_1.tipoDato.CADENA);
-                return operando.toString();
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                return parseFloat(operando).toString();
             case tipo_1.tipoDato.CARACTER:
-                this.tipoD = new tipo_1.default(tipo_1.tipoDato.CADENA);
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
                 return operando.toString();
             default:
                 return new errores_1.default("Error Semantico", "No se puede castear el valor", this.linea, this.columna);

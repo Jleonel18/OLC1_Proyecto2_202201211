@@ -91,10 +91,10 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         return parseFloat(op1) + parseFloat(op2);
                     case tipo_1.tipoDato.CADENA:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
-                        return op1 + op2;
+                        return parseInt(op1) + op2;
                     case tipo_1.tipoDato.BOOL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
-                        if (op2 == 'true') {
+                        if (op2 == true) {
                             return parseInt(op1) + 1;
                         }
                         else {
@@ -102,7 +102,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         }
                     case tipo_1.tipoDato.CARACTER:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
-                        return parseInt(op1) + parseInt(op2.charCodeAt(0));
+                        return parseInt(op1) + parseInt(op2.charCodeAt(1));
                     default:
                         return new errores_1.default("Semantico", "Suma Invalida", this.linea, this.columna);
                 }
@@ -116,10 +116,10 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         return parseFloat(op1) + parseFloat(op2);
                     case tipo_1.tipoDato.CADENA:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
-                        return op1 + op2;
+                        return parseFloat(op1) + op2;
                     case tipo_1.tipoDato.BOOL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
-                        if (op2 == 'true') {
+                        if (op2 == true) {
                             return parseFloat(op1) + 1;
                         }
                         else {
@@ -127,7 +127,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         }
                     case tipo_1.tipoDato.CARACTER:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
-                        return parseFloat(op1) + parseFloat(op2.charCodeAt(0));
+                        return parseFloat(op1) + parseFloat(op2.charCodeAt(1));
                     default:
                         return new errores_1.default("Semantico", "Suma Invalida", this.linea, this.columna);
                 }
@@ -135,7 +135,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
-                        if (op1 == 'true') {
+                        if (op1 == true) {
                             return 1 + parseInt(op2);
                         }
                         else {
@@ -143,7 +143,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         }
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
-                        if (op1 == 'true') {
+                        if (op1 == true) {
                             return 1 + parseFloat(op2);
                         }
                         else {
@@ -151,7 +151,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         }
                     case tipo_1.tipoDato.CADENA:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
-                        if (op1 == 'true') {
+                        if (op1 == true) {
                             return 'true' + op2;
                         }
                         else {
@@ -164,10 +164,10 @@ class Aritmeticas extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
-                        return parseInt(op1.charCodeAt(0)) + parseInt(op2);
+                        return parseInt(op1.charCodeAt(1)) + parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
-                        return parseInt(op1.charCodeAt(0)) + parseFloat(op2);
+                        return parseInt(op1.charCodeAt(1)) + parseFloat(op2);
                     case tipo_1.tipoDato.CADENA:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
                         return op1 + op2;
@@ -181,16 +181,16 @@ class Aritmeticas extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
-                        return op1 + op2;
+                        return op1 + parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
-                        return op1 + op2;
+                        return op1 + parseFloat(op2);
                     case tipo_1.tipoDato.CADENA:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
                         return op1 + op2;
                     case tipo_1.tipoDato.BOOL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.CADENA);
-                        if (op2 == 'true') {
+                        if (op2 == true) {
                             return op1 + 'true';
                         }
                         else {
@@ -221,7 +221,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         return parseFloat(op1) - parseFloat(op2);
                     case tipo_1.tipoDato.CARACTER:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
-                        return parseInt(op1) - parseInt(op2.charCodeAt(0));
+                        return parseInt(op1) - parseInt(op2.charCodeAt(1));
                     case tipo_1.tipoDato.BOOL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
                         if (op2 == 'true') {
@@ -243,7 +243,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         return parseFloat(op1) - parseFloat(op2);
                     case tipo_1.tipoDato.CARACTER:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
-                        return parseFloat(op1) - parseFloat(op2.charCodeAt(0));
+                        return parseFloat(op1) - parseFloat(op2.charCodeAt());
                     case tipo_1.tipoDato.BOOL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
                         if (op2 == 'true') {
@@ -259,10 +259,10 @@ class Aritmeticas extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
-                        return parseInt(op1.charCodeAt(0)) - parseInt(op2);
+                        return parseInt(op1.charCodeAt(1)) - parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
-                        return parseInt(op1.charCodeAt(0)) - parseFloat(op2);
+                        return parseInt(op1.charCodeAt(1)) - parseFloat(op2);
                     default:
                         return new errores_1.default("Semantico", "Resta Invalida", this.linea, this.columna);
                 }
@@ -306,7 +306,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         return parseFloat(op1) * parseFloat(op2);
                     case tipo_1.tipoDato.CARACTER:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
-                        return parseInt(op1) * parseInt(op2.charCodeAt(0));
+                        return parseInt(op1) * parseInt(op2.charCodeAt(1));
                     default:
                         return new errores_1.default("Semantico", "Resta Invalida", this.linea, this.columna);
                 }
@@ -320,7 +320,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         return parseFloat(op1) * parseFloat(op2);
                     case tipo_1.tipoDato.CARACTER:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
-                        return parseFloat(op1) * parseFloat(op2.charCodeAt(0));
+                        return parseFloat(op1) * parseFloat(op2.charCodeAt(1));
                     default:
                         return new errores_1.default("Semantico", "Resta Invalida", this.linea, this.columna);
                 }
@@ -328,10 +328,10 @@ class Aritmeticas extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
-                        return parseInt(op1.charCodeAt(0)) * parseInt(op2);
+                        return parseInt(op1.charCodeAt(1)) * parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
-                        return parseInt(op1.charCodeAt(0)) * parseFloat(op2);
+                        return parseInt(op1.charCodeAt(1)) * parseFloat(op2);
                     default:
                         return new errores_1.default("Semantico", "Resta Invalida", this.linea, this.columna);
                 }
@@ -354,7 +354,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         return parseFloat(op1) / parseFloat(op2);
                     case tipo_1.tipoDato.CARACTER:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
-                        return parseInt(op1) / parseInt(op2.charCodeAt(0));
+                        return parseInt(op1) / parseInt(op2.charCodeAt(1));
                     default:
                         return new errores_1.default("Semantico", "Resta Invalida", this.linea, this.columna);
                 }
@@ -368,7 +368,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
                         return parseFloat(op1) / parseFloat(op2);
                     case tipo_1.tipoDato.CARACTER:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
-                        return parseFloat(op1) / parseFloat(op2.charCodeAt(0));
+                        return parseFloat(op1) / parseFloat(op2.charCodeAt(1));
                     default:
                         return new errores_1.default("Semantico", "Resta Invalida", this.linea, this.columna);
                 }
@@ -376,10 +376,10 @@ class Aritmeticas extends instruccion_1.Instruccion {
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
-                        return parseInt(op1.charCodeAt(0)) / parseInt(op2);
+                        return parseInt(op1.charCodeAt(1)) / parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
-                        return parseInt(op1.charCodeAt(0)) / parseFloat(op2);
+                        return parseInt(op1.charCodeAt(1)) / parseFloat(op2);
                     default:
                         return new errores_1.default("Semantico", "Resta Invalida", this.linea, this.columna);
                 }

@@ -32,7 +32,7 @@ class DeclaracionVacia extends instruccion_1.Instruccion {
                     valorFinal = 0.0;
                     break;
                 default:
-                    return new errores_1.default("Error semántico", "No es posible declarar variable", this.linea, this.columna);
+                    return new errores_1.default("Error semántico", "No es posible declarar variable.", this.linea, this.columna);
             }
             if (!tabla.setVariable(new Simbolo_1.default(this.tipoDato, elemento, valorFinal))) {
                 return new errores_1.default("SEMANTICO", "No se puede declarar variable porque ya existia", this.linea, this.columna);

@@ -17,15 +17,16 @@ export default class Casteo extends Instruccion {
     }
 
     interpretar(arbol: Arbol, tabla: tablaSimbolo) {
+        let expresion = this.operandoUnico?.interpretar(arbol, tabla)
         switch (this.tipoD.getTipo()) {
             case tipoDato.ENTERO:
-                return this.castearEntero(this.operandoUnico?.interpretar(arbol, tabla));
+                return this.castearEntero(expresion);
             case tipoDato.DECIMAL:
-                return this.castearDouble(this.operandoUnico?.interpretar(arbol, tabla));
+                return this.castearDouble(expresion);
             case tipoDato.CARACTER:
-                return this.castearCaracter(this.operandoUnico?.interpretar(arbol, tabla));
+                return this.castearCaracter(expresion);
             case tipoDato.CADENA:
-                return this.castearCadena(this.operandoUnico?.interpretar(arbol, tabla));
+                return this.castearCadena(expresion);
         }
     }
 
@@ -33,11 +34,11 @@ export default class Casteo extends Instruccion {
         let tipo = this.operandoUnico?.tipoDato.getTipo();
         switch (tipo) {
             case tipoDato.DECIMAL:
-                this.tipoD = new Tipo(tipoDato.ENTERO);
+                this.tipoDato = new Tipo(tipoDato.ENTERO);
                 return parseInt(operando);
             case tipoDato.CARACTER:
-                this.tipoD = new Tipo(tipoDato.ENTERO);
-                return parseInt(operando.charCodeAt(0));
+                this.tipoDato = new Tipo(tipoDato.ENTERO);
+                return parseInt(operando.charCodeAt(1));
             default:
                 return new Errores("Error Semantico", "No se puede castear el valor", this.linea, this.columna)
         }
@@ -48,11 +49,11 @@ export default class Casteo extends Instruccion {
         let tipo = this.operandoUnico?.tipoDato.getTipo();
         switch (tipo) {
             case tipoDato.ENTERO:
-                this.tipoD = new Tipo(tipoDato.DECIMAL);
+                this.tipoDato = new Tipo(tipoDato.DECIMAL);
                 return parseFloat(operando);
             case tipoDato.CARACTER:
-                this.tipoD = new Tipo(tipoDato.DECIMAL);
-                return parseFloat(operando.charCodeAt(0));
+                this.tipoDato = new Tipo(tipoDato.DECIMAL);
+                return parseFloat(operando.charCodeAt(1));
             default:
                 return new Errores("Error Semantico", "No se puede castear el valor", this.linea, this.columna)
         }
@@ -62,11 +63,11 @@ export default class Casteo extends Instruccion {
         let tipo = this.operandoUnico?.tipoDato.getTipo();
         switch (tipo) {
             case tipoDato.ENTERO:
-                this.tipoD = new Tipo(tipoDato.CARACTER);
-                return String.fromCharCode(operando);
+                this.tipoDato = new Tipo(tipoDato.CARACTER);
+                return String.fromCharCode(parseInt(operando));
             case tipoDato.DECIMAL:
-                this.tipoD = new Tipo(tipoDato.CARACTER);
-                return String.fromCharCode(operando);
+                this.tipoDato = new Tipo(tipoDato.CARACTER);
+                return String.fromCharCode(parseFloat(operando));
             default:
                 return new Errores("Error Semantico", "No se puede castear el valor", this.linea, this.columna)
         }
@@ -76,13 +77,13 @@ export default class Casteo extends Instruccion {
         let tipo = this.operandoUnico?.tipoDato.getTipo();
         switch (tipo) {
             case tipoDato.ENTERO:
-                this.tipoD = new Tipo(tipoDato.CADENA);
-                return operando.toString();
+                this.tipoDato = new Tipo(tipoDato.CADENA);
+                return parseInt(operando).toString();
             case tipoDato.DECIMAL:
-                this.tipoD = new Tipo(tipoDato.CADENA);
-                return operando.toString();
+                this.tipoDato = new Tipo(tipoDato.CADENA);
+                return parseFloat(operando).toString();
             case tipoDato.CARACTER:
-                this.tipoD = new Tipo(tipoDato.CADENA);
+                this.tipoDato = new Tipo(tipoDato.CADENA);
                 return operando.toString();
             default:
                 return new Errores("Error Semantico", "No se puede castear el valor", this.linea, this.columna)

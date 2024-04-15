@@ -37,7 +37,7 @@ export default class DeclaracionVacia extends Instruccion{
                     valorFinal = 0.0;
                     break;
                 default:
-                    return new Errores("Error semántico", "No es posible declarar variable", this.linea, this.columna);
+                    return new Errores("Error semántico", "No es posible declarar variable.", this.linea, this.columna);
                 
             }
     

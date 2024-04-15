@@ -72,7 +72,7 @@ export default class Relacionales extends Instruccion {
                     case tipoDato.CARACTER:
 
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseInt(op1) == op2.charCodeAt(0)
+                        return parseInt(op1) == op2.charCodeAt(1)
 
                     default:
                         return new Errores("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna)
@@ -93,7 +93,7 @@ export default class Relacionales extends Instruccion {
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseFloat(op1) == op2.charCodeAt(0)
+                        return parseFloat(op1) == op2.charCodeAt(1)
                     default:
                         return new Errores("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna)
                 }
@@ -129,10 +129,10 @@ export default class Relacionales extends Instruccion {
                         return op1 == op2
                     case tipoDato.ENTERO:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return op1.charCodeAt(0) == parseInt(op2)
+                        return op1.charCodeAt(1) == parseInt(op2)
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return op1.charCodeAt(0) == parseFloat(op2)
+                        return op1.charCodeAt(1) == parseFloat(op2)
                     default:
                         return new Errores("Semantico", "No se puede comparar un CARACTER con un " + tipo2, this.linea, this.columna)
                 }
@@ -161,7 +161,7 @@ export default class Relacionales extends Instruccion {
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseInt(op1) != op2.charCodeAt(0)
+                        return parseInt(op1) != op2.charCodeAt(1)
                     default:
                         return new Errores("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna)
                 }
@@ -181,7 +181,7 @@ export default class Relacionales extends Instruccion {
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseFloat(op1) != op2.charCodeAt(0)
+                        return parseFloat(op1) != op2.charCodeAt(1)
                     default:
                         return new Errores("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna)
                 }
@@ -223,10 +223,10 @@ export default class Relacionales extends Instruccion {
                         return op1 != op2
                     case tipoDato.ENTERO:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return op1.charCodeAt(0) != parseInt(op2)
+                        return op1.charCodeAt(1) != parseInt(op2)
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return op1.charCodeAt(0) != parseFloat(op2)
+                        return op1.charCodeAt(1) != parseFloat(op2)
                     default:
                         return new Errores("Semantico", "No se puede comparar un CARACTER con un " + tipo2, this.linea, this.columna)
                 }
@@ -255,7 +255,7 @@ export default class Relacionales extends Instruccion {
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseInt(op1) > op2.charCodeAt(0)
+                        return parseInt(op1) > op2.charCodeAt(1)
                     
                     default:
                         return new Errores("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna)
@@ -276,7 +276,7 @@ export default class Relacionales extends Instruccion {
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseFloat(op1) > op2.charCodeAt(0)
+                        return parseFloat(op1) > op2.charCodeAt(1)
                     default:
                         return new Errores("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna)
                 }
@@ -308,7 +308,7 @@ export default class Relacionales extends Instruccion {
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseInt(op1) < op2.charCodeAt(0)
+                        return parseInt(op1) < op2.charCodeAt(1)
                     default:
                         return new Errores("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna)
                 }
@@ -328,7 +328,7 @@ export default class Relacionales extends Instruccion {
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseFloat(op1) < op2.charCodeAt(0)
+                        return parseFloat(op1) < op2.charCodeAt(1)
                     default:
                         return new Errores("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna)
                 }
@@ -360,7 +360,7 @@ export default class Relacionales extends Instruccion {
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseInt(op1) <= op2.charCodeAt(0)
+                        return parseInt(op1) <= op2.charCodeAt(1)
                     default:
                         return new Errores("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna)
                 }
@@ -380,7 +380,7 @@ export default class Relacionales extends Instruccion {
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseFloat(op1) <= op2.charCodeAt(0)
+                        return parseFloat(op1) <= op2.charCodeAt(1)
                     default:
                         return new Errores("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna)
                 }
@@ -412,7 +412,7 @@ export default class Relacionales extends Instruccion {
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseInt(op1) >= op2.charCodeAt(0)
+                        return parseInt(op1) >= op2.charCodeAt(1)
                     default:
                         return new Errores("Semantico", "No se puede comparar un ENTERO con un " + tipo2, this.linea, this.columna)
                 }
@@ -432,7 +432,7 @@ export default class Relacionales extends Instruccion {
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.BOOL)
-                        return parseFloat(op1) >= op2.charCodeAt(0)
+                        return parseFloat(op1) >= op2.charCodeAt(1)
                     default:
                         return new Errores("Semantico", "No se puede comparar un DECIMAL con un " + tipo2, this.linea, this.columna)
                 }
