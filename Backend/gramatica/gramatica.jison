@@ -196,7 +196,7 @@ instrucciones : instrucciones instruccion   {$1.push($2); $$=$1;}
 ;
 
 instruccion : impresion            {$$=$1;}
-            | declaracion                        {$$=$1;}
+            | declaracion R_PUNTOYCOMA           {$$=$1;}
             | asignacion  R_PUNTOYCOMA           {$$=$1;}
             | if                                {$$=$1;}
             | while                             {$$=$1;}
@@ -222,8 +222,8 @@ declaracion : tipos declaraciones_varias asignar_declaracion     {
       }
 ;
 
-asignar_declaracion: R_IGUAL expresion R_PUNTOYCOMA {$$ = $2;}
-                    | R_PUNTOYCOMA {$$ = true;}
+asignar_declaracion: R_IGUAL expresion {$$ = $2;}
+                    | {$$ = true;}
 ;
 
 declaraciones_varias: declaraciones_varias R_COMA ID          { $$.push($3); $$=$1;}
@@ -290,7 +290,11 @@ while: R_WHILE R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {
 do_while: R_DO R_LLAVEIZQ instrucciones R_LLAVEDER R_WHILE R_PARIZQ expresion R_PARDER R_PUNTOYCOMA {$$ = new DoWhile.default($7, $3, @1.first_line, @1.first_column);}
 ;
 
-for: R_FOR R_PARIZQ declaracion expresion R_PUNTOYCOMA asignacion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER{ $$ = new For.default($3,$4,$6,$9,@1.first_line,@1.first_column);}
+for: R_FOR R_PARIZQ eleccion_for R_PUNTOYCOMA expresion R_PUNTOYCOMA asignacion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER{ $$ = new For.default($3,$5,$7,$10,@1.first_line,@1.first_column);}
+;
+
+eleccion_for: declaracion {$$ = $1;}
+            | asignacion  {$$ = $1;}
 ;
 
 break: R_BREAK R_PUNTOYCOMA {$$ = new Break.default(@1.first_line, @1.first_column);}
