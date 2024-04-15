@@ -73,6 +73,9 @@ class If extends instruccion_1.Instruccion {
             }
             else {
                 let resultado = this.instruccionesElse.interpretar(arbol, nuevaTabla);
+                if (resultado instanceof errores_1.default) {
+                    return resultado;
+                }
                 if (resultado instanceof Break_1.default) {
                     return resultado;
                 }

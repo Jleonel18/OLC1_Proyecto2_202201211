@@ -27,41 +27,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
-const errores_1 = __importDefault(require("../excep/errores"));
 const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
 const Continue_1 = __importDefault(require("./Continue"));
-class While extends instruccion_1.Instruccion {
-    constructor(condicion, instruccion, linea, columna) {
+class Default extends instruccion_1.Instruccion {
+    constructor(instrucciones, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
-        this.condicion = condicion;
-        this.instrucciones = instruccion;
+        this.instrucciones = instrucciones;
     }
     interpretar(arbol, tabla) {
-        let cond = this.condicion.interpretar(arbol, tabla);
-        if (cond instanceof errores_1.default)
-            return cond;
-        if (this.condicion.tipoDato.getTipo() != tipo_1.tipoDato.BOOL) {
-            return new errores_1.default("Semantico", "La condicion no es booleana", this.linea, this.columna);
-        }
-        do {
-            let nuevaTabla = new tablaSimbolos_1.default(tabla);
-            nuevaTabla.setNombre("while");
-            console.log("paso por aqui");
-            for (let i of this.instrucciones) {
-                if (i instanceof Break_1.default)
-                    return;
-                if (i instanceof Continue_1.default)
-                    break;
-                let resultado = i.interpretar(arbol, nuevaTabla);
-                if (resultado instanceof Break_1.default)
-                    return;
-                if (resultado instanceof Continue_1.default)
-                    break;
-                //console.log("paso por aqui tambien")
+        let nuevaTabla = new tablaSimbolos_1.default(tabla);
+        nuevaTabla.setNombre("default");
+        for (let i of this.instrucciones) {
+            let resultado = i.interpretar(arbol, nuevaTabla);
+            if (resultado instanceof Break_1.default) {
+                return resultado;
             }
-        } while (this.condicion.interpretar(arbol, tabla));
+            if (resultado instanceof Continue_1.default) {
+                return resultado;
+            }
+        }
     }
 }
-exports.default = While;
+exports.default = Default;

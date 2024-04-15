@@ -32,36 +32,43 @@ const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
 const Continue_1 = __importDefault(require("./Continue"));
-class While extends instruccion_1.Instruccion {
-    constructor(condicion, instruccion, linea, columna) {
+const case_1 = __importDefault(require("./case"));
+const default_1 = __importDefault(require("./default"));
+class Switch extends instruccion_1.Instruccion {
+    constructor(cond, instCase, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
-        this.condicion = condicion;
-        this.instrucciones = instruccion;
+        this.condicion = cond;
+        this.instruccionesCase = instCase;
     }
     interpretar(arbol, tabla) {
         let cond = this.condicion.interpretar(arbol, tabla);
         if (cond instanceof errores_1.default)
             return cond;
-        if (this.condicion.tipoDato.getTipo() != tipo_1.tipoDato.BOOL) {
-            return new errores_1.default("Semantico", "La condicion no es booleana", this.linea, this.columna);
-        }
-        do {
-            let nuevaTabla = new tablaSimbolos_1.default(tabla);
-            nuevaTabla.setNombre("while");
-            console.log("paso por aqui");
-            for (let i of this.instrucciones) {
-                if (i instanceof Break_1.default)
-                    return;
-                if (i instanceof Continue_1.default)
-                    break;
-                let resultado = i.interpretar(arbol, nuevaTabla);
-                if (resultado instanceof Break_1.default)
-                    return;
-                if (resultado instanceof Continue_1.default)
-                    break;
-                //console.log("paso por aqui tambien")
+        let bandera = false;
+        let nuevaTabla = new tablaSimbolos_1.default(tabla);
+        nuevaTabla.setNombre("switch");
+        for (let i of this.instruccionesCase) {
+            //console.log("i es:",i);
+            let resultado = i;
+            if (resultado instanceof case_1.default) {
+                //console.log("el resultado.condicion es:",resultado.condicion.interpretar(arbol, nuevaTabla));
+                if (resultado.condicion.interpretar(arbol, nuevaTabla) == cond) {
+                    let res = resultado.interpretar(arbol, nuevaTabla);
+                    if (res instanceof Break_1.default)
+                        return;
+                    if (res instanceof Continue_1.default)
+                        break;
+                    bandera = true;
+                }
             }
-        } while (this.condicion.interpretar(arbol, tabla));
+            if (resultado instanceof default_1.default && bandera == false) {
+                let res = resultado.interpretar(arbol, nuevaTabla);
+                if (res instanceof Break_1.default)
+                    return;
+                if (res instanceof Continue_1.default)
+                    break;
+            }
+        }
     }
 }
-exports.default = While;
+exports.default = Switch;

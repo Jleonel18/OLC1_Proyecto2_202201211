@@ -59,6 +59,11 @@ export default class If extends Instruccion {
                 
             }else{
                 let resultado = this.instruccionesElse.interpretar(arbol, nuevaTabla);
+
+                if(resultado instanceof Errores){
+                    return resultado;
+                }
+
                 if(resultado instanceof Break){
                     return resultado;
                 }

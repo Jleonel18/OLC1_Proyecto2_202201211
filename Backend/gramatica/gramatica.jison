@@ -22,6 +22,9 @@ const Casteo = require('../build/controllers/expr/casteo')
 const For = require('../build/controllers/instruc/for')
 const Continue = require('../build/controllers/instruc/Continue')
 const OpTernario = require('../build/controllers/instruc/opTernario')
+const Switch = require('../build/controllers/instruc/switch')
+const Case = require('../build/controllers/instruc/case')
+const Default = require('../build/controllers/instruc/default')
 
 var cadena  = '';
 var errores = [];
@@ -204,6 +207,7 @@ instruccion : impresion            {$$=$1;}
             | do_while                          {$$=$1;}
             | for                               {$$=$1;}
             | continue                          {$$ = $1;}
+            | switch                            {$$ = $1;}
 ;
 
 impresion : R_COUT R_DOBLEMENOR expresion final_cout    {if($4 == true){$$= new Print.default($3, @1.first_line, @1.first_column);}else{$$= new PrintSeguido.default($3, @1.first_line, @1.first_column);} }
@@ -289,6 +293,17 @@ if: R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER else_op
 else_opcional: R_ELSE R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = $3;}
               | R_ELSE if {$$ = $2;}
               | {$$ = [];}
+;
+
+switch: R_SWITCH R_PARIZQ expresion R_PARDER R_LLAVEIZQ lista_casos R_LLAVEDER {$$ = new Switch.default($3, $6, @1.first_line, @1.first_column);}
+;
+
+lista_casos: lista_casos caso {$$.push($2); $$=$1;}
+           | caso {$$=[$1];}
+;
+
+caso: R_CASE expresion R_DOSPUNTOS instrucciones { $$ = new Case.default($2, $4, @1.first_line, @1.first_column);}
+      | R_DEFAULT R_DOSPUNTOS instrucciones {$$ = new Default.default($3, @1.first_line, @1.first_column);}
 ;
 
 while: R_WHILE R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new While.default($3, $6, @1.first_line, @1.first_column);}
