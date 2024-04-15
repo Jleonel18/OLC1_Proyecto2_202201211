@@ -41,13 +41,19 @@ class IncreDecre extends instruccion_1.Instruccion {
         if (valor == null)
             return new errores_1.default("SEMANTICO", "Variable no existente", this.linea, this.columna);
         //console.log("el valor es:",valor.getTipo().getTipo());
-        if (valor.getTipo().getTipo() != tipo_1.tipoDato.ENTERO)
+        if (valor.getTipo().getTipo() != tipo_1.tipoDato.ENTERO && valor.getTipo().getTipo() != tipo_1.tipoDato.DECIMAL)
             return new errores_1.default("SEMANTICO", "No se puede incrementar o decrementar una variable que no sea de tipo numero", this.linea, this.columna);
-        if (this.instruc == true) {
+        if (this.instruc == true && valor.getTipo().getTipo() != tipo_1.tipoDato.ENTERO) {
             valor.setValor(parseInt(valor.getValor()) + 1);
         }
-        else {
+        else if (valor.getTipo().getTipo() != tipo_1.tipoDato.ENTERO && this.instruc == false) {
             valor.setValor(parseInt(valor.getValor()) - 1);
+        }
+        else if (valor.getTipo().getTipo() != tipo_1.tipoDato.DECIMAL && this.instruc == true) {
+            valor.setValor(parseFloat(valor.getValor()) + 1);
+        }
+        else if (valor.getTipo().getTipo() != tipo_1.tipoDato.DECIMAL && this.instruc == false) {
+            valor.setValor(parseFloat(valor.getValor()) - 1);
         }
     }
 }

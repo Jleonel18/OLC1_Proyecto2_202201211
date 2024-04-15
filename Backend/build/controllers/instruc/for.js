@@ -40,27 +40,25 @@ class For extends instruccion_1.Instruccion {
         this.incremento = incremento;
     }
     interpretar(arbol, tabla) {
-        //console.log("paso aqui");
-        //console.log(this.declaracion.interpretar(arbol, tabla));
-        this.declaracion.interpretar(arbol, tabla);
-        //console.log("---------------------")
-        let cond = this.condicion.interpretar(arbol, tabla);
+        let nuevaTabla = new tablaSimbolos_1.default(tabla);
+        this.declaracion.interpretar(arbol, nuevaTabla);
+        let cond = this.condicion.interpretar(arbol, nuevaTabla);
         if (cond instanceof errores_1.default)
             return cond;
         if (this.condicion.tipoDato.getTipo() != tipo_1.tipoDato.BOOL) {
             return new errores_1.default("Semantico", "La condicion no es booleana", this.linea, this.columna);
         }
-        while (this.condicion.interpretar(arbol, tabla)) {
-            let nuevaTabla = new tablaSimbolos_1.default(tabla);
+        while (this.condicion.interpretar(arbol, nuevaTabla)) {
+            let nuevaTabla2 = new tablaSimbolos_1.default(nuevaTabla);
             nuevaTabla.setNombre("for");
             for (let i of this.instrucciones) {
                 if (i instanceof Break_1.default)
                     return;
-                let resultado = i.interpretar(arbol, nuevaTabla);
+                let resultado = i.interpretar(arbol, nuevaTabla2);
                 if (resultado instanceof Break_1.default)
                     return;
             }
-            this.incremento.interpretar(arbol, nuevaTabla);
+            this.incremento.interpretar(arbol, nuevaTabla2);
         }
     }
 }

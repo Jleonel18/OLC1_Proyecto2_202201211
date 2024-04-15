@@ -48,8 +48,9 @@ class While extends instruccion_1.Instruccion {
             let nuevaTabla = new tablaSimbolos_1.default(tabla);
             nuevaTabla.setNombre("while");
             for (let i of this.instrucciones) {
-                if (i instanceof Break_1.default)
+                if (i instanceof Break_1.default) {
                     return;
+                }
                 let resultado = i.interpretar(arbol, nuevaTabla);
                 if (resultado instanceof Break_1.default)
                     return;

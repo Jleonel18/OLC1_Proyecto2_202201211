@@ -4,6 +4,7 @@ import tablaSimbolo from "../simbol/tablaSimbolos";
 import Arbol from "../simbol/arbol";
 import Tipo, { tipoDato } from "../simbol/tipo";
 import Break from "./Break";
+import Continue from "./Continue";
 
 export default class If extends Instruccion{
 
@@ -29,9 +30,11 @@ export default class If extends Instruccion{
 
         if(cond){
             for(let i of this.instrucciones){
+
                 if(i instanceof Break){
                     return i;
                 }
+
                 let resultado = i.interpretar(arbol, nuevaTabla);
                 /*if(resultado instanceof Break){
                     return;

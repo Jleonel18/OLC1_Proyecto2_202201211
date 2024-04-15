@@ -20,6 +20,7 @@ const DoWhile = require('../build/controllers/instruc/doWhile')
 const IncreDecre = require('../build/controllers/instruc/increDecre')
 const Casteo = require('../build/controllers/expr/casteo')
 const For = require('../build/controllers/instruc/for')
+const Continue = require('../build/controllers/instruc/Continue')
 
 var cadena  = '';
 var errores = [];
@@ -200,8 +201,8 @@ instruccion : impresion            {$$=$1;}
             | while                             {$$=$1;}
             | break                             {$$=$1;}
             | do_while                          {$$=$1;}
-            | incre_decre R_PUNTOYCOMA          {$$=$1;}
             | for                               {$$=$1;}
+            | continue                          {$$ = $1;}
 ;
 
 impresion : R_COUT R_DOBLEMENOR expresion final_cout    {if($4 == true){$$= new Print.default($3, @1.first_line, @1.first_column);}else{$$= new PrintSeguido.default($3, @1.first_line, @1.first_column);} }
@@ -229,6 +230,7 @@ declaraciones_varias: declaraciones_varias R_COMA ID          { $$.push($3); $$=
 ;
 
 asignacion : ID R_IGUAL expresion             {$$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column);}
+| incre_decre {$$ = $1;}
 ;
 
 tipos : R_INT             {$$ = new Tipo.default(Tipo.tipoDato.ENTERO);}
@@ -283,13 +285,16 @@ if: R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = n
 while: R_WHILE R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new While.default($3, $6, @1.first_line, @1.first_column);}
 ;
 
-do_while: R_DO R_LLAVEIZQ instrucciones R_LLAVEDER R_WHILE R_PARIZQ expresion R_PARDER {$$ = new DoWhile.default($7, $3, @1.first_line, @1.first_column);}
+do_while: R_DO R_LLAVEIZQ instrucciones R_LLAVEDER R_WHILE R_PARIZQ expresion R_PARDER R_PUNTOYCOMA {$$ = new DoWhile.default($7, $3, @1.first_line, @1.first_column);}
 ;
 
-for: R_FOR R_PARIZQ declaracion expresion R_PUNTOYCOMA incre_decre R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER{ $$ = new For.default($3,$4,$6,$9,@1.first_line,@1.first_column);}
+for: R_FOR R_PARIZQ declaracion expresion R_PUNTOYCOMA asignacion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER{ $$ = new For.default($3,$4,$6,$9,@1.first_line,@1.first_column);}
 ;
 
 break: R_BREAK R_PUNTOYCOMA {$$ = new Break.default(@1.first_line, @1.first_column);}
+;
+
+continue: R_CONTINUE R_PUNTOYCOMA {$$ = new Continue.default(@1.first_line, @1.first_column);}
 ;
 
 incre_decre: ID signo_incre_decre {$$ = new IncreDecre.default($1, @1.first_line, @1.first_column,$2);}
