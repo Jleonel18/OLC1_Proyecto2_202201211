@@ -21,6 +21,7 @@ const IncreDecre = require('../build/controllers/instruc/increDecre')
 const Casteo = require('../build/controllers/expr/casteo')
 const For = require('../build/controllers/instruc/for')
 const Continue = require('../build/controllers/instruc/Continue')
+const OpTernario = require('../build/controllers/instruc/opTernario')
 
 var cadena  = '';
 var errores = [];
@@ -269,6 +270,7 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | f_nativas                       {$$ = $1;}
           | expresion R_LENGTH                   {$$ = new FNativas.default(FNativas.Operadores.LENGTH, @1.first_line, @1.first_column, $1);}
           | casteo                              {$$ = $1;}
+          | expresion R_TERNARIO expresion R_DOSPUNTOS expresion {$$ = new OpTernario.default($1, $3, $5, @1.first_line, @1.first_column);}
 ;
 
 f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(FNativas.Operadores.TOLOWER, @1.first_line, @1.first_column, $3);} 
