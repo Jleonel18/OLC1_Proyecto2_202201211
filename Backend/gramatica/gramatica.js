@@ -98,7 +98,7 @@ break;
 case 5: case 6:
 this.$=$$[$0-1];
 break;
-case 12: case 17: case 22: case 52: case 54: case 69: case 70:
+case 12: case 17: case 22: case 52: case 54: case 64: case 69: case 70:
 this.$ = $$[$0];
 break;
 case 13:
@@ -161,7 +161,7 @@ break;
 case 32:
 this.$ = new Aritmeticas.default(Aritmeticas.Operadores.MODULO, _$[$0-2].first_line, _$[$0-2].first_column, $$[$0-2], $$[$0]);
 break;
-case 33:
+case 33: case 63:
 this.$ = $$[$0-1];
 break;
 case 34:
@@ -240,16 +240,10 @@ case 60:
 this.$ = new FNativas.default(FNativas.Operadores.TOSTRING, _$[$0-6].first_line, _$[$0-6].first_column, $$[$0-1]);
 break;
 case 62:
-this.$ = new If.default($$[$0-5], $$[$0-2], _$[$0-7].first_line, _$[$0-7].first_column);
-break;
-case 63:
-this.$ = $$[$0-1]; console.log("holaaa")
-break;
-case 64:
-this.$ = $$[$0]; console.log("aaaaaa")
+this.$ = new If.default($$[$0-5], $$[$0-2], $$[$0], _$[$0-7].first_line, _$[$0-7].first_column);
 break;
 case 65:
-this.$ = []; console.log("vacioooo")
+this.$ = [];
 break;
 case 66:
 this.$ = new While.default($$[$0-4], $$[$0-1], _$[$0-6].first_line, _$[$0-6].first_column);

@@ -33,9 +33,10 @@ const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
 const Continue_1 = __importDefault(require("./Continue"));
 class If extends instruccion_1.Instruccion {
-    constructor(cond, inst, linea, columna) {
+    constructor(cond, inst, instElse, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
         this.condicion = cond;
+        this.instruccionesElse = instElse;
         this.instrucciones = inst;
     }
     interpretar(arbol, tabla) {
@@ -56,6 +57,28 @@ class If extends instruccion_1.Instruccion {
                     return i;
                 }
                 let resultado = i.interpretar(arbol, nuevaTabla);
+            }
+        }
+        else {
+            if (Array.isArray(this.instruccionesElse)) {
+                for (let i of this.instruccionesElse) {
+                    if (i instanceof Break_1.default) {
+                        return i;
+                    }
+                    if (i instanceof Continue_1.default) {
+                        return i;
+                    }
+                    let resultado = i.interpretar(arbol, nuevaTabla);
+                }
+            }
+            else {
+                let resultado = this.instruccionesElse.interpretar(arbol, nuevaTabla);
+                if (resultado instanceof Break_1.default) {
+                    return resultado;
+                }
+                if (resultado instanceof Continue_1.default) {
+                    return resultado;
+                }
             }
         }
     }

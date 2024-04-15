@@ -281,7 +281,9 @@ f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(F
             | R_C_STR R_PARIZQ expresion R_PARDER
 ;
 
-if: R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER else_opcional {$$ = new If.default($3, $6, @1.first_line, @1.first_column);}
+if: R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER else_opcional {$$ = new If.default($3, $6, $8, @1.first_line, @1.first_column);}
+      /*| R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER R_ELSE R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new If.default($3, $6, $10, @1.first_line, @1.first_column);}
+      | R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER if {$$ = new If.default($3, $6, $8, @1.first_line, @1.first_column);}*/
 ;
 
 else_opcional: R_ELSE R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = $3;}
