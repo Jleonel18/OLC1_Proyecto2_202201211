@@ -8,8 +8,9 @@ import Continue from "./Continue";
 
 export default class Case extends Instruccion {
 
-    public condicion: Instruccion
+    private condicion: Instruccion
     private instrucciones: Instruccion[]
+    public condicionGlobal?: Instruccion;
 
     constructor(condicion: Instruccion, instrucciones: Instruccion[], linea: number, columna: number) {
         super(new Tipo(tipoDato.VOID), linea, columna);
@@ -21,20 +22,31 @@ export default class Case extends Instruccion {
         let cond = this.condicion.interpretar(arbol, tabla);
         if (cond instanceof Errores) return cond;
 
-        let nuevaTabla = new tablaSimbolo(tabla);
-        nuevaTabla.setNombre("case");
+        if (this.condicionGlobal?.interpretar(arbol, tabla) == cond) {
 
-        for (let i of this.instrucciones) {
-            let resultado = i.interpretar(arbol, nuevaTabla);
+            let nuevaTabla = new tablaSimbolo(tabla);
+            nuevaTabla.setNombre("case");
 
-            if (resultado instanceof Break) {
-                return resultado;
+            for (let i of this.instrucciones) {
+
+                if (i instanceof Break) {
+                    return i;
+                }
+                
+                let resultado = i.interpretar(arbol, nuevaTabla);
+
+                if (resultado instanceof Break) {
+                    return resultado;
+                }
+
+                if (resultado instanceof Continue) {
+                    return new Errores("Semantico", "Continue no valido", this.linea, this.columna);
+                }
             }
 
-            if (resultado instanceof Continue) {
-                return resultado;
-            }
         }
+
+
     }
 
 }

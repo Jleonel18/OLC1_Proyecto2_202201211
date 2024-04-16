@@ -11,41 +11,62 @@ import Default from "./default";
 export default class Switch extends Instruccion {
     private condicion: Instruccion;
 
-    private instruccionesCase: Instruccion[];
+    private instruccionesCase: Case[] | undefined;
+    private instruccionDefault: Instruccion | undefined;
 
-    constructor(cond: Instruccion, instCase: Instruccion[], linea: number, columna: number) {
+    constructor(cond: Instruccion, instCase: Case[], instDefault: Instruccion, linea: number, columna: number) {
         super(new Tipo(tipoDato.VOID), linea, columna);
         this.condicion = cond;
         this.instruccionesCase = instCase;
+        this.instruccionDefault = instDefault;
     }
 
     interpretar(arbol: Arbol, tabla: tablaSimbolo) {
         let cond = this.condicion.interpretar(arbol, tabla);
         if (cond instanceof Errores) return cond;
 
-        let bandera = false;
-
         let nuevaTabla = new tablaSimbolo(tabla);
         nuevaTabla.setNombre("switch");
 
-        for( let i of this.instruccionesCase){
-            //console.log("i es:",i);
+        if(this.instruccionesCase != undefined){
+
+            for( let i of this.instruccionesCase ){
+                i.condicionGlobal = this.condicion;
+                let res = i.interpretar(arbol, nuevaTabla);
+                if(res instanceof Break) return;
+                if(res instanceof Continue) return new Errores("Semantico", "Continue no valido", this.linea, this.columna);
+            }
+
+        }
+
+        if( this.instruccionDefault != undefined){
+            let res = this.instruccionDefault.interpretar(arbol, nuevaTabla);
+            if(res instanceof Break) return;
+            if(res instanceof Continue) return;
+        }
+
+
+        /*for( let i of this.instruccionesCase){
+
             let resultado = i;
 
             if(resultado instanceof Case){
-                //console.log("el resultado.condicion es:",resultado.condicion.interpretar(arbol, nuevaTabla));
-                if(resultado.condicion.interpretar(arbol,nuevaTabla) == cond){
+
+                let cond2 = resultado.condicion.interpretar(arbol, nuevaTabla);
+
+                if(cond2 == cond) {
                     let res = resultado.interpretar(arbol, nuevaTabla);
                     if(res instanceof Break) return;
                     if(res instanceof Continue) break;
                     bandera = true;
                 }
+
             } if(resultado instanceof Default && bandera == false){
                 let res = resultado.interpretar(arbol, nuevaTabla);
                 if(res instanceof Break) return;
                 if(res instanceof Continue) break;
             }
-        }
+        }*/
 
     }
 }

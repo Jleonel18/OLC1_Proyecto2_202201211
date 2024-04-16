@@ -27,6 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
+const errores_1 = __importDefault(require("../excep/errores"));
 const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
@@ -40,12 +41,15 @@ class Default extends instruccion_1.Instruccion {
         let nuevaTabla = new tablaSimbolos_1.default(tabla);
         nuevaTabla.setNombre("default");
         for (let i of this.instrucciones) {
+            if (i instanceof Break_1.default) {
+                return i;
+            }
             let resultado = i.interpretar(arbol, nuevaTabla);
             if (resultado instanceof Break_1.default) {
                 return resultado;
             }
             if (resultado instanceof Continue_1.default) {
-                return resultado;
+                return new errores_1.default("Semantico", "Continue no valido", this.linea, this.columna);
             }
         }
     }

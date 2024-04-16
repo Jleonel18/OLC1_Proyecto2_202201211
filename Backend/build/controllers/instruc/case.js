@@ -39,18 +39,24 @@ class Case extends instruccion_1.Instruccion {
         this.instrucciones = instrucciones;
     }
     interpretar(arbol, tabla) {
+        var _a;
         let cond = this.condicion.interpretar(arbol, tabla);
         if (cond instanceof errores_1.default)
             return cond;
-        let nuevaTabla = new tablaSimbolos_1.default(tabla);
-        nuevaTabla.setNombre("case");
-        for (let i of this.instrucciones) {
-            let resultado = i.interpretar(arbol, nuevaTabla);
-            if (resultado instanceof Break_1.default) {
-                return resultado;
-            }
-            if (resultado instanceof Continue_1.default) {
-                return resultado;
+        if (((_a = this.condicionGlobal) === null || _a === void 0 ? void 0 : _a.interpretar(arbol, tabla)) == cond) {
+            let nuevaTabla = new tablaSimbolos_1.default(tabla);
+            nuevaTabla.setNombre("case");
+            for (let i of this.instrucciones) {
+                if (i instanceof Break_1.default) {
+                    return i;
+                }
+                let resultado = i.interpretar(arbol, nuevaTabla);
+                if (resultado instanceof Break_1.default) {
+                    return resultado;
+                }
+                if (resultado instanceof Continue_1.default) {
+                    return new errores_1.default("Semantico", "Continue no valido", this.linea, this.columna);
+                }
             }
         }
     }

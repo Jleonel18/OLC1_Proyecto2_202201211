@@ -32,43 +32,57 @@ const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
 const Continue_1 = __importDefault(require("./Continue"));
-const case_1 = __importDefault(require("./case"));
-const default_1 = __importDefault(require("./default"));
 class Switch extends instruccion_1.Instruccion {
-    constructor(cond, instCase, linea, columna) {
+    constructor(cond, instCase, instDefault, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
         this.condicion = cond;
         this.instruccionesCase = instCase;
+        this.instruccionDefault = instDefault;
     }
     interpretar(arbol, tabla) {
         let cond = this.condicion.interpretar(arbol, tabla);
         if (cond instanceof errores_1.default)
             return cond;
-        let bandera = false;
         let nuevaTabla = new tablaSimbolos_1.default(tabla);
         nuevaTabla.setNombre("switch");
-        for (let i of this.instruccionesCase) {
-            //console.log("i es:",i);
-            let resultado = i;
-            if (resultado instanceof case_1.default) {
-                //console.log("el resultado.condicion es:",resultado.condicion.interpretar(arbol, nuevaTabla));
-                if (resultado.condicion.interpretar(arbol, nuevaTabla) == cond) {
-                    let res = resultado.interpretar(arbol, nuevaTabla);
-                    if (res instanceof Break_1.default)
-                        return;
-                    if (res instanceof Continue_1.default)
-                        break;
-                    bandera = true;
-                }
-            }
-            if (resultado instanceof default_1.default && bandera == false) {
-                let res = resultado.interpretar(arbol, nuevaTabla);
+        if (this.instruccionesCase != undefined) {
+            for (let i of this.instruccionesCase) {
+                i.condicionGlobal = this.condicion;
+                let res = i.interpretar(arbol, nuevaTabla);
                 if (res instanceof Break_1.default)
                     return;
                 if (res instanceof Continue_1.default)
-                    break;
+                    return new errores_1.default("Semantico", "Continue no valido", this.linea, this.columna);
             }
         }
+        if (this.instruccionDefault != undefined) {
+            let res = this.instruccionDefault.interpretar(arbol, nuevaTabla);
+            if (res instanceof Break_1.default)
+                return;
+            if (res instanceof Continue_1.default)
+                return;
+        }
+        /*for( let i of this.instruccionesCase){
+
+            let resultado = i;
+
+            if(resultado instanceof Case){
+
+                let cond2 = resultado.condicion.interpretar(arbol, nuevaTabla);
+
+                if(cond2 == cond) {
+                    let res = resultado.interpretar(arbol, nuevaTabla);
+                    if(res instanceof Break) return;
+                    if(res instanceof Continue) break;
+                    bandera = true;
+                }
+
+            } if(resultado instanceof Default && bandera == false){
+                let res = resultado.interpretar(arbol, nuevaTabla);
+                if(res instanceof Break) return;
+                if(res instanceof Continue) break;
+            }
+        }*/
     }
 }
 exports.default = Switch;

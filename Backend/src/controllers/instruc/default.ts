@@ -21,6 +21,11 @@ export default class Default extends Instruccion {
         nuevaTabla.setNombre("default");
 
         for (let i of this.instrucciones) {
+
+            if (i instanceof Break) {
+                return i;
+            }
+
             let resultado = i.interpretar(arbol, nuevaTabla);
 
             if (resultado instanceof Break) {
@@ -28,7 +33,7 @@ export default class Default extends Instruccion {
             }
 
             if (resultado instanceof Continue) {
-                return resultado;
+                return new Errores("Semantico", "Continue no valido", this.linea, this.columna);
             }
         }
     }

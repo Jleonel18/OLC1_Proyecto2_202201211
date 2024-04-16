@@ -286,8 +286,6 @@ f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(F
 ;
 
 if: R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER else_opcional {$$ = new If.default($3, $6, $8, @1.first_line, @1.first_column);}
-      /*| R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER R_ELSE R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new If.default($3, $6, $10, @1.first_line, @1.first_column);}
-      | R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER if {$$ = new If.default($3, $6, $8, @1.first_line, @1.first_column);}*/
 ;
 
 else_opcional: R_ELSE R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = $3;}
@@ -295,15 +293,19 @@ else_opcional: R_ELSE R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = $3;}
               | {$$ = [];}
 ;
 
-switch: R_SWITCH R_PARIZQ expresion R_PARDER R_LLAVEIZQ lista_casos R_LLAVEDER {$$ = new Switch.default($3, $6, @1.first_line, @1.first_column);}
+switch: R_SWITCH R_PARIZQ expresion R_PARDER R_LLAVEIZQ lista_casos R_LLAVEDER {$$ = new Switch.default($3, $6, undefined,@1.first_line, @1.first_column);}
+      | R_SWITCH R_PARIZQ expresion R_PARDER R_LLAVEIZQ lista_casos default R_LLAVEDER {$$ = new Switch.default($3, $6, $7, @1.first_line, @1.first_column);}
+      | R_SWITCH R_PARIZQ expresion R_PARDER R_LLAVEIZQ default R_LLAVEDER {$$ = new Switch.default($3, undefined,$6, @1.first_line, @1.first_column);}
 ;
 
 lista_casos: lista_casos caso {$$.push($2); $$=$1;}
            | caso {$$=[$1];}
 ;
 
+default: R_DEFAULT R_DOSPUNTOS instrucciones {$$ = new Default.default($3, @1.first_line, @1.first_column);}
+;
+
 caso: R_CASE expresion R_DOSPUNTOS instrucciones { $$ = new Case.default($2, $4, @1.first_line, @1.first_column);}
-      | R_DEFAULT R_DOSPUNTOS instrucciones {$$ = new Default.default($3, @1.first_line, @1.first_column);}
 ;
 
 while: R_WHILE R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new While.default($3, $6, @1.first_line, @1.first_column);}
