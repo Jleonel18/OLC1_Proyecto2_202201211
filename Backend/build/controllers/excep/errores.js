@@ -7,5 +7,31 @@ class Errores {
         this.fila = fila;
         this.col = col;
     }
+    // Getters
+    getTipoError() {
+        return this.tipoError;
+    }
+    getDesc() {
+        return this.desc;
+    }
+    getFila() {
+        return this.fila;
+    }
+    getCol() {
+        return this.col;
+    }
+    // Setters
+    setTipoError(tipo) {
+        this.tipoError = tipo;
+    }
+    setDesc(desc) {
+        this.desc = desc;
+    }
+    setFila(fila) {
+        this.fila = fila;
+    }
+    setCol(col) {
+        this.col = col;
+    }
 }
 exports.default = Errores;

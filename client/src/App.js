@@ -44,6 +44,28 @@ function App() {
     reader.readAsText(file);
   }
 
+  function reporteErrores() {
+    fetch('http://localhost:4000/reporteErrores', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ entrada: editorRef.current.getValue() }),
+    })
+      .then(response => response.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'reporteErrores.html';
+        a.click();
+      })
+      .catch((error) => {
+        alert("ERROR")
+        console.error('Error:', error);
+      });
+  }
+
 
   return (
     <div className="App">
@@ -56,7 +78,7 @@ function App() {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" >Reporte Errores</a>
+                <a class="nav-link" onClick={reporteErrores}>Reporte Errores</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" >Reporte Símbolos</a>

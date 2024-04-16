@@ -9,7 +9,6 @@ class Arbol {
         this.instrucciones = instrucciones;
         this.consola = "";
         this.tablaGlobal = new tablaSimbolos_1.default();
-        this.errores = new Array;
     }
     Print(contenido) {
         this.consola = `${this.consola}${contenido}\n`;
@@ -34,9 +33,6 @@ class Arbol {
     }
     setTablaGlobal(tabla) {
         this.tablaGlobal = tabla;
-    }
-    getErrores() {
-        return this.errores;
     }
 }
 exports.default = Arbol;

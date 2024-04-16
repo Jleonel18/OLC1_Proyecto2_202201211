@@ -18,20 +18,20 @@ class Declaracion extends instruccion_1.Instruccion {
         if (valorFinal instanceof errores_1.default)
             return valorFinal;
         if (this.valor.tipoDato.getTipo() == tipo_1.tipoDato.ENTERO && this.tipoDato.getTipo() == tipo_1.tipoDato.DECIMAL) {
-            this.identificador.forEach(elemento => {
+            this.identificador.forEach(id => {
                 valorFinal = parseFloat(valorFinal);
-                if (!tabla.setVariable(new Simbolo_1.default(this.tipoDato, elemento, valorFinal))) {
-                    return new errores_1.default("Error Semantico", "No se puede declarar variable porque ya existia", this.linea, this.columna);
+                if (!tabla.setVariable(new Simbolo_1.default(this.tipoDato, id, valorFinal))) {
+                    return new errores_1.default("Semantico", "No se puede declarar variable que ya existe", this.linea, this.columna);
                 }
             });
         }
         else {
             if (this.valor.tipoDato.getTipo() != this.tipoDato.getTipo()) {
-                return new errores_1.default("Error semántico", "No es posible declarar variable", this.linea, this.columna);
+                return new errores_1.default("SEMANTICO", "No se puede declarar variable", this.linea, this.columna);
             }
             this.identificador.forEach(elemento => {
                 if (!tabla.setVariable(new Simbolo_1.default(this.tipoDato, elemento, valorFinal))) {
-                    return new errores_1.default("SEMANTICO", "No se puede declarar variable porque ya existia", this.linea, this.columna);
+                    return new errores_1.default("SEMANTICO", "variable ya existe!", this.linea, this.columna);
                 }
             });
         }
