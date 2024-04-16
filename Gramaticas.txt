@@ -1,19 +1,5 @@
-TIPO_DATO = "INT" | "DOUBLE" | "BOOL" | "CHAR" | "STRING"
-RES_POW = "pow"
-OP_ARIT = "+" | "-" | "*" | "/" | "%" 
 ENTERO = [0-9]+
 DOUBLE = ENTERO | ENTERO\.ENTERO
-OP_IGUAL "="
-PYC = ";"
-DOSP = ":"
-OP_REL = "==" | "!=" | ">" | "<=" | ">=" | "<"
-OP_LOGIC = "||" | "&&" | "!"
-LLAV_A = "{"
-LLAV_C = "}"
-PAR_A = "("
-PAR_C = ")"
-CORC_A = "["
-CORC_C = "]"
 RES_IF = "if"
 RES_POW = "pow"
 RES_ELSE = "else"
@@ -37,6 +23,7 @@ RES_TYPEOF = "typeof"
 RES_TOSTRING = "tostring"
 RES_C_STR = "c_str"
 RES_EXECUTE = "execute"
+ENDL = "endl"
 BOOLEANO = true | false
 CARACTER = [.] // Todos los caracteres posibles
 CADENA = [^" ]+
@@ -44,37 +31,119 @@ COMILLAS_D = "
 COMILLAS_S
 CADENA_TEXTO = COMILLAS_D CADENA COMILLAS_D
 CARACTER_TEXTO = COMULLAS_S CARACTER COMILLAS_S
-DATO = DOUBLE | ENTERO | BOOLEANO | CADENA_TEXTO | CARACTER_TEXTO
 ID = CADENA (CADENA)* (ENTERO)* | CADENA (CADENA)*
 
 No terminales = <inicio>
 
 Empieza = <inicio>
 
-<inicio> ::= <decl_variables>
+<inicio> ::= <instrucciones>
 
-<decl_variables> ::= TIPO_DATO <decl_varias_variables> <asignacion_valor_variable>
+<instrucciones< ::= <instrucciones> <instruccion>
+			| <instruccion>
 
-<asignacion_valor_variable> ::= OP_IGUAL <expresion_decl_variable> PYC 
-                                | PYC
+<instruccion> ::= 	<impresion>
+			| <declaracion> ";"
+			| <asignacion> ";"
+			| <if> PYC
+			| <while>
+			| <break>
+			| <do_while>
+			| <for>
+			| <continue>
+			| <switch>
 
-<exp_decl_variable> ::= <exp_decl_variable_3>
-                    | <exp_decl_variable_2>
+<impresion> ::= COUT "<" "<" expresion <final_cout>
 
-<exp_decl_variable_2> ::= BOOLEANO
-                        | <exp_decl_variable_texto>
-
-<expresion_decl_variable_texto> ::= CADENA_TEXTO
-                                    | CARACTER_TEXTO
-
-<exp_decl_variable_3> ::= <exp_decl_variable_numero>
-                            | ID
-
-<exp_declaracion_variable_numero> ::= NUM
-                                    | DOUBLE
+<final_cout> ::= "<" "<" ENDL ";"
+		| ";"
 
 
-<decl_varias_variables> ::= <decl_varias_variables> ,ID
-                            | ID
+<declaracion> ::= <tipos> <declaraciones_varias> <asignar_declaracion>
+
+<asignar_declaracion> ::= "=" expresion
+			| epsilon
+
+<declaraciones_varias> ::= <declaraciones_varias> "," ID
+			| ID
+
+<asignacion> ::= ID "=" <expresion>
+
+<tipos> ::=	 "int"
+		| "double"
+		| "std" ":" ":" "string"
+		| "bool"
+		| "char"
+
+<expresion> ::= <expresion> "+" <expresion>
+		| <expresion> "-" <expresion>
+		| <expreion> "*" <expresion>
+		| <expresion> "/" <expresion>
+		| <expresion> "%" <expresion>
+		| "(" <expresion> ")"
+		| RES_POW "(" <expresion> "," <expresion> ")"
+		| <expresion> "=" "=" <expresion>
+		| <expresion> "<" <expresion>
+		| <expresion> ">" <expresion>
+		| <expresion> "!" "=" <expresion>
+		| <expresion> "<" "=" <expresion>
+		| <expresion> ">" "=" <expresion>
+		| "!" <expresion>
+		| <expresion> "&&" <expresion>
+		| <expresion> "||" <expresion>
+		| "-" <expresion>
+		| BOOLEANO
+		| CARACTER
+		| CADENA
+		| ENTERO
+		| DOUBLE
+		| <f_nativas>
+		| <expresion> "." "length" "(" ")"
+		| <casteo>
+		| <expresion> "?" <expresion>  ":" <expresion>
+
+<f_nativas> ::= RES_TOLOWER "(" <expresion> ")"
+		| RES_TOUPPER "(" <expresion> ")"
+		| RES_ROUND "(" <expresion> ")"
+		| RES_TYPEOF "(" <expresion> ")"
+		| "std" ":" ":" R_TOSTRING "(" ")" expresion ")"
+		| RES_C_STR "(" expresion ")"
+
+<if> ::= RES_IF "(" expresion ")" "{" <instrucciones> "}" <else_opcional>
+
+<else_opcional> ::= RES_ELSE "{" <instrucciones> "}"
+		| RES_ELSE <if>
+		| epsilon
+
+<switch> ::= RES_SWITCH "(" <expresion> ")" "{" <lista_casos> "}"
+
+<switch> ::= <lista_casos> <caso>
+		| <caso>
+
+<caso> ::= RES_CASE <expresion> ":" <instrucciones>
+	| RES_DEFAULT ":" <instrucciones>
+
+<while> ::= RES_WHILE "(" <expresion> ")" "{" <instrucciones> "}"
+
+<do_while> ::= RES_DO "{" <instrucciones> "}" RES_WHILE "(" <expresion> ")" ";"
+
+<for> ::= RES_FOR "(" <eleccion_for> ";" <expresion> ";" <asignacion> ")" "{" <instrucciones> "}"
+
+<eleccion_for> ::= <declaracion>
+		| <asignacion>
+
+<break> ::= RES_BREAK ";"
+
+<continue> ::= RES_CONTINUE ";"
+
+<incre_decre> ::= ID <signo_incre_decre>
+
+<signo_incre_decre> ::= "+" "+"
+			| "-" "-"
+
+<casteo> ::= "(" <tipos> ")" <expresion> 
+
+
+	
 
  
