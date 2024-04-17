@@ -38,6 +38,10 @@ class controller{
             ast.setTablaGlobal(tabla);
             ast.setConsola("");
 
+            for(let err of lista_errores){
+                ast.Print("Error "+err.getTipoError()+ ". "+err.getDesc()+" linea: "+err.getFila()+" columna: "+(err.getCol()+1));
+            }
+
             for(let i of ast.getInstrucciones()){
 
                 if(i instanceof Errores){

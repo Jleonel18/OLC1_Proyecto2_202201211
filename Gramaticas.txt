@@ -141,9 +141,12 @@ Empieza = <inicio>
 <signo_incre_decre> ::= "+" "+"
 			| "-" "-"
 
-<casteo> ::= "(" <tipos> ")" <expresion> 
+<casteo> ::= "(" <tipos> ")" <expresion>
 
+<arreglo> ::=   <tipos> ID "[" "]" "=" <asignacion_arreglo>
 
-	
+<asignacion_arreglo> ::= "new" <tipos> "[" <expresion> "]" PYC
+			| "[" <asignacion_valores_arreglo> "]" PYC
 
- 
+<asignacion_valores_arreglo> ::= <asignacion_valores_arreglo> "," <expresion>
+				| <expresion>

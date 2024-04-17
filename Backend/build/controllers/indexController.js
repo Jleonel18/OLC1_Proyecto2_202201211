@@ -34,6 +34,9 @@ class controller {
             tabla.setNombre("Global");
             ast.setTablaGlobal(tabla);
             ast.setConsola("");
+            for (let err of exports.lista_errores) {
+                ast.Print("Error " + err.getTipoError() + ". " + err.getDesc() + " linea: " + err.getFila() + " columna: " + (err.getCol() + 1));
+            }
             for (let i of ast.getInstrucciones()) {
                 if (i instanceof errores_1.default) {
                     //console.log("entro aqui") 

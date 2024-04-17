@@ -27,6 +27,7 @@ const Case = require('../build/controllers/instruc/case')
 const Default = require('../build/controllers/instruc/default')
 const Errores = require('../build/controllers/excep/errores')
 
+const arb = require('../build/controllers/simbol/arbol')
 const indexRef = require('../build/controllers/indexController')
 
 var cadena  = '';
@@ -170,8 +171,8 @@ var cadena  = '';
 
 
 <<EOF>> return 'EOF';
-.                     	{ let error = new Errores.default("Léxico",("Token no reconocido: "+yytext), yylloc.first_line, yylloc.first_column); 
-                              indexRef.lista_errores.push(error);
+.                     	{ let error = new Errores.default("Léxico",("Token no reconocido: "+yytext), yylloc.first_line, yylloc.first_column);    
+                              indexRef.lista_errores.push(error);                             
                         }
 
 /lex
@@ -214,7 +215,13 @@ instruccion : impresion            {$$=$1;}
             | switch                            {$$ = $1;}
 ;
 
-impresion : R_COUT R_DOBLEMENOR expresion final_cout    {if($4 == true){$$= new Print.default($3, @1.first_line, @1.first_column);}else{$$= new PrintSeguido.default($3, @1.first_line, @1.first_column);} }
+impresion : R_COUT R_DOBLEMENOR expresion final_cout    {
+      if($4 == true){
+            $$= new Print.default($3, @1.first_line, @1.first_column);
+            }else{
+                  $$= new PrintSeguido.default($3, @1.first_line, @1.first_column);
+                  } 
+      }
 ;
 
 final_cout: R_DOBLEMENOR R_ENDL R_PUNTOYCOMA {$$= true;}

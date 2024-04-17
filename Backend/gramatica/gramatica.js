@@ -102,7 +102,13 @@ case 12: case 13: case 18: case 23: case 53: case 55: case 65: case 77: case 78:
 this.$ = $$[$0];
 break;
 case 14:
-if($$[$0] == true){this.$= new Print.default($$[$0-1], _$[$0-3].first_line, _$[$0-3].first_column);}else{this.$= new PrintSeguido.default($$[$0-1], _$[$0-3].first_line, _$[$0-3].first_column);} 
+
+      if($$[$0] == true){
+            this.$= new Print.default($$[$0-1], _$[$0-3].first_line, _$[$0-3].first_column);
+            }else{
+                  this.$= new PrintSeguido.default($$[$0-1], _$[$0-3].first_line, _$[$0-3].first_column);
+                  } 
+      
 break;
 case 15:
 this.$= true;
@@ -466,6 +472,7 @@ const Case = require('../build/controllers/instruc/case')
 const Default = require('../build/controllers/instruc/default')
 const Errores = require('../build/controllers/excep/errores')
 
+const arb = require('../build/controllers/simbol/arbol')
 const indexRef = require('../build/controllers/indexController')
 
 var cadena  = '';
@@ -952,8 +959,8 @@ case 75: yy_.yytext = cadena; this.popState(); return 56;
 break;
 case 76:return 5;
 break;
-case 77: let error = new Errores.default("Léxico",("Token no reconocido: "+yy_.yytext), yy_.yylloc.first_line, yy_.yylloc.first_column); 
-                              indexRef.lista_errores.push(error);
+case 77: let error = new Errores.default("Léxico",("Token no reconocido: "+yy_.yytext), yy_.yylloc.first_line, yy_.yylloc.first_column);    
+                              indexRef.lista_errores.push(error);                             
                         
 break;
 }
