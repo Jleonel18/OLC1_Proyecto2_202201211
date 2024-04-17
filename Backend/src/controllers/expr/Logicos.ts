@@ -42,6 +42,7 @@ export default class Logicos extends Instruccion {
             case Operadores.NOT:
                 return this.not(Unico);
             default:
+                arbol.Print("\nError Semántico: Operador inexistente en la linea " + this.linea + " y columna " + (this.columna + 1));
                 return new Errores("Semantico", "Operador Logico Invalido", this.linea, this.columna)
 
         }

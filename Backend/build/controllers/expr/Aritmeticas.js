@@ -73,6 +73,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
             case Operadores.POTENCIA:
                 return this.potencia(opIzq, opDer);
             default:
+                arbol.Print("\n Operador Aritmetico Invalido:" + this.linea + " y columna " + (this.columna + 1));
                 return new errores_1.default("Semantico", "Operador Aritmetico Invalido", this.linea, this.columna);
         }
     }

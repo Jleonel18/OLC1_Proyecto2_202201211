@@ -32,9 +32,11 @@ class DeclaracionVacia extends instruccion_1.Instruccion {
                     valorFinal = 0.0;
                     break;
                 default:
+                    arbol.Print("\nError semántico: No es posible declarar variable: " + this.tipoDato.getTipo() + " en la linea " + this.linea + " y columna " + (this.columna + 1));
                     return new errores_1.default("Error semántico", "No es posible declarar variable.", this.linea, this.columna);
             }
             if (!tabla.setVariable(new Simbolo_1.default(this.tipoDato, elemento, valorFinal))) {
+                arbol.Print("\nError semántico: No se puede declarar variable porque ya existia en la linea " + this.linea + " y columna " + (this.columna + 1));
                 return new errores_1.default("SEMANTICO", "No se puede declarar variable porque ya existia", this.linea, this.columna);
             }
         });

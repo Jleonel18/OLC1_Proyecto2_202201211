@@ -40,6 +40,7 @@ export default class Case extends Instruccion {
                 }
 
                 if (resultado instanceof Continue) {
+                    arbol.Print("\nError Semantico: Continue no valido. linea:" + this.linea + " columna: " + (this.columna + 1));
                     return new Errores("Semantico", "Continue no valido", this.linea, this.columna);
                 }
             }

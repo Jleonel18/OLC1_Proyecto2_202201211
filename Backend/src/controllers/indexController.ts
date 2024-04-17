@@ -7,7 +7,6 @@ export let lista_errores: Array<Errores> = [];
 
 class controller{
     public prueba(req: Request, res: Response){
-        //console.log("Aqui estoy")
         res.json({message: 'Hola mundo'});
     }
 
@@ -31,14 +30,14 @@ class controller{
             for(let i of ast.getInstrucciones()){
 
                 if(i instanceof Errores){
-                    console.log("entro aqui") 
+                    //console.log("entro aqui") 
                     lista_errores.push(i)
 
                 }
                 var resultado = i.interpretar(ast, tabla);
 
                 if (resultado instanceof Errores) {
-                    console.log("aqui entro xd")
+                    //console.log("aqui entro xd")
                     lista_errores.push(resultado)
                 }
                 console.log(resultado);
@@ -48,7 +47,7 @@ class controller{
             res.send({message: ast.getConsola()});
             console.log(ast.getConsola());
 
-            console.log("la lista de errores es:",lista_errores.length);
+            /*console.log("la lista de errores es:",lista_errores.length);
             for(let it of lista_errores){
                 console.log("-------------------------")
                 console.log(it.getTipoError())
@@ -56,7 +55,7 @@ class controller{
 
                 console.log("-------------------------")
 
-            }
+            }*/
 
         }catch(error: any){
             res.json({message: "Error en el analisis"});

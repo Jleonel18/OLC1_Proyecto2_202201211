@@ -10,7 +10,6 @@ const errores_1 = __importDefault(require("./excep/errores"));
 exports.lista_errores = [];
 class controller {
     prueba(req, res) {
-        //console.log("Aqui estoy")
         res.json({ message: 'Hola mundo' });
     }
     metodoPost(req, res) {
@@ -28,12 +27,12 @@ class controller {
             ast.setConsola("");
             for (let i of ast.getInstrucciones()) {
                 if (i instanceof errores_1.default) {
-                    console.log("entro aqui");
+                    //console.log("entro aqui") 
                     exports.lista_errores.push(i);
                 }
                 var resultado = i.interpretar(ast, tabla);
                 if (resultado instanceof errores_1.default) {
-                    console.log("aqui entro xd");
+                    //console.log("aqui entro xd")
                     exports.lista_errores.push(resultado);
                 }
                 console.log(resultado);
@@ -41,13 +40,15 @@ class controller {
             console.log(tabla);
             res.send({ message: ast.getConsola() });
             console.log(ast.getConsola());
-            console.log("la lista de errores es:", exports.lista_errores.length);
-            for (let it of exports.lista_errores) {
-                console.log("-------------------------");
-                console.log(it.getTipoError());
-                console.log(it.getDesc());
-                console.log("-------------------------");
-            }
+            /*console.log("la lista de errores es:",lista_errores.length);
+            for(let it of lista_errores){
+                console.log("-------------------------")
+                console.log(it.getTipoError())
+                console.log(it.getDesc())
+
+                console.log("-------------------------")
+
+            }*/
         }
         catch (error) {
             res.json({ message: "Error en el analisis" });

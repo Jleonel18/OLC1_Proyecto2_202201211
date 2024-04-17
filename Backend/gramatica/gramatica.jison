@@ -227,7 +227,7 @@ declaracion : tipos declaraciones_varias asignar_declaracion     {
 ;
 
 asignar_declaracion: R_IGUAL expresion {$$ = $2;}
-                    | {$$ = true;}
+                    |{$$ = true;}
 ;
 
 declaraciones_varias: declaraciones_varias R_COMA ID          { $$.push($3); $$=$1;}

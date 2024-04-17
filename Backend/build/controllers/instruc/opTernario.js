@@ -47,6 +47,7 @@ class OpTernario extends instruccion_1.Instruccion {
         if (exp2 instanceof errores_1.default)
             return exp2;
         if (this.condicion.tipoDato.getTipo() != tipo_1.tipoDato.BOOL) {
+            arbol.Print("\nError Semantico: La condicion no es booleana. linea:" + this.linea + " columna: " + (this.columna + 1));
             return new errores_1.default("Semantico", "La condicion no es booleana", this.linea, this.columna);
         }
         if (cond) {

@@ -38,11 +38,15 @@ class IncreDecre extends instruccion_1.Instruccion {
     interpretar(arbol, tabla) {
         //console.log("paso por aquiii")
         let valor = tabla.getVariable(this.id.toLocaleLowerCase());
-        if (valor == null)
+        if (valor == null) {
+            arbol.Print("\nError Semantico: Variable no existente. linea:" + this.linea + " columna: " + (this.columna + 1));
             return new errores_1.default("SEMANTICO", "Variable no existente", this.linea, this.columna);
+        }
         //console.log("el valor es:",valor.getTipo().getTipo());
-        if (valor.getTipo().getTipo() != tipo_1.tipoDato.ENTERO && valor.getTipo().getTipo() != tipo_1.tipoDato.DECIMAL)
+        if (valor.getTipo().getTipo() != tipo_1.tipoDato.ENTERO && valor.getTipo().getTipo() != tipo_1.tipoDato.DECIMAL) {
+            arbol.Print("\nError Semantico: No se puede incrementar o decrementar una variable que no sea de tipo numero. linea:" + this.linea + " columna: " + (this.columna + 1));
             return new errores_1.default("SEMANTICO", "No se puede incrementar o decrementar una variable que no sea de tipo numero", this.linea, this.columna);
+        }
         if (this.instruc == true && valor.getTipo().getTipo() != tipo_1.tipoDato.ENTERO) {
             valor.setValor(parseInt(valor.getValor()) + 1);
         }

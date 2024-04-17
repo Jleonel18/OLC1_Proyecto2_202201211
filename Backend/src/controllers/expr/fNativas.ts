@@ -36,6 +36,7 @@ export default class FNativas extends Instruccion{
             case Operadores.TOSTRING:
                 return this.aString(Unico);
             default:
+                arbol.Print("\n Error Semántico: Operador inexistente en la linea " + this.linea + " y columna " + (this.columna+1));
                 return new Errores("Semantico", "Operador Logico Invalido", this.linea, this.columna)
         }
     }

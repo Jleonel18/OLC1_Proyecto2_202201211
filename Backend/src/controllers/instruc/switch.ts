@@ -34,7 +34,11 @@ export default class Switch extends Instruccion {
                 i.condicionGlobal = this.condicion;
                 let res = i.interpretar(arbol, nuevaTabla);
                 if(res instanceof Break) return;
-                if(res instanceof Continue) return new Errores("Semantico", "Continue no valido", this.linea, this.columna);
+                if(res instanceof Continue){
+
+                    arbol.Print("\nError Semantico: Continue no valido. linea:"+ this.linea+" columna: " +(this.columna+1));
+                    return new Errores("Semantico", "Continue no valido", this.linea, this.columna);
+                }
             }
 
         }

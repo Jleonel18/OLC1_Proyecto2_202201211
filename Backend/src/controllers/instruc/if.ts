@@ -24,7 +24,7 @@ export default class If extends Instruccion {
         if (cond instanceof Errores) return cond;
 
         if (this.condicion.tipoDato.getTipo() != tipoDato.BOOL) {
-            arbol.Print("\nError semántico: La condición del if no es booleana");
+            arbol.Print("\nError Semantico: La condicion no es booleana linea:"+ this.linea+" columna: " +(this.columna+1));
             return new Errores("Semantico", "La condicion no es booleana", this.linea, this.columna);
         }
 

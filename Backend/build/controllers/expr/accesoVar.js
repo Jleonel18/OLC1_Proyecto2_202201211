@@ -36,8 +36,10 @@ class AccesoVar extends instruccion_1.Instruccion {
     }
     interpretar(arbol, tabla) {
         let valorVariable = tabla.getVariable(this.id);
-        if (valorVariable == null)
+        if (valorVariable == null) {
+            arbol.Print("\nError Semántico: Variable inexistente: " + this.id + " en la linea " + this.linea + " y columna " + (this.columna + 1));
             return new errores_1.default("Error semantico", "Variable inexistente", this.linea, this.columna);
+        }
         this.tipoDato = valorVariable.getTipo();
         return valorVariable.getValor();
     }

@@ -51,8 +51,10 @@ class Switch extends instruccion_1.Instruccion {
                 let res = i.interpretar(arbol, nuevaTabla);
                 if (res instanceof Break_1.default)
                     return;
-                if (res instanceof Continue_1.default)
+                if (res instanceof Continue_1.default) {
+                    arbol.Print("\nError Semantico: Continue no valido. linea:" + this.linea + " columna: " + (this.columna + 1));
                     return new errores_1.default("Semantico", "Continue no valido", this.linea, this.columna);
+                }
             }
         }
         if (this.instruccionDefault != undefined) {

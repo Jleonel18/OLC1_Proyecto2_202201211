@@ -49,6 +49,7 @@ class Default extends instruccion_1.Instruccion {
                 return resultado;
             }
             if (resultado instanceof Continue_1.default) {
+                arbol.Print("\nError Semantico: Continue no valido en un default linea:" + this.linea + " columna: " + (this.columna + 1));
                 return new errores_1.default("Semantico", "Continue no valido", this.linea, this.columna);
             }
         }

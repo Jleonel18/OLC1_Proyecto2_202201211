@@ -22,6 +22,7 @@ export default class While extends Instruccion {
         if (cond instanceof Errores) return cond;
 
         if (this.condicion.tipoDato.getTipo() != tipoDato.BOOL) {
+            arbol.Print("\nError Semantico: La condicion no es booleana en la linea " + this.linea + " y columna " + (this.columna + 1));
             return new Errores("Semantico", "La condicion no es booleana", this.linea, this.columna);
         }
 
@@ -38,7 +39,6 @@ export default class While extends Instruccion {
 
                 if (resultado instanceof Break) return;
                 if (resultado instanceof Continue) break;
-                //console.log("paso por aqui tambien")
 
             }
         } while (this.condicion.interpretar(arbol, tabla));
