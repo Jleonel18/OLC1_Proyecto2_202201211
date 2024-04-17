@@ -15,6 +15,17 @@ class controller{
         res.json({message: 'Metodo post'});
     }
 
+    public reporteErrores(req: Request, res: Response){
+        try{
+
+            res.send({message: lista_errores});
+
+        }catch(error: any){
+            console.log(error);
+            res.json({message: "Error al crear el reporte de errores"});
+        }
+    }
+
     public interpretar(req: Request, res: Response){
 
         lista_errores = new Array<Errores>
@@ -47,7 +58,7 @@ class controller{
             res.send({message: ast.getConsola()});
             console.log(ast.getConsola());
 
-            /*console.log("la lista de errores es:",lista_errores.length);
+            console.log("la lista de errores es:",lista_errores.length);
             for(let it of lista_errores){
                 console.log("-------------------------")
                 console.log(it.getTipoError())
@@ -55,7 +66,7 @@ class controller{
 
                 console.log("-------------------------")
 
-            }*/
+            }
 
         }catch(error: any){
             res.json({message: "Error en el analisis"});

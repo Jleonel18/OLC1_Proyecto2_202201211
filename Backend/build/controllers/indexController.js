@@ -16,6 +16,15 @@ class controller {
         //console.log(req.body);
         res.json({ message: 'Metodo post' });
     }
+    reporteErrores(req, res) {
+        try {
+            res.send({ message: exports.lista_errores });
+        }
+        catch (error) {
+            console.log(error);
+            res.json({ message: "Error al crear el reporte de errores" });
+        }
+    }
     interpretar(req, res) {
         exports.lista_errores = new Array;
         try {
@@ -40,15 +49,13 @@ class controller {
             console.log(tabla);
             res.send({ message: ast.getConsola() });
             console.log(ast.getConsola());
-            /*console.log("la lista de errores es:",lista_errores.length);
-            for(let it of lista_errores){
-                console.log("-------------------------")
-                console.log(it.getTipoError())
-                console.log(it.getDesc())
-
-                console.log("-------------------------")
-
-            }*/
+            console.log("la lista de errores es:", exports.lista_errores.length);
+            for (let it of exports.lista_errores) {
+                console.log("-------------------------");
+                console.log(it.getTipoError());
+                console.log(it.getDesc());
+                console.log("-------------------------");
+            }
         }
         catch (error) {
             res.json({ message: "Error en el analisis" });

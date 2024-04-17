@@ -25,9 +25,11 @@ const OpTernario = require('../build/controllers/instruc/opTernario')
 const Switch = require('../build/controllers/instruc/switch')
 const Case = require('../build/controllers/instruc/case')
 const Default = require('../build/controllers/instruc/default')
+const Errores = require('../build/controllers/excep/errores')
+
+const indexRef = require('../build/controllers/indexController')
 
 var cadena  = '';
-var errores = [];
 
 %}
 
@@ -168,7 +170,9 @@ var errores = [];
 
 
 <<EOF>> return 'EOF';
-.                     	{ errores.push({ tipo: "Lexico", error: yytext, linea: yylloc.first_line, columna: yylloc.first_column+1 }); return 'ERROR_LEX'; }
+.                     	{ let error = new Errores.default("Léxico",("Token no reconocido: "+yytext), yylloc.first_line, yylloc.first_column); 
+                              indexRef.lista_errores.push(error);
+                        }
 
 /lex
 
