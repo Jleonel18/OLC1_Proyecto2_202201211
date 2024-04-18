@@ -28,6 +28,7 @@ const Default = require('../build/controllers/instruc/default')
 const Errores = require('../build/controllers/excep/errores')
 const DeclArreglo = require('../build/controllers/instruc/declArreglo')
 const AccesoArr = require('../build/controllers/expr/accesoArr')
+const EditarArr = require('../build/controllers/instruc/editarArr')
 
 const arb = require('../build/controllers/simbol/arbol')
 const indexRef = require('../build/controllers/indexController')
@@ -363,3 +364,5 @@ asignacion_valores_arreglo: asignacion_valores_arreglo R_COMA expresion {$$.push
 
 buscar_arreglo: ID R_CORCHETEIZQ expresion R_CORCHETEDER {$$ = new AccesoArr.default($1, $3,@1.first_line, @1.first_column);}
 ;
+
+editar_arreglo: ID R_CORCHETEIZQ expresion R_CORCHETEDER R_IGUAL expresion {$$ = new EditarArr.default($3, $1, $6, @1.first_line, @1.first_column);}
