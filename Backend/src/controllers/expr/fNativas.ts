@@ -24,6 +24,9 @@ export default class FNativas extends Instruccion{
 
         switch (this.operacion) {
             case Operadores.LENGTH:
+                if(Array.isArray(Unico)){
+                    return this.longitudArreglo(Unico);
+                }
                 return this.longitud(Unico);
             case Operadores.TOUPPER:
                 return this.toUpper(Unico);
@@ -129,6 +132,11 @@ export default class FNativas extends Instruccion{
             default:
                 return new Errores("Semantico", "No es posible convertir tipo de dato", this.linea, this.columna)
         }
+    }
+
+    longitudArreglo(op1: any) {
+        this.tipoDato = new Tipo(tipoDato.ENTERO);
+        return op1.length;
     }
 
 }
