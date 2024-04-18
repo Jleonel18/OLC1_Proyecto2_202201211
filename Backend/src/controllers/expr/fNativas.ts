@@ -38,6 +38,8 @@ export default class FNativas extends Instruccion{
                 return this.typeof(Unico);
             case Operadores.TOSTRING:
                 return this.aString(Unico);
+            case Operadores.C_STR:
+                return this.aStr(Unico);
             default:
                 arbol.Print("\n Error Semántico: Operador inexistente en la linea " + this.linea + " y columna " + (this.columna+1));
                 return new Errores("Semantico", "Operador Logico Invalido", this.linea, this.columna)
@@ -131,6 +133,18 @@ export default class FNativas extends Instruccion{
                 return op1.toString()
             default:
                 return new Errores("Semantico", "No es posible convertir tipo de dato", this.linea, this.columna)
+        }
+    }
+
+    aStr(op1: any) {
+        let tipo1 = this.operandoUnico?.tipoDato.getTipo();
+        if(tipo1 == tipoDato.CADENA){
+            this.tipoDato = new Tipo(tipoDato.CARACTER);
+            //console.log("estoy en c_str");
+           //console.log("est igual:",this.tipoDato.getTipo() == tipoDato.CARACTER);
+            return op1.split('');
+        }else{
+            return new Errores("Semantico", "No es posible convertir tipo de dato", this.linea, this.columna);
         }
     }
 

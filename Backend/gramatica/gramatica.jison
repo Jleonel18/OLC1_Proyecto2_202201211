@@ -97,7 +97,7 @@ var cadena  = '';
 "tolower"                            return 'R_TOLOWER';
 "toupper"                            return 'R_TOUPPER';
 ".length()"                            return 'R_LENGTH';
-"c_str"                             return 'R_C_STR';
+".c_str"                             return 'R_C_STR';
 "std"                               return 'R_STD';
 "toString"                          return 'R_TOSTRING';
 "execute"                           return 'R_EXECUTE';
@@ -217,7 +217,7 @@ instruccion : impresion            {$$=$1;}
             | for                               {$$=$1;}
             | continue                          {$$ = $1;}
             | switch                            {$$ = $1;}
-            | arreglo                           {console.log("acepta las dos formas de arreglo")}
+            | arreglo                           {$$ = $1;}
             |editar_arreglo                     {$$ = $1;}
 ;
 
@@ -300,7 +300,6 @@ f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(F
             | R_ROUND R_PARIZQ expresion R_PARDER   {$$ = new FNativas.default(FNativas.Operadores.ROUND, @1.first_line, @1.first_column, $3);}
             | R_TYPEOF R_PARIZQ expresion R_PARDER  {$$ = new FNativas.default(FNativas.Operadores.TYPEOF, @1.first_line, @1.first_column, $3);}
             | R_STD R_DOSPUNTOS R_DOSPUNTOS R_TOSTRING R_PARIZQ expresion R_PARDER {$$ = new FNativas.default(FNativas.Operadores.TOSTRING, @1.first_line, @1.first_column, $6);} 
-            | R_C_STR R_PARIZQ expresion R_PARDER
 ;
 
 if: R_IF R_PARIZQ expresion R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER else_opcional {$$ = new If.default($3, $6, $8, @1.first_line, @1.first_column);}
@@ -355,8 +354,12 @@ signo_incre_decre: R_INC {$$ = true;}
 casteo: R_PARIZQ tipos R_PARDER expresion {$$ = new Casteo.default($2, @1.first_line, @1.first_column, $4);} 
 ;
 
-arreglo: tipos ID R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_NEW tipos R_CORCHETEIZQ expresion R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclArreglo.default($1, $2, $9, @1.first_line, @1.first_column,$7);}
-      | tipos ID R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_CORCHETEIZQ asignacion_valores_arreglo R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclArreglo.default($1, $2, $7, @1.first_line, @1.first_column);}
+arreglo: tipos ID R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_NEW tipos R_CORCHETEIZQ expresion R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclArreglo.default(false,$1, $2, $9, @1.first_line, @1.first_column,$7);}
+      | tipos ID R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_CORCHETEIZQ asignacion_valores_arreglo R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclArreglo.default(false,$1, $2, $7, @1.first_line, @1.first_column);}
+      | tipos ID R_CORCHETEIZQ R_CORCHETEDER R_IGUAL p_cstr {$$ = new DeclArreglo.default(true,$1, $2, $6, @1.first_line, @1.first_column,true);}
+;
+
+p_cstr: expresion R_C_STR R_PARIZQ R_PARDER R_PUNTOYCOMA {$$ = new FNativas.default(FNativas.Operadores.C_STR, @1.first_line, @1.first_column, $1);}
 ;
 
 asignacion_valores_arreglo: asignacion_valores_arreglo R_COMA expresion {$$.push($3); $$=$1;}
