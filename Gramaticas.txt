@@ -150,6 +150,7 @@ Empieza = <inicio>
 
 <arreglo> ::=   <tipos> ID "[" "]" "=" RES_NEW <tipos> "[" <expresion> "]" PYC
 		| <tipos> ID "[" "]" "=" "[" <asignacion_valores_arreglo> "]" PYC
+		| <tipos> ID "[" "]" "=" <expresion> "." RES_C_STR "(" ")" ;
 
 <asignacion_valores_arreglo> ::= <asignacion_valores_arreglo> "," <expresion>
 				| <expresion>
