@@ -26,6 +26,8 @@ const Switch = require('../build/controllers/instruc/switch')
 const Case = require('../build/controllers/instruc/case')
 const Default = require('../build/controllers/instruc/default')
 const Errores = require('../build/controllers/excep/errores')
+const DeclArreglo = require('../build/controllers/instruc/declArreglo')
+const AccesoArr = require('../build/controllers/expr/accesoArr')
 
 const arb = require('../build/controllers/simbol/arbol')
 const indexRef = require('../build/controllers/indexController')
@@ -101,6 +103,7 @@ var cadena  = '';
 "typeOf"                            return 'R_TYPEOF';
 "round"                             return 'R_ROUND';
 "endl"                              return 'R_ENDL';
+"new"                               return 'R_NEW';
 
 //True y False
 //----------------------------------------------------
@@ -213,6 +216,7 @@ instruccion : impresion            {$$=$1;}
             | for                               {$$=$1;}
             | continue                          {$$ = $1;}
             | switch                            {$$ = $1;}
+            | arreglo                           {console.log("acepta las dos formas de arreglo")}
 ;
 
 impresion : R_COUT R_DOBLEMENOR expresion final_cout    {
@@ -286,6 +290,7 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | expresion R_LENGTH                   {$$ = new FNativas.default(FNativas.Operadores.LENGTH, @1.first_line, @1.first_column, $1);}
           | casteo                              {$$ = $1;}
           | expresion R_TERNARIO expresion R_DOSPUNTOS expresion {$$ = new OpTernario.default($1, $3, $5, @1.first_line, @1.first_column);}
+          | buscar_arreglo                     {$$ = $1;}
 ;
 
 f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(FNativas.Operadores.TOLOWER, @1.first_line, @1.first_column, $3);} 
@@ -346,4 +351,15 @@ signo_incre_decre: R_INC {$$ = true;}
 ;
 
 casteo: R_PARIZQ tipos R_PARDER expresion {$$ = new Casteo.default($2, @1.first_line, @1.first_column, $4);} 
+;
+
+arreglo: tipos ID R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_NEW tipos R_CORCHETEIZQ expresion R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclArreglo.default($1, $2, $9, @1.first_line, @1.first_column,$7);}
+      | tipos ID R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_CORCHETEIZQ asignacion_valores_arreglo R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclArreglo.default($1, $2, $7, @1.first_line, @1.first_column);}
+;
+
+asignacion_valores_arreglo: asignacion_valores_arreglo R_COMA expresion {$$.push($3); $$=$1;}
+                          | expresion {$$ = [$1];}
+;
+
+buscar_arreglo: ID R_CORCHETEIZQ expresion R_CORCHETEDER {$$ = new AccesoArr.default($1, $3,@1.first_line, @1.first_column);}
 ;

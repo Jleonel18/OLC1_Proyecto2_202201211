@@ -1,3 +1,4 @@
+
 ENTERO = [0-9]+
 DOUBLE = ENTERO | ENTERO\.ENTERO
 RES_IF = "if"
@@ -9,6 +10,7 @@ RES_DEFAULT = "default"
 RES_WHILE = "while"
 RES_FOR = "for"
 RES_DO = "do"
+RES_NEW = "new"
 RES_BREAK = "break"
 RES_CONTINUE = "continue"
 RES_RETURN = return"
@@ -101,6 +103,7 @@ Empieza = <inicio>
 		| <expresion> "." "length" "(" ")"
 		| <casteo>
 		| <expresion> "?" <expresion>  ":" <expresion>
+		| <buscar_arreglo>
 
 <f_nativas> ::= RES_TOLOWER "(" <expresion> ")"
 		| RES_TOUPPER "(" <expresion> ")"
@@ -143,10 +146,11 @@ Empieza = <inicio>
 
 <casteo> ::= "(" <tipos> ")" <expresion>
 
-<arreglo> ::=   <tipos> ID "[" "]" "=" <asignacion_arreglo>
-
-<asignacion_arreglo> ::= "new" <tipos> "[" <expresion> "]" PYC
-			| "[" <asignacion_valores_arreglo> "]" PYC
+<arreglo> ::=   <tipos> ID "[" "]" "=" RES_NEW <tipos> "[" <expresion> "]" PYC
+		| <tipos> ID "[" "]" "=" "[" <asignacion_valores_arreglo> "]" PYC
 
 <asignacion_valores_arreglo> ::= <asignacion_valores_arreglo> "," <expresion>
 				| <expresion>
+
+<buscar_arreglo> ::= ID "[" <expresion> "]"
+
