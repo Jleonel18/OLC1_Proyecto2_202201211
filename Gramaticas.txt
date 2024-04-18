@@ -54,6 +54,8 @@ Empieza = <inicio>
 			| <for>
 			| <continue>
 			| <switch>
+			| <arreglo>
+			| <editar_arreglo>
 
 <impresion> ::= COUT "<" "<" expresion <final_cout>
 
@@ -153,4 +155,6 @@ Empieza = <inicio>
 				| <expresion>
 
 <buscar_arreglo> ::= ID "[" <expresion> "]"
+
+<editar_arreglo> ::= ID "[" <expresion> "]" "=" <expresion> PYC
 
