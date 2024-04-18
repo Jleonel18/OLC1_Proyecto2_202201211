@@ -218,6 +218,7 @@ instruccion : impresion            {$$=$1;}
             | continue                          {$$ = $1;}
             | switch                            {$$ = $1;}
             | arreglo                           {console.log("acepta las dos formas de arreglo")}
+            |editar_arreglo                     {$$ = $1;}
 ;
 
 impresion : R_COUT R_DOBLEMENOR expresion final_cout    {
@@ -365,4 +366,5 @@ asignacion_valores_arreglo: asignacion_valores_arreglo R_COMA expresion {$$.push
 buscar_arreglo: ID R_CORCHETEIZQ expresion R_CORCHETEDER {$$ = new AccesoArr.default($1, $3,@1.first_line, @1.first_column);}
 ;
 
-editar_arreglo: ID R_CORCHETEIZQ expresion R_CORCHETEDER R_IGUAL expresion {$$ = new EditarArr.default($3, $1, $6, @1.first_line, @1.first_column);}
+editar_arreglo: ID R_CORCHETEIZQ expresion R_CORCHETEDER R_IGUAL expresion R_PUNTOYCOMA {$$ = new EditarArr.default($3, $1, $6, @1.first_line, @1.first_column);}
+;

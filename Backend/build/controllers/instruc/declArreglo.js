@@ -16,7 +16,7 @@ class DeclaracionArreglo extends instruccion_1.Instruccion {
         this.dimenValores = dimenValores;
     }
     interpretar(arbol, tabla) {
-        var _a;
+        var _a, _b, _c, _d, _e, _f;
         if (Array.isArray(this.dimenValores)) {
             let arregloPivote = [];
             for (let i = 0; i < this.dimenValores.length; i++) {
@@ -46,7 +46,21 @@ class DeclaracionArreglo extends instruccion_1.Instruccion {
             }
             let arregloPivote = [];
             for (let i = 0; i < size; i++) {
-                arregloPivote[i] = [];
+                if (((_b = this.segundoTipo) === null || _b === void 0 ? void 0 : _b.getTipo()) == tipo_1.tipoDato.ENTERO) {
+                    arregloPivote[i] = 0;
+                }
+                else if (((_c = this.segundoTipo) === null || _c === void 0 ? void 0 : _c.getTipo()) == tipo_1.tipoDato.DECIMAL) {
+                    arregloPivote[i] = 0.0;
+                }
+                else if (((_d = this.segundoTipo) === null || _d === void 0 ? void 0 : _d.getTipo()) == tipo_1.tipoDato.CADENA) {
+                    arregloPivote[i] = "";
+                }
+                else if (((_e = this.segundoTipo) === null || _e === void 0 ? void 0 : _e.getTipo()) == tipo_1.tipoDato.BOOL) {
+                    arregloPivote[i] = true;
+                }
+                else if (((_f = this.segundoTipo) === null || _f === void 0 ? void 0 : _f.getTipo()) == tipo_1.tipoDato.CARACTER) {
+                    arregloPivote[i] = '0';
+                }
             }
             if (!tabla.setVariable(new Simbolo_1.default(this.tipoDato, this.identificador, arregloPivote))) {
                 arbol.Print("\nError Semántico: No se puede declarar variable porque ya existia. Linea: " + this.linea + " Columna: " + (this.columna + 1));

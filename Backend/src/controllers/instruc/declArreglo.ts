@@ -54,7 +54,18 @@ export default class DeclaracionArreglo extends Instruccion{
             let arregloPivote:any = [];
 
             for(let i = 0; i<size; i++){
-                arregloPivote[i] = [];
+                if(this.segundoTipo?.getTipo() == tipoDato.ENTERO){
+                    arregloPivote[i] = 0;
+                } else if(this.segundoTipo?.getTipo() == tipoDato.DECIMAL){
+                    arregloPivote[i] = 0.0;
+                } else if(this.segundoTipo?.getTipo() == tipoDato.CADENA){
+                    arregloPivote[i] = "";
+                } else if(this.segundoTipo?.getTipo() == tipoDato.BOOL){
+                    arregloPivote[i] = true;
+                } else if(this.segundoTipo?.getTipo() == tipoDato.CARACTER){
+                    arregloPivote[i] = '0';
+                }
+                
             }
 
             if(!tabla.setVariable(new Simbolo(this.tipoDato, this.identificador, arregloPivote))){
