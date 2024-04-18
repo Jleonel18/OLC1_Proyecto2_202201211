@@ -2,6 +2,9 @@ import {Request, Response} from 'express'
 import Arbol from './simbol/arbol';
 import tablaSimbolo from './simbol/tablaSimbolos';
 import Errores from './excep/errores';
+import Metodo from './instruc/metodo';
+import Declaracion from './instruc/declaracion';
+import Execute from './instruc/execute';
 
 export let lista_errores: Array<Errores> = [];
 
@@ -31,6 +34,7 @@ class controller{
         lista_errores = new Array<Errores>
 
         try{
+
             let parser = require('../../gramatica/gramatica')
             let ast = new Arbol(parser.parse(req.body.message));
             let tabla = new tablaSimbolo();
@@ -42,7 +46,33 @@ class controller{
                 ast.Print("Error "+err.getTipoError()+ ". "+err.getDesc()+" linea: "+err.getFila()+" columna: "+(err.getCol()+1));
             }
 
+            let recorrido1 = null;
             for(let i of ast.getInstrucciones()){
+
+                if(i instanceof Metodo){
+                    //console.log("guardo un metodo")
+                    i.id = i.id.toLocaleLowerCase();
+                    ast.agregarFunciones(i);
+                }
+
+                if(i instanceof Declaracion){
+                    //console.log("guardo una declaracion")
+                    i.interpretar(ast, tabla);
+                    
+                }
+
+                if(i instanceof Errores){
+                    lista_errores.push(i);
+                }
+
+                if(i instanceof Execute){
+                    //console.log("guardo un execute")
+                    recorrido1 = i;
+                }
+
+            }
+
+            /*for(let i of ast.getInstrucciones()){
 
                 if(i instanceof Errores){
                     //console.log("entro aqui") 
@@ -57,12 +87,25 @@ class controller{
                 }
                 console.log(resultado);
 
+            }*/
+
+            if(recorrido1 != null){
+
+                //console.log("voy a hacer el execute")
+
+                let res = recorrido1.interpretar(ast, tabla);
+
+                if(res instanceof Errores){
+                    lista_errores.push(res);
+                }
+                
             }
+
             console.log(tabla);
             res.send({message: ast.getConsola()});
             console.log(ast.getConsola());
 
-            console.log("la lista de errores es:",lista_errores.length);
+            console.log("el tamaño de la lista de errores es:",lista_errores.length);
             for(let it of lista_errores){
                 console.log("-------------------------")
                 console.log(it.getTipoError())

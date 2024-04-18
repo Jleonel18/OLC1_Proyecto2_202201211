@@ -44,7 +44,7 @@ export default class DeclaracionArreglo extends Instruccion {
 
             if (this.booleano == true) {
 
-                console.log("paso por aqui");
+                //console.log("paso por aqui");
                 
                 if(this.primerTipo.getTipo() != tipoDato.CARACTER){
                     arbol.Print("\nError Semántico: El tipo de dato no es igual al tipo de dato del arreglo. Linea: " + this.linea + " Columna: " + (this.columna + 1));

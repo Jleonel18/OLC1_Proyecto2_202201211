@@ -29,6 +29,8 @@ const Errores = require('../build/controllers/excep/errores')
 const DeclArreglo = require('../build/controllers/instruc/declArreglo')
 const AccesoArr = require('../build/controllers/expr/accesoArr')
 const EditarArr = require('../build/controllers/instruc/editarArr')
+const Metodo = require('../build/controllers/instruc/metodo')
+const Execute = require('../build/controllers/instruc/execute')
 
 const arb = require('../build/controllers/simbol/arbol')
 const indexRef = require('../build/controllers/indexController')
@@ -219,6 +221,8 @@ instruccion : impresion            {$$=$1;}
             | switch                            {$$ = $1;}
             | arreglo                           {$$ = $1;}
             |editar_arreglo                     {$$ = $1;}
+            |metodo                             {$$ = $1;}
+            |execute                            {$$ = $1;}
 ;
 
 impresion : R_COUT R_DOBLEMENOR expresion final_cout    {
@@ -260,6 +264,7 @@ tipos : R_INT             {$$ = new Tipo.default(Tipo.tipoDato.ENTERO);}
       |R_STD R_DOSPUNTOS R_DOSPUNTOS R_STRING          {$$ = new Tipo.default(Tipo.tipoDato.CADENA);}
       | R_BOOL            {$$ = new Tipo.default(Tipo.tipoDato.BOOL);}
       | R_CHAR            {$$ = new Tipo.default(Tipo.tipoDato.CARACTER);}
+      | R_VOID            {$$ = new Tipo.default(Tipo.tipoDato.VOID);}
 ;
 
 
@@ -370,4 +375,20 @@ buscar_arreglo: ID R_CORCHETEIZQ expresion R_CORCHETEDER {$$ = new AccesoArr.def
 ;
 
 editar_arreglo: ID R_CORCHETEIZQ expresion R_CORCHETEDER R_IGUAL expresion R_PUNTOYCOMA {$$ = new EditarArr.default($3, $1, $6, @1.first_line, @1.first_column);}
+;
+
+metodo: tipos ID R_PARIZQ parametros R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new Metodo.default($2, $1, $4, $7, @1.first_line, @1.first_column);}
+      | tipos ID R_PARIZQ R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new Metodo.default($2, $1, [], $6, @1.first_line, @1.first_column);}
+;
+
+parametros: parametros R_COMA tipos ID {$$.push({tipo:$3, id:$4}); $$=$1;}
+          | tipos ID {$$ = [{tipo:$1, id:$2}];}
+;
+
+execute: R_EXECUTE ID R_PARIZQ parametros_llamada R_PARDER R_PUNTOYCOMA       {$$ = new Execute.default($2, $4, @1.first_line, @1.first_column);}
+      | R_EXECUTE ID R_PARIZQ R_PARDER R_PUNTOYCOMA                           {$$ = new Execute.default($2, [], @1.first_line, @1.first_column);}
+;
+
+parametros_llamada: parametros_llamada R_COMA expresion {$$.push($3); $$=$1;}
+                  | expresion {$$ = [$1];}
 ;
