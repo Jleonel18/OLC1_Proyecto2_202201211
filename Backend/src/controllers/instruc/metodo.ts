@@ -27,7 +27,7 @@ export default class Metodo extends Instruccion{
             }
 
             if(resultado instanceof Return){
-                //console.log("aqui encuentro el return en metodo;");
+                //console.log("Retorno en metodo")
                 if(resultado.expresion != undefined){
                     return resultado;
                 }

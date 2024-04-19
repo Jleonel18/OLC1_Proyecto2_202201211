@@ -18,6 +18,6 @@ export default class Return extends Instruccion{
             let result = this.expresion.interpretar(arbol, tabla);
             if(result instanceof Errores) return result;
         }
-        return;
+        return this;
     }
 }

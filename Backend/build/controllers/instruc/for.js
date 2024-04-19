@@ -60,6 +60,7 @@ class For extends instruccion_1.Instruccion {
                 if (i instanceof Continue_1.default)
                     break;
                 if (i instanceof return_1.default) {
+                    //console.log("Retorno en for")
                     return i;
                 }
                 let resultado = i.interpretar(arbol, nuevaTabla2);
@@ -68,7 +69,8 @@ class For extends instruccion_1.Instruccion {
                 if (resultado instanceof Continue_1.default)
                     break;
                 if (resultado instanceof return_1.default) {
-                    return i;
+                    //console.log("Retorno en for", resultado);
+                    return resultado;
                 }
             }
             this.incremento.interpretar(arbol, nuevaTabla2);

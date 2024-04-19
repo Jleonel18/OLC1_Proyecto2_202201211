@@ -43,6 +43,7 @@ export default class For extends Instruccion{
                 if(i instanceof Break) return;
                 if(i instanceof Continue) break;
                 if(i instanceof Return) {
+                    //console.log("Retorno en for")
                     return i;
                 }
 
@@ -51,7 +52,8 @@ export default class For extends Instruccion{
                 if(resultado instanceof Break) return;
                 if(resultado instanceof Continue) break;
                 if(resultado instanceof Return){
-                    return i;
+                    //console.log("Retorno en for", resultado);
+                    return resultado;
                 
                 }
             }

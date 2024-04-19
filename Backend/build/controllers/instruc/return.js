@@ -40,7 +40,7 @@ class Return extends instruccion_1.Instruccion {
             if (result instanceof errores_1.default)
                 return result;
         }
-        return;
+        return this;
     }
 }
 exports.default = Return;

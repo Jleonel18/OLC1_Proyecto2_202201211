@@ -32,6 +32,7 @@ const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
 const Continue_1 = __importDefault(require("./Continue"));
+const return_1 = __importDefault(require("./return"));
 class Switch extends instruccion_1.Instruccion {
     constructor(cond, instCase, instDefault, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
@@ -55,6 +56,8 @@ class Switch extends instruccion_1.Instruccion {
                     arbol.Print("\nError Semantico: Continue no valido. linea:" + this.linea + " columna: " + (this.columna + 1));
                     return new errores_1.default("Semantico", "Continue no valido", this.linea, this.columna);
                 }
+                if (res instanceof errores_1.default)
+                    return res;
             }
         }
         if (this.instruccionDefault != undefined) {
@@ -63,6 +66,10 @@ class Switch extends instruccion_1.Instruccion {
                 return;
             if (res instanceof Continue_1.default)
                 return;
+            if (res instanceof errores_1.default)
+                return res;
+            if (res instanceof return_1.default)
+                return res;
         }
         /*for( let i of this.instruccionesCase){
 

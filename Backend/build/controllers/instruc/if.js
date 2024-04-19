@@ -34,11 +34,12 @@ const Break_1 = __importDefault(require("./Break"));
 const Continue_1 = __importDefault(require("./Continue"));
 const return_1 = __importDefault(require("./return"));
 class If extends instruccion_1.Instruccion {
-    constructor(cond, inst, instElse, linea, columna) {
+    constructor(cond, inst, instElse, condicionElseIf, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
         this.condicion = cond;
         this.instruccionesElse = instElse;
         this.instrucciones = inst;
+        this.condicionElseIf = condicionElseIf;
     }
     interpretar(arbol, tabla) {
         let cond = this.condicion.interpretar(arbol, tabla);
@@ -48,75 +49,63 @@ class If extends instruccion_1.Instruccion {
             arbol.Print("\nError Semantico: La condicion no es booleana linea:" + this.linea + " columna: " + (this.columna + 1));
             return new errores_1.default("Semantico", "La condicion no es booleana", this.linea, this.columna);
         }
-        let nuevaTabla = new tablaSimbolos_1.default(tabla);
-        nuevaTabla.setNombre("if");
         if (cond) {
+            let nuevaTabla = new tablaSimbolos_1.default(tabla);
+            nuevaTabla.setNombre("if");
             for (let i of this.instrucciones) {
-                if (i instanceof Break_1.default) {
+                if (i instanceof Break_1.default)
                     return i;
-                }
-                if (i instanceof Continue_1.default) {
+                if (i instanceof Continue_1.default)
                     return i;
-                }
-                if (i instanceof return_1.default) {
+                if (i instanceof return_1.default)
                     return i;
-                }
-                let resultado = i.interpretar(arbol, nuevaTabla);
-                if (resultado instanceof errores_1.default) {
-                    return resultado;
-                }
-                if (resultado instanceof Break_1.default) {
-                    return resultado;
-                }
-                if (resultado instanceof Continue_1.default) {
-                    return resultado;
-                }
-                if (resultado instanceof return_1.default) {
-                    return resultado;
-                }
+                if (i instanceof errores_1.default)
+                    return i;
+                let result = i.interpretar(arbol, nuevaTabla);
+                if (result instanceof Break_1.default)
+                    return result;
+                if (result instanceof Continue_1.default)
+                    return result;
+                if (result instanceof return_1.default)
+                    return result;
+                if (result instanceof errores_1.default)
+                    return result;
             }
         }
         else {
-            if (Array.isArray(this.instruccionesElse)) {
+            if (this.instruccionesElse != undefined) {
+                let nuevaTabla = new tablaSimbolos_1.default(tabla);
+                nuevaTabla.setNombre("else");
                 for (let i of this.instruccionesElse) {
-                    if (i instanceof Break_1.default) {
+                    if (i instanceof Break_1.default)
                         return i;
-                    }
-                    if (i instanceof Continue_1.default) {
+                    if (i instanceof Continue_1.default)
                         return i;
-                    }
-                    if (i instanceof return_1.default) {
+                    if (i instanceof return_1.default)
                         return i;
-                    }
-                    let resultado = i.interpretar(arbol, nuevaTabla);
-                    if (resultado instanceof errores_1.default) {
-                        return resultado;
-                    }
-                    if (resultado instanceof Break_1.default) {
-                        return resultado;
-                    }
-                    if (resultado instanceof Continue_1.default) {
-                        return resultado;
-                    }
-                    if (resultado instanceof return_1.default) {
-                        return resultado;
-                    }
+                    if (i instanceof errores_1.default)
+                        return i;
+                    let result = i.interpretar(arbol, nuevaTabla);
+                    if (result instanceof Break_1.default)
+                        return result;
+                    if (result instanceof Continue_1.default)
+                        return result;
+                    if (result instanceof return_1.default)
+                        return result;
+                    if (result instanceof errores_1.default)
+                        return result;
                 }
             }
-            else {
-                let resultado = this.instruccionesElse.interpretar(arbol, nuevaTabla);
-                if (resultado instanceof errores_1.default) {
-                    return resultado;
-                }
-                if (resultado instanceof Break_1.default) {
-                    return resultado;
-                }
-                if (resultado instanceof Continue_1.default) {
-                    return resultado;
-                }
-                if (resultado instanceof return_1.default) {
-                    return resultado;
-                }
+            else if (this.condicionElseIf != undefined) {
+                let i = this.condicionElseIf.interpretar(arbol, tabla);
+                if (i instanceof errores_1.default)
+                    return i;
+                if (i instanceof return_1.default)
+                    return i;
+                if (i instanceof Break_1.default)
+                    return i;
+                if (i instanceof Continue_1.default)
+                    return i;
             }
         }
     }

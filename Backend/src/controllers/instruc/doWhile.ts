@@ -5,6 +5,7 @@ import Arbol from "../simbol/arbol";
 import Tipo, { tipoDato } from "../simbol/tipo";
 import Break from "./Break";
 import Continue from "./Continue";
+import Return from "./return";
 
 export default class While extends Instruccion {
     private condicion: Instruccion;
@@ -34,11 +35,15 @@ export default class While extends Instruccion {
 
                 if (i instanceof Break) return;
                 if (i instanceof Continue) break;
+                if(i instanceof Errores) return i;
+
+                if(i instanceof Return) return i;
 
                 let resultado = i.interpretar(arbol, nuevaTabla);
 
                 if (resultado instanceof Break) return;
                 if (resultado instanceof Continue) break;
+                if (resultado instanceof Return) return resultado;
 
             }
         } while (this.condicion.interpretar(arbol, tabla));

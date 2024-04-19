@@ -7,6 +7,7 @@ import Break from "./Break";
 import Continue from "./Continue";
 import Case from "./case";
 import Default from "./default";
+import Return from "./return";
 
 export default class Switch extends Instruccion {
     private condicion: Instruccion;
@@ -35,10 +36,11 @@ export default class Switch extends Instruccion {
                 let res = i.interpretar(arbol, nuevaTabla);
                 if(res instanceof Break) return;
                 if(res instanceof Continue){
-
                     arbol.Print("\nError Semantico: Continue no valido. linea:"+ this.linea+" columna: " +(this.columna+1));
                     return new Errores("Semantico", "Continue no valido", this.linea, this.columna);
                 }
+
+                if (res instanceof Errores) return res;
             }
 
         }
@@ -47,6 +49,8 @@ export default class Switch extends Instruccion {
             let res = this.instruccionDefault.interpretar(arbol, nuevaTabla);
             if(res instanceof Break) return;
             if(res instanceof Continue) return;
+            if (res instanceof Errores) return res;
+            if(res instanceof Return) return res;
         }
 
 
