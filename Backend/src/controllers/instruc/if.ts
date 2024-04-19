@@ -5,6 +5,7 @@ import Arbol from "../simbol/arbol";
 import Tipo, { tipoDato } from "../simbol/tipo";
 import Break from "./Break";
 import Continue from "./Continue";
+import Return from "./return";
 
 export default class If extends Instruccion {
 
@@ -42,7 +43,27 @@ export default class If extends Instruccion {
                     return i;
                 }
 
+                if(i instanceof Return){
+                    return i;
+                }
+
                 let resultado = i.interpretar(arbol, nuevaTabla);
+
+                if (resultado instanceof Errores) {
+                    return resultado;
+                }
+
+                if (resultado instanceof Break) {
+                    return resultado;
+                }
+
+                if (resultado instanceof Continue) {
+                    return resultado;
+                }
+
+                if(resultado instanceof Return){
+                    return resultado;
+                }
             }
         } else {
             if(Array.isArray(this.instruccionesElse)){
@@ -54,11 +75,32 @@ export default class If extends Instruccion {
                     if (i instanceof Continue) {
                         return i;
                     }
+
+                    if(i instanceof Return){
+                        return i;
+                    }
     
                     let resultado = i.interpretar(arbol, nuevaTabla);
+
+                    if (resultado instanceof Errores) {
+                        return resultado;
+                    }
+
+                    if (resultado instanceof Break) {
+                        return resultado;
+                    }
+
+                    if (resultado instanceof Continue) {
+                        return resultado;
+                    }
+
+                    if(resultado instanceof Return){
+                        return resultado;
+                    }
                 }
                 
             }else{
+
                 let resultado = this.instruccionesElse.interpretar(arbol, nuevaTabla);
 
                 if(resultado instanceof Errores){
@@ -69,6 +111,9 @@ export default class If extends Instruccion {
                     return resultado;
                 }
                 if(resultado instanceof Continue){
+                    return resultado;
+                }
+                if(resultado instanceof Return){
                     return resultado;
                 }
             }

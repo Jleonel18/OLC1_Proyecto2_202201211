@@ -18,25 +18,26 @@ class Declaracion extends instruccion_1.Instruccion {
         if (valorFinal instanceof errores_1.default)
             return valorFinal;
         if (this.valor.tipoDato.getTipo() == tipo_1.tipoDato.ENTERO && this.tipoDato.getTipo() == tipo_1.tipoDato.DECIMAL) {
+            console.log("entro al if");
             this.identificador.forEach(id => {
                 valorFinal = parseFloat(valorFinal);
                 if (!tabla.setVariable(new Simbolo_1.default(this.tipoDato, id, valorFinal))) {
-                    arbol.Print("\nError Semantico: Variable ya existe: " + id + " en la linea " + this.linea + " y columna " + (this.columna + 1));
-                    return new errores_1.default("Semantico", "No se puede declarar variable que ya existe", this.linea, this.columna);
+                    arbol.Print("\nError Semántico. Variable ya existente. Linea: " + this.linea + " Columna: " + this.columna);
+                    return new errores_1.default("Semántico", "No se puede declarar variable que ya existe", this.linea, this.columna);
                 }
             });
         }
         else {
             if (this.valor.tipoDato.getTipo() != this.tipoDato.getTipo()) {
-                arbol.Print("\nError Semantico: No se puede asignar el valor: " + valorFinal + " a la variable: " + this.identificador + " en la linea " + this.linea + " y columna " + (this.columna + 1));
-                return new errores_1.default("SEMANTICO", "No se puede declarar variable", this.linea, this.columna);
+                arbol.Print("\nError Semántico. Tipo de dato incorrecto. Linea: " + this.linea + " Columna: " + this.columna);
+                return new errores_1.default("Semántico", "No se puede declarar variable", this.linea, this.columna);
             }
-            this.identificador.forEach(elemento => {
+            for (let elemento of this.identificador) {
                 if (!tabla.setVariable(new Simbolo_1.default(this.tipoDato, elemento, valorFinal))) {
-                    arbol.Print("\nError Semantico: Variable ya existe: " + elemento + " en la linea " + this.linea + " y columna " + (this.columna + 1));
-                    return new errores_1.default("SEMANTICO", "variable ya existe!", this.linea, this.columna);
+                    arbol.Print("\nError Semántico. Variable ya existente. Linea: " + this.linea + " Columna: " + this.columna);
+                    return new errores_1.default("Semántico", "variable ya existe!", this.linea, this.columna);
                 }
-            });
+            }
         }
     }
 }

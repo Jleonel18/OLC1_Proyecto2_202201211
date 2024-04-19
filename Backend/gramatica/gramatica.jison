@@ -32,6 +32,7 @@ const EditarArr = require('../build/controllers/instruc/editarArr')
 const Metodo = require('../build/controllers/instruc/metodo')
 const Execute = require('../build/controllers/instruc/execute')
 const Llamada = require('../build/controllers/instruc/llamada')
+const Return = require('../build/controllers/instruc/return')
 
 const arb = require('../build/controllers/simbol/arbol')
 const indexRef = require('../build/controllers/indexController')
@@ -225,6 +226,7 @@ instruccion : impresion            {$$=$1;}
             |metodo                             {$$ = $1;}
             |execute                            {$$ = $1;}
             |llamada                            {$$ = $1;}
+            |return                             {$$ = $1;}
 ;
 
 impresion : R_COUT R_DOBLEMENOR expresion final_cout    {
@@ -398,3 +400,7 @@ parametros_llamada: parametros_llamada R_COMA expresion {$$.push($3); $$=$1;}
 llamada: ID R_PARIZQ parametros_llamada R_PARDER R_PUNTOYCOMA {$$ = new Llamada.default($1, $3, @1.first_line, @1.first_column);}
       | ID R_PARIZQ R_PARDER R_PUNTOYCOMA                     {$$ = new Llamada.default($1, [], @1.first_line, @1.first_column);}
 ;
+
+return: R_RETURN expresion R_PUNTOYCOMA {$$ = new Return.default(@1.first_line, @1.first_column,$2);}
+      | R_RETURN R_PUNTOYCOMA {$$ = new Return.default(@1.first_line, @1.first_column);}
+;     

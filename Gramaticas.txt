@@ -159,3 +159,15 @@ Empieza = <inicio>
 
 <editar_arreglo> ::= ID "[" <expresion> "]" "=" <expresion> PYC
 
+<metodo> ::= <tipos> ID "(" <parametros> ")" "{" <instrucciones> "}"
+		| <tipos> ID "(" ")" "{" <instrucciones> "}"
+
+<execute> ::= <RES_EXECUTE> ID "(" <parametros_llamada> ")"
+		| <RES_EXECUTE> ID "(" ")"
+
+<parametros_llamada> ::= <parametros_llamada> "," <expresion>
+			| <expresion>
+
+<llamada> ::= ID "(" <parametros_llamada> ")" PYC
+		ID "(" ")" PYC		  
+
