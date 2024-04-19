@@ -23,7 +23,7 @@ export default class Declaracion extends Instruccion {
         if (valorFinal instanceof Errores) return valorFinal
 
         if(this.valor.tipoDato.getTipo() == tipoDato.ENTERO && this.tipoDato.getTipo() == tipoDato.DECIMAL){
-            console.log("entro al if")
+            //console.log("entro al if")
             this.identificador.forEach(id => {
                 valorFinal = parseFloat(valorFinal);
                 if (!tabla.setVariable(new Simbolo(this.tipoDato, id, valorFinal))){

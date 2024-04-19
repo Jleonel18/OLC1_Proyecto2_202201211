@@ -39,14 +39,15 @@ class Llamada extends instruccion_1.Instruccion {
         this.parametros = parametros;
     }
     interpretar(arbol, tabla) {
-        let busqueda = arbol.getFuncion(this.id);
+        let busqueda = arbol.getFuncion(this.id.toLocaleLowerCase());
         if (busqueda == null) {
             arbol.Print(`Error Semántico: No existe la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
             return new errores_1.default('Semántico', `No existe la función ${this.id}`, this.linea, this.columna);
         }
+        this.tipoDato.setTipo(busqueda.tipo.getTipo());
         if (busqueda instanceof metodo_1.default) {
             if (busqueda.tipo.getTipo() == tipo_1.tipoDato.VOID) {
-                let nuevaTabla = new tablaSimbolos_1.default(arbol.getTablaGlobal());
+                let nuevaTabla = new tablaSimbolos_1.default(tabla);
                 nuevaTabla.setNombre("Llamada metodo " + this.id);
                 if (busqueda.parametros.length != this.parametros.length) {
                     arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
@@ -63,24 +64,54 @@ class Llamada extends instruccion_1.Instruccion {
                     return resultFunc;
             }
             else {
-                let nuevaTabla = new tablaSimbolos_1.default(arbol.getTablaGlobal());
+                let nuevaTabla = new tablaSimbolos_1.default(tabla);
                 nuevaTabla.setNombre("Llamada metodo " + this.id);
                 if (busqueda.parametros.length != this.parametros.length) {
                     arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
                     return new errores_1.default('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);
                 }
                 for (let i = 0; i < busqueda.parametros.length; i++) {
+                    let nuevaVar = this.parametros[i].interpretar(arbol, nuevaTabla);
                     let daclaraParam = new declaracion_1.default(busqueda.parametros[i].tipo, this.linea, this.columna, [busqueda.parametros[i].id], this.parametros[i]);
                     let result = daclaraParam.interpretar(arbol, nuevaTabla);
                     if (result instanceof errores_1.default)
                         return result;
+                    console.log("la nuevaVar es: " + nuevaVar);
+                    let varInterpretada = nuevaTabla.getVariable(busqueda.parametros[i].id);
+                    if (varInterpretada != null) {
+                        if (busqueda.parametros[i].tipo.getTipo() != varInterpretada.getTipo().getTipo()) {
+                            arbol.Print(`Error Semántico: El tipo de parametro ${i} no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
+                            return new errores_1.default('Semántico', `El tipo de parametro ${i} no coincide con la función ${this.id}`, this.linea, this.columna);
+                        }
+                        else {
+                            varInterpretada.setValor(nuevaVar);
+                            console.log("la var interpretada es:" + varInterpretada.getValor());
+                        }
+                    }
+                    else {
+                        arbol.Print(`Error Semántico: El parametro ${i} no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
+                        return new errores_1.default('Semántico', `El parametro ${i} no coincide con la función ${this.id}`, this.linea, this.columna);
+                    }
+                    /*let nuevaVar = this.parametros[i].interpretar(arbol, nuevaTabla);
+
+                    let variable = nuevaTabla.getVariable(busqueda.parametros[i].id)
+
+                    if (variable != null) {
+                        if (variable.getTipo().getTipo() != this.parametros[i].tipoDato.getTipo()) {
+                            return new Errores("Semantico", "Parametro " + i + " es de diferente tipo al que se esperaba", this.linea, this.columna)
+                        } else {
+                            variable.setValor(nuevaVar);
+                        }
+                    } else {
+                        return new Errores("Semantico", "Varible con ID " + busqueda.parametros[i].id + " no existe", this.linea, this.columna)
+                    }*/
                 }
                 let resultFunc = busqueda.interpretar(arbol, nuevaTabla);
                 if (resultFunc instanceof errores_1.default)
                     return resultFunc;
-                this.tipoDato.setTipo(busqueda.valorRetorno.tipoDato.getTipo());
+                //this.tipoDato.setTipo(busqueda.valorRetorno.tipoDato.getTipo());
                 //console.log("el valor de retorno es:",busqueda.valorRetorno.tipoDato.getTipo());
-                this.tipoDato.setTipo(busqueda.valorRetorno.tipoDato.getTipo());
+                //this.tipoDato.setTipo(busqueda.valorRetorno.tipoDato.getTipo());
                 return busqueda.valorRetorno.interpretar(arbol, nuevaTabla);
             }
         }

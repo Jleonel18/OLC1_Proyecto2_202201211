@@ -41,10 +41,10 @@ class Metodo extends instruccion_1.Instruccion {
                     if (i.expresion != undefined) {
                         this.valorRetorno = i.expresion;
                         console.log("lo que quiero probar es:" + i.expresion.tipoDato.getTipo() + " " + this.tipo.getTipo());
-                        /*if(this.tipo.getTipo() != i.expresion.tipoDato.getTipo()){
-                            arbol.Print("Error Semantico: El tipo de retorno no coincide con el tipo de la función. linea:"+ this.linea+" columna: " +(this.columna+1));
-                            return new Errores("Semantico", "El tipo de retorno no coincide con el tipo de la función", this.linea, this.columna);
-                        }*/
+                        if (this.tipo.getTipo() != i.expresion.tipoDato.getTipo()) {
+                            arbol.Print("Error Semantico: El tipo de retorno no coincide con el tipo de la función. linea:" + this.linea + " columna: " + (this.columna + 1));
+                            return new errores_1.default("Semantico", "El tipo de retorno no coincide con el tipo de la función", this.linea, this.columna);
+                        }
                         return i.expresion;
                     }
                     else {
@@ -58,15 +58,15 @@ class Metodo extends instruccion_1.Instruccion {
                 }
                 if (resultado instanceof return_1.default) {
                     if (resultado.expresion != undefined) {
-                        console.log(resultado.expresion.tipoDato.getTipo());
+                        //console.log(resultado.expresion.tipoDato.getTipo());
                         existeReturn = true;
                         this.valorRetorno = resultado.expresion;
                         //console.log("lo que quiero probar es:"+resultado.expresion.tipoDato.getTipo());
                         //console.log("this.tipo.getTipo():"+this.tipo.getTipo()+" resultado.tipoDato.getTipo():"+resultado.expresion.tipoDato.getTipo());
-                        if (this.tipo.getTipo() != resultado.expresion.tipoDato.getTipo()) {
-                            arbol.Print("Error Semantico: El tipo de retorno no coincide con el tipo de la función. linea:" + this.linea + " columna: " + (this.columna + 1));
-                            return new errores_1.default("Semantico", "El tipo de retorno no coincide con el tipo de la función", this.linea, this.columna);
-                        }
+                        /*if(this.tipo.getTipo() != resultado.expresion.tipoDato.getTipo()){
+                           arbol.Print("Error Semantico: El tipo de retorno no coincide con el tipo de la función. linea:"+ this.linea+" columna: " +(this.columna+1));
+                            return new Errores("Semantico", "El tipo de retorno no coincide con el tipo de la función", this.linea, this.columna);
+                        }*/
                         //console.log(resultado.expresion.tipoDato.getTipo());
                         return resultado.expresion;
                     }

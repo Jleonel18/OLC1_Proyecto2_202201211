@@ -18,7 +18,7 @@ class Declaracion extends instruccion_1.Instruccion {
         if (valorFinal instanceof errores_1.default)
             return valorFinal;
         if (this.valor.tipoDato.getTipo() == tipo_1.tipoDato.ENTERO && this.tipoDato.getTipo() == tipo_1.tipoDato.DECIMAL) {
-            console.log("entro al if");
+            //console.log("entro al if")
             this.identificador.forEach(id => {
                 valorFinal = parseFloat(valorFinal);
                 if (!tabla.setVariable(new Simbolo_1.default(this.tipoDato, id, valorFinal))) {
