@@ -92,6 +92,8 @@ class controller {
                 console.log(it.getDesc());
                 console.log("-------------------------");
             }
+            /*console.log("las funciones son:")
+            console.log(ast.getFunciones());*/
         }
         catch (error) {
             res.json({ message: "Error en el analisis" });

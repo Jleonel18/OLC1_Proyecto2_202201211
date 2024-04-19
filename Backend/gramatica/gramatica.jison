@@ -302,6 +302,7 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | casteo                              {$$ = $1;}
           | expresion R_TERNARIO expresion R_DOSPUNTOS expresion {$$ = new OpTernario.default($1, $3, $5, @1.first_line, @1.first_column);}
           | buscar_arreglo                     {$$ = $1;}
+          | ID R_PARIZQ parametros_llamada R_PARDER { $$ = new Llamada.default($1, $3, @1.first_line, @1.first_column);}
 ;
 
 f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(FNativas.Operadores.TOLOWER, @1.first_line, @1.first_column, $3);} 

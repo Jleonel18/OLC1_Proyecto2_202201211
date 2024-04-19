@@ -19,29 +19,59 @@ export default class Llamada extends Instruccion {
 
     interpretar(arbol: Arbol, tabla: tablaSimbolo) {
         let busqueda = arbol.getFuncion(this.id);
-        if(busqueda == null){
-            arbol.Print(`Error Semántico: No existe la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna+1)}`);
+        if (busqueda == null) {
+            arbol.Print(`Error Semántico: No existe la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
             return new Errores('Semántico', `No existe la función ${this.id}`, this.linea, this.columna);
         }
 
-        if(busqueda instanceof Metodo){
-            let nuevaTabla = new tablaSimbolo(arbol.getTablaGlobal());
-            nuevaTabla.setNombre("Llamada metodo "+this.id);
-            if(busqueda.parametros.length != this.parametros.length){
-                arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna+1)}`);
-                return new Errores('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);
+        if (busqueda instanceof Metodo) {
+
+            if (busqueda.tipo.getTipo() == tipoDato.VOID) {
+                let nuevaTabla = new tablaSimbolo(arbol.getTablaGlobal());
+                nuevaTabla.setNombre("Llamada metodo " + this.id);
+                if (busqueda.parametros.length != this.parametros.length) {
+                    arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
+                    return new Errores('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);
+                }
+
+                for (let i = 0; i < busqueda.parametros.length; i++) {
+                    let daclaraParam = new Declaracion(busqueda.parametros[i].tipo, this.linea, this.columna, [busqueda.parametros[i].id], this.parametros[i]);
+
+                    let result = daclaraParam.interpretar(arbol, nuevaTabla);
+
+                    if (result instanceof Errores) return result;
+                }
+
+                let resultFunc: any = busqueda.interpretar(arbol, nuevaTabla);
+                if (resultFunc instanceof Errores) return resultFunc;
+
+            }else{
+
+                let nuevaTabla = new tablaSimbolo(arbol.getTablaGlobal());
+                nuevaTabla.setNombre("Llamada metodo " + this.id);
+                if (busqueda.parametros.length != this.parametros.length) {
+                    arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
+                    return new Errores('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);
+                }
+
+                for (let i = 0; i < busqueda.parametros.length; i++) {
+                    let daclaraParam = new Declaracion(busqueda.parametros[i].tipo, this.linea, this.columna, [busqueda.parametros[i].id], this.parametros[i]);
+
+                    let result = daclaraParam.interpretar(arbol, nuevaTabla);
+
+                    if (result instanceof Errores) return result;
+                }
+
+                let resultFunc: any = busqueda.interpretar(arbol, nuevaTabla);
+                if (resultFunc instanceof Errores) return resultFunc;
+                this.tipoDato.setTipo(busqueda.valorRetorno.tipoDato.getTipo());
+                //console.log("el valor de retorno es:",busqueda.valorRetorno.tipoDato.getTipo());
+                this.tipoDato.setTipo(busqueda.valorRetorno.tipoDato.getTipo());
+                return busqueda.valorRetorno.interpretar(arbol, nuevaTabla);
+
+
             }
 
-            for(let i =0; i<busqueda.parametros.length; i++){
-                let daclaraParam  = new Declaracion(busqueda.parametros[i].tipo, this.linea, this.columna, [busqueda.parametros[i].id], this.parametros[i]);
-
-                let result = daclaraParam.interpretar(arbol, nuevaTabla);
-
-                if(result instanceof Errores) return result;
-            }
-
-            let resultFunc:any = busqueda.interpretar(arbol, nuevaTabla);
-            if(resultFunc instanceof Errores) return resultFunc;
 
         }
 

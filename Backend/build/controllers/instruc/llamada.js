@@ -45,21 +45,44 @@ class Llamada extends instruccion_1.Instruccion {
             return new errores_1.default('Semántico', `No existe la función ${this.id}`, this.linea, this.columna);
         }
         if (busqueda instanceof metodo_1.default) {
-            let nuevaTabla = new tablaSimbolos_1.default(arbol.getTablaGlobal());
-            nuevaTabla.setNombre("Llamada metodo " + this.id);
-            if (busqueda.parametros.length != this.parametros.length) {
-                arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
-                return new errores_1.default('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);
+            if (busqueda.tipo.getTipo() == tipo_1.tipoDato.VOID) {
+                let nuevaTabla = new tablaSimbolos_1.default(arbol.getTablaGlobal());
+                nuevaTabla.setNombre("Llamada metodo " + this.id);
+                if (busqueda.parametros.length != this.parametros.length) {
+                    arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
+                    return new errores_1.default('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);
+                }
+                for (let i = 0; i < busqueda.parametros.length; i++) {
+                    let daclaraParam = new declaracion_1.default(busqueda.parametros[i].tipo, this.linea, this.columna, [busqueda.parametros[i].id], this.parametros[i]);
+                    let result = daclaraParam.interpretar(arbol, nuevaTabla);
+                    if (result instanceof errores_1.default)
+                        return result;
+                }
+                let resultFunc = busqueda.interpretar(arbol, nuevaTabla);
+                if (resultFunc instanceof errores_1.default)
+                    return resultFunc;
             }
-            for (let i = 0; i < busqueda.parametros.length; i++) {
-                let daclaraParam = new declaracion_1.default(busqueda.parametros[i].tipo, this.linea, this.columna, [busqueda.parametros[i].id], this.parametros[i]);
-                let result = daclaraParam.interpretar(arbol, nuevaTabla);
-                if (result instanceof errores_1.default)
-                    return result;
+            else {
+                let nuevaTabla = new tablaSimbolos_1.default(arbol.getTablaGlobal());
+                nuevaTabla.setNombre("Llamada metodo " + this.id);
+                if (busqueda.parametros.length != this.parametros.length) {
+                    arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
+                    return new errores_1.default('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);
+                }
+                for (let i = 0; i < busqueda.parametros.length; i++) {
+                    let daclaraParam = new declaracion_1.default(busqueda.parametros[i].tipo, this.linea, this.columna, [busqueda.parametros[i].id], this.parametros[i]);
+                    let result = daclaraParam.interpretar(arbol, nuevaTabla);
+                    if (result instanceof errores_1.default)
+                        return result;
+                }
+                let resultFunc = busqueda.interpretar(arbol, nuevaTabla);
+                if (resultFunc instanceof errores_1.default)
+                    return resultFunc;
+                this.tipoDato.setTipo(busqueda.valorRetorno.tipoDato.getTipo());
+                //console.log("el valor de retorno es:",busqueda.valorRetorno.tipoDato.getTipo());
+                this.tipoDato.setTipo(busqueda.valorRetorno.tipoDato.getTipo());
+                return busqueda.valorRetorno.interpretar(arbol, nuevaTabla);
             }
-            let resultFunc = busqueda.interpretar(arbol, nuevaTabla);
-            if (resultFunc instanceof errores_1.default)
-                return resultFunc;
         }
     }
 }
