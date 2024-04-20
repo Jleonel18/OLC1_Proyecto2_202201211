@@ -1,6 +1,7 @@
 import { Instruccion } from "../abstracto/instruccion";
 import Errores from "../excep/errores";
 import Arbol from "../simbol/arbol";
+import ContadorSingleton from "../simbol/contadorSingleton";
 import tablaSimbolo from "../simbol/tablaSimbolos";
 import Tipo, { tipoDato } from "../simbol/tipo";
 import { Operadores } from "./Aritmeticas";
@@ -91,7 +92,47 @@ export default class Casteo extends Instruccion {
     }
 
     obtenerAST(anterior: string): string {
-        return "";
+
+
+        let contador = ContadorSingleton.getInstance();
+        let result = "";
+
+        let padre = `n${contador.getContador()}`;
+        let par1 = `n${contador.getContador()}`;
+        let tipo = `n${contador.getContador()}`;
+        let par2 = `n${contador.getContador()}`;
+        let valor = `n${contador.getContador()}`;
+        let puntocoma = `n${contador.getContador()}`;
+
+        result += `${padre}[label="casteo"];\n`;
+        result += `${par1}[label="("];\n`;
+        if(this.tipoD.getTipo() == tipoDato.ENTERO){
+            result += `${tipo}[label="int"];\n`;
+        }else if(this.tipoD.getTipo() == tipoDato.DECIMAL){
+            result += `${tipo}[label="double"];\n`;
+        }else if(this.tipoD.getTipo() == tipoDato.CARACTER){
+            result += `${tipo}[label="char"];\n`;
+        }else if(this.tipoD.getTipo() == tipoDato.CADENA){
+            result += `${tipo}[label="std::string"];\n`;
+        }else if(this.tipoD.getTipo() == tipoDato.BOOL){
+            result += `${tipo}[label="bool"];\n`;
+        }
+
+        result += `${par2}[label="("];\n`;
+        result += `${valor}[label="Expresion"];\n`;
+        result += `${puntocoma}[label=";"];\n`;
+
+
+        result += `${anterior} -> ${padre};\n`;
+        result += `${padre} -> ${par1};\n`;
+        result += `${padre} -> ${tipo};\n`;
+        result += `${padre} -> ${par2};\n`;
+        result += `${padre} -> ${valor};\n`;
+        result += `${padre} -> ${puntocoma};\n`;
+
+        result += this.operandoUnico?.obtenerAST(valor);
+
+        return result;
     }
 
 }

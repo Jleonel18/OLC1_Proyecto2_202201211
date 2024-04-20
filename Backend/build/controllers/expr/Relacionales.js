@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Operadores = void 0;
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 class Relacionales extends instruccion_1.Instruccion {
     constructor(operador, fila, columna, op1, op2) {
@@ -462,8 +463,88 @@ class Relacionales extends instruccion_1.Instruccion {
         }
     }
     obtenerAST(anterior) {
-        let resultado = "";
-        return resultado;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+        let contador = contadorSingleton_1.default.getInstance();
+        let result = "";
+        if (this.operacion == Operadores.IGUAL) {
+            let exp1 = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            let operando = `n${contador.getContador()}`;
+            result += `${exp1}[label = "Expresion"];\n`;
+            result += `${operando}[label = "=="];\n`;
+            result += `${exp2}[label = "Expresion"];\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${operando};\n`;
+            result += `${anterior} -> ${exp2};\n`;
+            result += (_a = this.operando1) === null || _a === void 0 ? void 0 : _a.obtenerAST(exp1);
+            result += (_b = this.operando2) === null || _b === void 0 ? void 0 : _b.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.DIFERENTE) {
+            let exp1 = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            let operando = `n${contador.getContador()}`;
+            result += `${exp1}[label = "Expresion"];\n`;
+            result += `${operando}[label = "!="];\n`;
+            result += `${exp2}[label = "Expresion"];\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${operando};\n`;
+            result += `${anterior} -> ${exp2};\n`;
+            result += (_c = this.operando1) === null || _c === void 0 ? void 0 : _c.obtenerAST(exp1);
+            result += (_d = this.operando2) === null || _d === void 0 ? void 0 : _d.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.MAYOR) {
+            let exp1 = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            let operando = `n${contador.getContador()}`;
+            result += `${exp1}[label = "Expresion"];\n`;
+            result += `${operando}[label = ">"];\n`;
+            result += `${exp2}[label = "Expresion"];\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${operando};\n`;
+            result += `${anterior} -> ${exp2};\n`;
+            result += (_e = this.operando1) === null || _e === void 0 ? void 0 : _e.obtenerAST(exp1);
+            result += (_f = this.operando2) === null || _f === void 0 ? void 0 : _f.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.MENOR) {
+            let exp1 = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            let operando = `n${contador.getContador()}`;
+            result += `${exp1}[label = "Expresion"];\n`;
+            result += `${operando}[label = "<"];\n`;
+            result += `${exp2}[label = "Expresion"];\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${operando};\n`;
+            result += `${anterior} -> ${exp2};\n`;
+            result += (_g = this.operando1) === null || _g === void 0 ? void 0 : _g.obtenerAST(exp1);
+            result += (_h = this.operando2) === null || _h === void 0 ? void 0 : _h.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.MAYORIGUAL) {
+            let exp1 = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            let operando = `n${contador.getContador()}`;
+            result += `${exp1}[label = "Expresion"];\n`;
+            result += `${operando}[label = ">="];\n`;
+            result += `${exp2}[label = "Expresion"];\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${operando};\n`;
+            result += `${anterior} -> ${exp2};\n`;
+            result += (_j = this.operando1) === null || _j === void 0 ? void 0 : _j.obtenerAST(exp1);
+            result += (_k = this.operando2) === null || _k === void 0 ? void 0 : _k.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.MENORIGUAL) {
+            let exp1 = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            let operando = `n${contador.getContador()}`;
+            result += `${exp1}[label = "Expresion"];\n`;
+            result += `${operando}[label = "<="];\n`;
+            result += `${exp2}[label = "Expresion"];\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${operando};\n`;
+            result += `${anterior} -> ${exp2};\n`;
+            result += (_l = this.operando1) === null || _l === void 0 ? void 0 : _l.obtenerAST(exp1);
+            result += (_m = this.operando2) === null || _m === void 0 ? void 0 : _m.obtenerAST(exp2);
+        }
+        return result;
     }
 }
 exports.default = Relacionales;

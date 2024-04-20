@@ -41,5 +41,9 @@ class DeclaracionVacia extends instruccion_1.Instruccion {
             }
         });
     }
+    obtenerAST(anterior) {
+        let result = "";
+        return result;
+    }
 }
 exports.default = DeclaracionVacia;

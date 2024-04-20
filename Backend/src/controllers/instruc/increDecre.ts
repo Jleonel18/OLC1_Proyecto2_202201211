@@ -1,6 +1,7 @@
 import { Instruccion } from "../abstracto/instruccion";
 import Errores from "../excep/errores";
 import Arbol from "../simbol/arbol";
+import ContadorSingleton from "../simbol/contadorSingleton";
 import Simbolo from "../simbol/Simbolo";
 import tablaSimbolo from "../simbol/tablaSimbolos";
 import Tipo, { tipoDato } from '../simbol/tipo'
@@ -38,5 +39,34 @@ export default class IncreDecre extends Instruccion {
         }else if(valor.getTipo().getTipo() != tipoDato.DECIMAL && this.instruc == false){
             valor.setValor(parseFloat(valor.getValor()) - 1);
         }
+    }
+
+    obtenerAST(anterior: string): string {
+
+        let contador = ContadorSingleton.getInstance();
+        let result = "";
+
+        let ident = `n${contador.getContador()}`;
+        let nombre = `n${contador.getContador()}`;
+        let mas1 = `n${contador.getContador()}`;
+        let mas2 = `n${contador.getContador()}`;
+
+        result += ` ${ident}[label="ID"];\n`;
+        result += ` ${nombre}[label="${this.id}"];\n`;
+
+        if(this.instruc == true){
+            result += ` ${mas1}[label="+"];\n`;
+            result += ` ${mas2}[label="+"];\n`;
+        }else{
+            result += ` ${mas1}[label="-"];\n`;
+            result += ` ${mas2}[label="-"];\n`;
+        }
+
+        result += ` ${anterior} -> ${ident};\n`;
+        result += ` ${ident} -> ${nombre};\n`;
+        result += `${anterior} -> ${mas1};\n`;
+        result += `${anterior} -> ${mas2};\n`;
+
+        return result;
     }
 }

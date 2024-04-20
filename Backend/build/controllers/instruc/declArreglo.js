@@ -90,5 +90,9 @@ class DeclaracionArreglo extends instruccion_1.Instruccion {
             return new errores_1.default("Semántico", "No se puede declarar el arreglo", this.linea, this.columna);
         }
     }
+    obtenerAST(anterior) {
+        let result = "";
+        return result;
+    }
 }
 exports.default = DeclaracionArreglo;

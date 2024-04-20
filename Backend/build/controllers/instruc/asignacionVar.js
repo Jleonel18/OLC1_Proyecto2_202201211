@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 class AsignacionVar extends instruccion_1.Instruccion {
     constructor(id, exp, linea, col) {
@@ -50,6 +51,23 @@ class AsignacionVar extends instruccion_1.Instruccion {
         }
         this.tipoDato = valor.getTipo();
         valor.setValor(NewValor);
+    }
+    obtenerAST(anterior) {
+        let contador = contadorSingleton_1.default.getInstance();
+        let result = "";
+        let padre = `n${contador.getContador()}`;
+        let variable = `n${contador.getContador()}`;
+        let igual = `n${contador.getContador()}`;
+        let asignacion = `n${contador.getContador()}`;
+        result += ` ${padre}[label="Asignacion"];\n`;
+        result += `${variable}[label="ID"];\n`;
+        result += `${igual}[label="="];\n`;
+        result += `${asignacion}[label="Expresion"];\n`;
+        result += `${padre} -> ${variable};\n`;
+        result += `${padre} -> ${igual};\n`;
+        result += `${padre} -> ${asignacion};\n`;
+        result += this.exp.obtenerAST(asignacion);
+        return result;
     }
 }
 exports.default = AsignacionVar;

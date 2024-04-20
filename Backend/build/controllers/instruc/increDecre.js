@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 class IncreDecre extends instruccion_1.Instruccion {
     constructor(id, linea, columna, instruc) {
@@ -59,6 +60,29 @@ class IncreDecre extends instruccion_1.Instruccion {
         else if (valor.getTipo().getTipo() != tipo_1.tipoDato.DECIMAL && this.instruc == false) {
             valor.setValor(parseFloat(valor.getValor()) - 1);
         }
+    }
+    obtenerAST(anterior) {
+        let contador = contadorSingleton_1.default.getInstance();
+        let result = "";
+        let ident = `n${contador.getContador()}`;
+        let nombre = `n${contador.getContador()}`;
+        let mas1 = `n${contador.getContador()}`;
+        let mas2 = `n${contador.getContador()}`;
+        result += ` ${ident}[label="ID"];\n`;
+        result += ` ${nombre}[label="${this.id}"];\n`;
+        if (this.instruc == true) {
+            result += ` ${mas1}[label="+"];\n`;
+            result += ` ${mas2}[label="+"];\n`;
+        }
+        else {
+            result += ` ${mas1}[label="-"];\n`;
+            result += ` ${mas2}[label="-"];\n`;
+        }
+        result += ` ${anterior} -> ${ident};\n`;
+        result += ` ${ident} -> ${nombre};\n`;
+        result += `${anterior} -> ${mas1};\n`;
+        result += `${anterior} -> ${mas2};\n`;
+        return result;
     }
 }
 exports.default = IncreDecre;

@@ -486,9 +486,9 @@ class Aritmeticas extends instruccion_1.Instruccion {
             result += `${exp1}[label= \"Expresion\"];\n`;
             result += `${nodoOp}[label=\"+\"];\n`;
             result += `${exp2}[label=\"Expresion\"];\n`;
-            result += `${anterior}->${exp1};\n`;
-            result += `${anterior}->${nodoOp};\n`;
-            result += `${anterior}->${exp2};\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${nodoOp};\n`;
+            result += `${anterior} -> ${exp2};\n`;
             result += (_b = this.operando1) === null || _b === void 0 ? void 0 : _b.obtenerAST(exp1);
             result += (_c = this.operando2) === null || _c === void 0 ? void 0 : _c.obtenerAST(exp2);
         }
@@ -499,9 +499,9 @@ class Aritmeticas extends instruccion_1.Instruccion {
             result += `${exp1}[label= \"Expresion\"];\n`;
             result += `${nodoOp}[label=\"-\"];\n`;
             result += `${exp2}[label=\"Expresion\"];\n`;
-            result += `${anterior}->${exp1};\n`;
-            result += `${anterior}->${nodoOp};\n`;
-            result += `${anterior}->${exp2};\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${nodoOp};\n`;
+            result += `${anterior} -> ${exp2};\n`;
             result += (_d = this.operando1) === null || _d === void 0 ? void 0 : _d.obtenerAST(exp1);
             result += (_e = this.operando2) === null || _e === void 0 ? void 0 : _e.obtenerAST(exp2);
         }
@@ -512,9 +512,9 @@ class Aritmeticas extends instruccion_1.Instruccion {
             result += `${exp1}[label= \"Expresion\"];\n`;
             result += `${nodoOp}[label=\"*\"];\n`;
             result += `${exp2}[label=\"Expresion\"];\n`;
-            result += `${anterior}->${exp1};\n`;
-            result += `${anterior}->${nodoOp};\n`;
-            result += `${anterior}->${exp2};\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${nodoOp};\n`;
+            result += `${anterior} -> ${exp2};\n`;
             result += (_f = this.operando1) === null || _f === void 0 ? void 0 : _f.obtenerAST(exp1);
             result += (_g = this.operando2) === null || _g === void 0 ? void 0 : _g.obtenerAST(exp2);
         }
@@ -525,9 +525,9 @@ class Aritmeticas extends instruccion_1.Instruccion {
             result += `${exp1}[label= \"Expresion\"];\n`;
             result += `${nodoOp}[label=\"/\"];\n`;
             result += `${exp2}[label=\"Expresion\"];\n`;
-            result += `${anterior}->${exp1};\n`;
-            result += `${anterior}->${nodoOp};\n`;
-            result += `${anterior}->${exp2};\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${nodoOp};\n`;
+            result += `${anterior} -> ${exp2};\n`;
             result += (_h = this.operando1) === null || _h === void 0 ? void 0 : _h.obtenerAST(exp1);
             result += (_j = this.operando2) === null || _j === void 0 ? void 0 : _j.obtenerAST(exp2);
         }
@@ -538,9 +538,9 @@ class Aritmeticas extends instruccion_1.Instruccion {
             result += `${exp1}[label= \"Expresion\"];\n`;
             result += `${nodoOp}[label=\"%\"];\n`;
             result += `${exp2}[label=\"Expresion\"];\n`;
-            result += `${anterior}->${exp1};\n`;
-            result += `${anterior}->${nodoOp};\n`;
-            result += `${anterior}->${exp2};\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${nodoOp};\n`;
+            result += `${anterior} -> ${exp2};\n`;
             result += (_k = this.operando1) === null || _k === void 0 ? void 0 : _k.obtenerAST(exp1);
             result += (_l = this.operando2) === null || _l === void 0 ? void 0 : _l.obtenerAST(exp2);
         }
@@ -557,12 +557,12 @@ class Aritmeticas extends instruccion_1.Instruccion {
             result += `${nodoComa}[label=","];\n`;
             result += `${exp2}[label="Expresion"];\n`;
             result += `${par2}[label=")"];\n`;
-            result += `${anterior}->${nodoPow};\n`;
-            result += `${anterior}->${par1};\n`;
-            result += `${anterior}->${exp1};\n`;
-            result += `${anterior}->${nodoComa};\n`;
-            result += `${anterior}->${exp2};\n`;
-            result += `${anterior}->${par2};\n`;
+            result += `${anterior} -> ${nodoPow};\n`;
+            result += `${anterior} -> ${par1};\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${nodoComa};\n`;
+            result += `${anterior} -> ${exp2};\n`;
+            result += `${anterior} -> ${par2};\n`;
             result += (_m = this.operando1) === null || _m === void 0 ? void 0 : _m.obtenerAST(exp1);
             result += (_o = this.operando2) === null || _o === void 0 ? void 0 : _o.obtenerAST(exp2);
         }

@@ -1,4 +1,3 @@
-import exp from "constants";
 import { Instruccion } from "../abstracto/instruccion";
 import Errores from "../excep/errores";
 import Arbol from "../simbol/arbol";
@@ -463,9 +462,9 @@ export default class Aritmeticas extends Instruccion {
             result += `${exp1}[label= \"Expresion\"];\n`
             result += `${nodoOp}[label=\"+\"];\n`
             result += `${exp2}[label=\"Expresion\"];\n`
-            result += `${anterior}->${exp1};\n`
-            result += `${anterior}->${nodoOp};\n`
-            result += `${anterior}->${exp2};\n`
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${nodoOp};\n`
+            result += `${anterior} -> ${exp2};\n`
             result += this.operando1?.obtenerAST(exp1)
             result += this.operando2?.obtenerAST(exp2)
 
@@ -478,9 +477,9 @@ export default class Aritmeticas extends Instruccion {
             result += `${exp1}[label= \"Expresion\"];\n`
             result += `${nodoOp}[label=\"-\"];\n`
             result += `${exp2}[label=\"Expresion\"];\n`
-            result += `${anterior}->${exp1};\n`
-            result += `${anterior}->${nodoOp};\n`
-            result += `${anterior}->${exp2};\n`
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${nodoOp};\n`
+            result += `${anterior} -> ${exp2};\n`
             result += this.operando1?.obtenerAST(exp1)
             result += this.operando2?.obtenerAST(exp2)
 
@@ -493,9 +492,9 @@ export default class Aritmeticas extends Instruccion {
             result += `${exp1}[label= \"Expresion\"];\n`
             result += `${nodoOp}[label=\"*\"];\n`
             result += `${exp2}[label=\"Expresion\"];\n`
-            result += `${anterior}->${exp1};\n`
-            result += `${anterior}->${nodoOp};\n`
-            result += `${anterior}->${exp2};\n`
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${nodoOp};\n`
+            result += `${anterior} -> ${exp2};\n`
             result += this.operando1?.obtenerAST(exp1)
             result += this.operando2?.obtenerAST(exp2)
         }else if(this.operacion == Operadores.DIVISION){
@@ -507,9 +506,9 @@ export default class Aritmeticas extends Instruccion {
             result += `${exp1}[label= \"Expresion\"];\n`
             result += `${nodoOp}[label=\"/\"];\n`
             result += `${exp2}[label=\"Expresion\"];\n`
-            result += `${anterior}->${exp1};\n`
-            result += `${anterior}->${nodoOp};\n`
-            result += `${anterior}->${exp2};\n`
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${nodoOp};\n`
+            result += `${anterior} -> ${exp2};\n`
             result += this.operando1?.obtenerAST(exp1)
             result += this.operando2?.obtenerAST(exp2)
 
@@ -522,9 +521,9 @@ export default class Aritmeticas extends Instruccion {
             result += `${exp1}[label= \"Expresion\"];\n`
             result += `${nodoOp}[label=\"%\"];\n`
             result += `${exp2}[label=\"Expresion\"];\n`
-            result += `${anterior}->${exp1};\n`
-            result += `${anterior}->${nodoOp};\n`
-            result += `${anterior}->${exp2};\n`
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${nodoOp};\n`
+            result += `${anterior} -> ${exp2};\n`
             result += this.operando1?.obtenerAST(exp1)
             result += this.operando2?.obtenerAST(exp2)
         }else if(this.operacion == Operadores.POTENCIA){
@@ -541,12 +540,12 @@ export default class Aritmeticas extends Instruccion {
             result += `${nodoComa}[label=","];\n`
             result += `${exp2}[label="Expresion"];\n`
             result += `${par2}[label=")"];\n`
-            result += `${anterior}->${nodoPow};\n`
-            result += `${anterior}->${par1};\n`
-            result += `${anterior}->${exp1};\n`
-            result += `${anterior}->${nodoComa};\n`
-            result += `${anterior}->${exp2};\n`
-            result += `${anterior}->${par2};\n`
+            result += `${anterior} -> ${nodoPow};\n`
+            result += `${anterior} -> ${par1};\n`
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${nodoComa};\n`
+            result += `${anterior} -> ${exp2};\n`
+            result += `${anterior} -> ${par2};\n`
 
             result += this.operando1?.obtenerAST(exp1)
             result += this.operando2?.obtenerAST(exp2)

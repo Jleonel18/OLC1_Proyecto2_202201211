@@ -22,15 +22,30 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const tipo_1 = __importStar(require("../simbol/tipo"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 class Break extends instruccion_1.Instruccion {
     constructor(linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
     }
     interpretar(arbol, tabla) {
         return;
+    }
+    obtenerAST(anterior) {
+        let contador = contadorSingleton_1.default.getInstance();
+        let result = "";
+        let breakk = `n${contador.getContador()}`;
+        let puntocoma = `n${contador.getContador()}`;
+        result += `${breakk}[label="Break"];\n`;
+        result += `${puntocoma}[label=";"];\n`;
+        result += `${anterior} -> ${breakk};\n`;
+        result += `${anterior} -> ${puntocoma};\n`;
+        return result;
     }
 }
 exports.default = Break;

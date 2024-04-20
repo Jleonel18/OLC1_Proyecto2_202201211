@@ -51,4 +51,10 @@ export default class DeclaracionVacia extends Instruccion{
 
     }
 
+    obtenerAST(anterior: string): string {
+        let result = "";
+
+        return result;
+    }
+
 }

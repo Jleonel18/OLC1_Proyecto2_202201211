@@ -1,6 +1,7 @@
 import { Instruccion } from "../abstracto/instruccion";
 import Errores from "../excep/errores";
 import Arbol from "../simbol/arbol";
+import ContadorSingleton from "../simbol/contadorSingleton";
 import Simbolo from "../simbol/Simbolo";
 import tablaSimbolo from "../simbol/tablaSimbolos";
 import Tipo, { tipoDato } from '../simbol/tipo'
@@ -36,4 +37,30 @@ export default class AsignacionVar extends Instruccion {
 
 
     }
+
+    obtenerAST(anterior: string): string {
+
+        let contador = ContadorSingleton.getInstance();
+        let result = "";
+
+
+        let padre = `n${contador.getContador()}`;
+        let variable = `n${contador.getContador()}`;
+        let igual = `n${contador.getContador()}`;
+        let asignacion = `n${contador.getContador()}`;
+
+        result += ` ${padre}[label="Asignacion"];\n`;
+        result += `${variable}[label="ID"];\n`;
+        result += `${igual}[label="="];\n`;
+        result += `${asignacion}[label="Expresion"];\n`;
+
+        result += `${padre} -> ${variable};\n`;
+        result += `${padre} -> ${igual};\n`;
+        result += `${padre} -> ${asignacion};\n`;
+
+        result += this.exp.obtenerAST(asignacion);
+
+        return result;
+    }
+
 }

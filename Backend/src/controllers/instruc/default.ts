@@ -39,4 +39,10 @@ export default class Default extends Instruccion {
         }
     }
 
+    obtenerAST(anterior: string): string {
+        let result = "";
+
+        return result;
+    }
+
 }

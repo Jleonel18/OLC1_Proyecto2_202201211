@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Operadores = void 0;
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 class FNativas extends instruccion_1.Instruccion {
     constructor(operador, fila, columna, op1) {
@@ -174,7 +175,172 @@ class FNativas extends instruccion_1.Instruccion {
         return op1.length;
     }
     obtenerAST(anterior) {
-        return "";
+        var _a, _b, _c, _d, _e, _f, _g;
+        let contador = contadorSingleton_1.default.getInstance();
+        let result = "";
+        if (this.operacion == Operadores.LENGTH) {
+            let nativa = `n${contador.getContador()}`;
+            let expr = `n${contador.getContador()}`;
+            let punto = `n${contador.getContador()}`;
+            let operUnico = `n${contador.getContador()}`;
+            let par1 = `n${contador.getContador()}`;
+            let par2 = `n${contador.getContador()}`;
+            let puntocoma = `n${contador.getContador()}`;
+            result += `${nativa}[label="Nativas"];\n`;
+            result += `${expr}[label="Expresion"];\n`;
+            result += `${punto}[label="."];\n`;
+            result += `${operUnico}[label="length"];\n`;
+            result += `${par1}[label="("];\n`;
+            result += `${par2}[label=")"];\n`;
+            result += `${puntocoma}[label=";"];\n`;
+            result += `${anterior} -> ${nativa};\n`;
+            result += `${nativa} -> ${expr}\n;`;
+            result += `${nativa} -> ${punto}\n;`;
+            result += `${nativa} -> ${operUnico};\n`;
+            result += `${nativa} -> ${par1}\n;`;
+            result += `${nativa} -> ${par2}\n;`;
+            result += `${nativa} -> ${puntocoma};\n`;
+            result += (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.obtenerAST(expr);
+        }
+        else if (this.operacion == Operadores.TOUPPER) {
+            let nativa = `n${contador.getContador()}`;
+            let operUnico = `n${contador.getContador()}`;
+            let par1 = `n${contador.getContador()}`;
+            let expr = `n${contador.getContador()}`;
+            let par2 = `n${contador.getContador()}`;
+            let puntocoma = `n${contador.getContador()}`;
+            result += `${nativa}[label="Nativas"];\n`;
+            result += `${operUnico}[label="toUpper"];\n`;
+            result += `${par1}[label="("];\n`;
+            result += `${expr}[label="Expresion"];\n`;
+            result += `${par2}[label=")"];\n`;
+            result += `${puntocoma}[label=";"];\n`;
+            result += `${anterior} -> ${nativa};\n`;
+            result += `${nativa} -> ${operUnico};\n`;
+            result += `${nativa} -> ${par1};\n`;
+            result += `${nativa} -> ${expr};\n`;
+            result += `${nativa} -> ${par2};\n`;
+            result += `${nativa} -> ${puntocoma};\n`;
+            result += (_b = this.operandoUnico) === null || _b === void 0 ? void 0 : _b.obtenerAST(expr);
+        }
+        else if (this.operacion == Operadores.TOLOWER) {
+            let nativa = `n${contador.getContador()}`;
+            let operUnico = `n${contador.getContador()}`;
+            let par1 = `n${contador.getContador()}`;
+            let expr = `n${contador.getContador()}`;
+            let par2 = `n${contador.getContador()}`;
+            let puntocoma = `n${contador.getContador()}`;
+            result += `${nativa}[label="Nativas"];\n`;
+            result += `${operUnico}[label="toLower"];\n`;
+            result += `${par1}[label="("];\n`;
+            result += `${expr}[label="Expresion"];\n`;
+            result += `${par2}[label=")"];\n`;
+            result += `${puntocoma}[label=";"];\n`;
+            result += `${anterior} -> ${nativa};\n`;
+            result += `${nativa} -> ${operUnico};\n`;
+            result += `${nativa} -> ${par1};\n`;
+            result += `${nativa} -> ${expr};\n`;
+            result += `${nativa} -> ${par2};\n`;
+            result += `${nativa} -> ${puntocoma};\n`;
+            result += (_c = this.operandoUnico) === null || _c === void 0 ? void 0 : _c.obtenerAST(expr);
+        }
+        else if (this.operacion == Operadores.ROUND) {
+            let nativa = `n${contador.getContador()}`;
+            let operUnico = `n${contador.getContador()}`;
+            let par1 = `n${contador.getContador()}`;
+            let expr = `n${contador.getContador()}`;
+            let par2 = `n${contador.getContador()}`;
+            let puntocoma = `n${contador.getContador()}`;
+            result += `${nativa}[label="Nativas"];\n`;
+            result += `${operUnico}[label="round"];\n`;
+            result += `${par1}[label="("];\n`;
+            result += `${expr}[label="Expresion"];\n`;
+            result += `${par2}[label=")"];\n`;
+            result += `${puntocoma}[label=";"];\n`;
+            result += `${anterior} -> ${nativa};\n`;
+            result += `${nativa} -> ${operUnico};\n`;
+            result += `${nativa} -> ${par1};\n`;
+            result += `${nativa} -> ${expr};\n`;
+            result += `${nativa} -> ${par2};\n`;
+            result += `${nativa} -> ${puntocoma};\n`;
+            result += (_d = this.operandoUnico) === null || _d === void 0 ? void 0 : _d.obtenerAST(expr);
+        }
+        else if (this.operacion == Operadores.TYPEOF) {
+            let nativa = `n${contador.getContador()}`;
+            let operUnico = `n${contador.getContador()}`;
+            let par1 = `n${contador.getContador()}`;
+            let expr = `n${contador.getContador()}`;
+            let par2 = `n${contador.getContador()}`;
+            let puntocoma = `n${contador.getContador()}`;
+            result += `${nativa}[label="Nativas"];\n`;
+            result += `${operUnico}[label="typeof"];\n`;
+            result += `${par1}[label="("];\n`;
+            result += `${expr}[label="Expresion"];\n`;
+            result += `${par2}[label=")"];\n`;
+            result += `${puntocoma}[label=";"];\n`;
+            result += `${anterior} -> ${nativa};\n`;
+            result += `${nativa} -> ${operUnico};\n`;
+            result += `${nativa} -> ${par1};\n`;
+            result += `${nativa} -> ${expr};\n`;
+            result += `${nativa} -> ${par2};\n`;
+            result += `${nativa} -> ${puntocoma};\n`;
+            result += (_e = this.operandoUnico) === null || _e === void 0 ? void 0 : _e.obtenerAST(expr);
+        }
+        else if (this.operacion == Operadores.TOSTRING) {
+            let nativa = `n${contador.getContador()}`;
+            let std = `n${contador.getContador()}`;
+            let dosp1 = `n${contador.getContador()}`;
+            let dosp2 = `n${contador.getContador()}`;
+            let operUnico = `n${contador.getContador()}`;
+            let par1 = `n${contador.getContador()}`;
+            let expr = `n${contador.getContador()}`;
+            let par2 = `n${contador.getContador()}`;
+            let puntocoma = `n${contador.getContador()}`;
+            result += `${nativa}[label="Nativas"];\n`;
+            result += `${std}[label="std"];\n`;
+            result += `${dosp1}[label=":"];\n`;
+            result += `${dosp2}[label=":"];\n`;
+            result += `${operUnico}[label="toString"];\n`;
+            result += `${par1}[label="("];\n`;
+            result += `${expr}[label="Expresion"];\n`;
+            result += `${par2}[label=")"];\n`;
+            result += `${puntocoma}[label=";"];\n`;
+            result += `${anterior} -> ${nativa};\n`;
+            result += `${nativa} -> ${std};\n`;
+            result += `${nativa} -> ${dosp1};\n`;
+            result += `${nativa} -> ${dosp2};\n`;
+            result += `${nativa} -> ${operUnico};\n`;
+            result += `${nativa} -> ${par1};\n`;
+            result += `${nativa} -> ${expr};\n`;
+            result += `${nativa} -> ${par2};\n`;
+            result += `${nativa} -> ${puntocoma};\n`;
+            result += (_f = this.operandoUnico) === null || _f === void 0 ? void 0 : _f.obtenerAST(expr);
+        }
+        else if (this.operacion == Operadores.C_STR) {
+            let nativa = `n${contador.getContador()}`;
+            let expr = `n${contador.getContador()}`;
+            let punto = `n${contador.getContador()}`;
+            let operUnico = `n${contador.getContador()}`;
+            let par1 = `n${contador.getContador()}`;
+            let par2 = `n${contador.getContador()}`;
+            let puntocoma = `n${contador.getContador()}`;
+            result += `${nativa}[label="Nativas"];\n`;
+            result += `${expr}[label="Expresion"];\n`;
+            result += `${punto}[label="."];\n`;
+            result += `${operUnico}[label="c_str"];\n`;
+            result += `${par1}[label="("];\n`;
+            result += `${par2}[label=")"];\n`;
+            result += `${puntocoma}[label=";"];\n`;
+            result += `${anterior} -> ${nativa};\n`;
+            result += `${nativa} -> ${expr}\n;`;
+            result += `${nativa} -> ${punto}\n;`;
+            result += `${nativa} -> ${operUnico};\n`;
+            result += `${nativa} -> ${par1}\n;`;
+            result += `${nativa} -> ${par2}\n;`;
+            result += `${nativa} -> ${puntocoma};\n`;
+            result += (_g = this.operandoUnico) === null || _g === void 0 ? void 0 : _g.obtenerAST(expr);
+        }
+        return result;
     }
 }
 exports.default = FNativas;

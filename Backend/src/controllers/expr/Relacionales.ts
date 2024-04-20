@@ -1,6 +1,7 @@
 import { Instruccion } from "../abstracto/instruccion";
 import Errores from "../excep/errores";
 import Arbol from "../simbol/arbol";
+import ContadorSingleton from "../simbol/contadorSingleton";
 import tablaSimbolo from "../simbol/tablaSimbolos";
 import Tipo, { tipoDato } from "../simbol/tipo";
 
@@ -443,9 +444,117 @@ export default class Relacionales extends Instruccion {
     }
 
     obtenerAST(anterior: string): string {
-        let resultado =""
+        
+        let contador = ContadorSingleton.getInstance();
+        let result =""
 
-        return resultado;
+        if(this.operacion == Operadores.IGUAL){
+
+            let exp1 = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+            let operando = `n${contador.getContador()}`
+
+            result += `${exp1}[label = "Expresion"];\n`
+            result += `${operando}[label = "=="];\n`
+            result += `${exp2}[label = "Expresion"];\n`
+            
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${operando};\n`
+            result += `${anterior} -> ${exp2};\n`
+
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+
+        }else if(this.operacion == Operadores.DIFERENTE){
+
+            let exp1 = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+            let operando = `n${contador.getContador()}`
+
+            result += `${exp1}[label = "Expresion"];\n`
+            result += `${operando}[label = "!="];\n`
+            result += `${exp2}[label = "Expresion"];\n`
+
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${operando};\n`
+            result += `${anterior} -> ${exp2};\n`
+
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+
+        }else if(this.operacion == Operadores.MAYOR){
+
+            let exp1 = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+            let operando = `n${contador.getContador()}`
+
+            result += `${exp1}[label = "Expresion"];\n`
+            result += `${operando}[label = ">"];\n`
+            result += `${exp2}[label = "Expresion"];\n`
+
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${operando};\n`
+            result += `${anterior} -> ${exp2};\n`
+
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+
+        }else if(this.operacion == Operadores.MENOR){
+
+            let exp1 = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+            let operando = `n${contador.getContador()}`
+
+            result += `${exp1}[label = "Expresion"];\n`
+            result += `${operando}[label = "<"];\n`
+            result += `${exp2}[label = "Expresion"];\n`
+
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${operando};\n`
+            result += `${anterior} -> ${exp2};\n`
+
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+
+        }else if(this.operacion == Operadores.MAYORIGUAL){
+
+            let exp1 = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+            let operando = `n${contador.getContador()}`
+
+            result += `${exp1}[label = "Expresion"];\n`
+            result += `${operando}[label = ">="];\n`
+            result += `${exp2}[label = "Expresion"];\n`
+
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${operando};\n`
+            result += `${anterior} -> ${exp2};\n`
+
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+
+        
+
+        }else if(this.operacion == Operadores.MENORIGUAL){
+
+            let exp1 = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+            let operando = `n${contador.getContador()}`
+
+            result += `${exp1}[label = "Expresion"];\n`
+            result += `${operando}[label = "<="];\n`
+            result += `${exp2}[label = "Expresion"];\n`
+
+            result += `${anterior} -> ${exp1};\n`
+            result += `${anterior} -> ${operando};\n`
+            result += `${anterior} -> ${exp2};\n`
+
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+
+        }
+
+        return result;
     }
 
 }

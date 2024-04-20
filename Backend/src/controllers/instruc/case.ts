@@ -47,6 +47,13 @@ export default class Case extends Instruccion {
 
         }
 
+    }
+
+    obtenerAST(anterior: string): string {
+        
+        let result = "";
+
+        return result;
 
     }
 
