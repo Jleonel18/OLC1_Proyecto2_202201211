@@ -153,6 +153,10 @@ export default class FNativas extends Instruccion{
         return op1.length;
     }
 
+    obtenerAST(anterior: string): string {
+        return "";
+    }
+
 }
 
 export enum Operadores {

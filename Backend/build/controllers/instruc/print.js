@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 class Print extends instruccion_1.Instruccion {
     constructor(exp, linea, col) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, col);
@@ -39,6 +40,30 @@ class Print extends instruccion_1.Instruccion {
         if (valor instanceof errores_1.default)
             return valor;
         arbol.Print(valor);
+    }
+    obtenerAST(anterior) {
+        let result = "";
+        let contador = contadorSingleton_1.default.getInstance();
+        let cout = `n${contador.getContador()}`;
+        let dobleSigno = `n${contador.getContador()}`;
+        let nodoExpresion = `n${contador.getContador()}`;
+        let dobleSigno2 = `n${contador.getContador()}`;
+        let endl = `n${contador.getContador()}`;
+        let puntoComa = `n${contador.getContador()}`;
+        result += `${cout}[label="cout"];\n`;
+        result += `${dobleSigno}[label="<<"];\n`;
+        result += `${nodoExpresion}[label="Expresion"];\n`;
+        result += `${dobleSigno2}[label="<<"];\n`;
+        result += `${endl}[label="endl"];\n`;
+        result += `${puntoComa}[label=";"];\n`;
+        result += `${anterior} -> ${cout};\n`;
+        result += `${anterior} -> ${dobleSigno};\n`;
+        result += `${anterior} -> ${nodoExpresion};\n`;
+        result += `${anterior} -> ${dobleSigno2};\n`;
+        result += `${anterior} -> ${endl};\n`;
+        result += `${anterior} -> ${puntoComa};\n`;
+        result += this.expresion.obtenerAST(nodoExpresion);
+        return result;
     }
 }
 exports.default = Print;

@@ -43,5 +43,8 @@ class AccesoVar extends instruccion_1.Instruccion {
         this.tipoDato = valorVariable.getTipo();
         return valorVariable.getValor();
     }
+    obtenerAST(anterior) {
+        return "";
+    }
 }
 exports.default = AccesoVar;

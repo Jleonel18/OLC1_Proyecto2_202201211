@@ -42,4 +42,8 @@ export default class AccesoArr extends Instruccion{
 
     }
 
+    obtenerAST(anterior: string): string {
+        return "";
+    }
+
 }

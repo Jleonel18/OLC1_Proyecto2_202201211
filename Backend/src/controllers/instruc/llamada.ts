@@ -48,7 +48,7 @@ export default class Llamada extends Instruccion {
             } else {
 
                 let nuevaTabla = new tablaSimbolo(tabla);
-                nuevaTabla.setNombre("Llamada metodo " + this.id);
+                nuevaTabla.setNombre("Llamada función " + this.id);
                 if (busqueda.parametros.length != this.parametros.length) {
                     arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
                     return new Errores('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);
@@ -79,19 +79,6 @@ export default class Llamada extends Instruccion {
                         return new Errores('Semántico', `El parametro ${i} no coincide con la función ${this.id}`, this.linea, this.columna);
                     }
 
-                    /*let nuevaVar = this.parametros[i].interpretar(arbol, nuevaTabla);
-
-                    let variable = nuevaTabla.getVariable(busqueda.parametros[i].id)
-
-                    if (variable != null) {
-                        if (variable.getTipo().getTipo() != this.parametros[i].tipoDato.getTipo()) {
-                            return new Errores("Semantico", "Parametro " + i + " es de diferente tipo al que se esperaba", this.linea, this.columna)
-                        } else {
-                            variable.setValor(nuevaVar);
-                        }
-                    } else {
-                        return new Errores("Semantico", "Varible con ID " + busqueda.parametros[i].id + " no existe", this.linea, this.columna)
-                    }*/
                 }
 
                 let resultFunc: any = busqueda.interpretar(arbol, nuevaTabla);

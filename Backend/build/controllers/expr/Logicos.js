@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Operadores = void 0;
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 class Logicos extends instruccion_1.Instruccion {
     constructor(operador, fila, columna, op1, op2) {
@@ -113,6 +114,47 @@ class Logicos extends instruccion_1.Instruccion {
             default:
                 return new errores_1.default("Semantico", "Tipo de dato no es booleano", this.linea, this.columna);
         }
+    }
+    obtenerAST(anterior) {
+        var _a, _b, _c, _d, _e;
+        let result = "";
+        let contador = contadorSingleton_1.default.getInstance();
+        if (this.operacion == Operadores.AND) {
+            let exp1 = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            let operador = `n${contador.getContador()}`;
+            result += `${exp1}[label=\"Expresion\"];\n`;
+            result += `${exp2}[label=\"Expresion\"];\n`;
+            result += `${operador}[label=\"&&\"];\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${operador};\n`;
+            result += `${anterior} -> ${exp2};\n`;
+            result += (_a = this.operando1) === null || _a === void 0 ? void 0 : _a.obtenerAST(exp1);
+            result += (_b = this.operando2) === null || _b === void 0 ? void 0 : _b.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.OR) {
+            let exp1 = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            let operador = `n${contador.getContador()}`;
+            result += `${exp1}[label=\"Expresion\"];\n`;
+            result += `${exp2}[label=\"Expresion\"];\n`;
+            result += `${operador}[label=\"||\"];\n`;
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${operador};\n`;
+            result += `${anterior} -> ${exp2};\n`;
+            result += (_c = this.operando1) === null || _c === void 0 ? void 0 : _c.obtenerAST(exp1);
+            result += (_d = this.operando2) === null || _d === void 0 ? void 0 : _d.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.NOT) {
+            let nodoNot = `n${contador.getContador()}`;
+            let nodoExp = `n${contador.getContador()}`;
+            result += `${nodoNot}[label="!"];\n`;
+            result += `${nodoExp}[label="Expresion"];\n`;
+            result += `${anterior} -> ${nodoNot};\n`;
+            result += `${anterior} -> ${nodoExp};\n`;
+            result += (_e = this.operandoUnico) === null || _e === void 0 ? void 0 : _e.obtenerAST(nodoExp);
+        }
+        return result;
     }
 }
 exports.default = Logicos;

@@ -173,6 +173,9 @@ class FNativas extends instruccion_1.Instruccion {
         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
         return op1.length;
     }
+    obtenerAST(anterior) {
+        return "";
+    }
 }
 exports.default = FNativas;
 var Operadores;

@@ -65,7 +65,7 @@ class Llamada extends instruccion_1.Instruccion {
             }
             else {
                 let nuevaTabla = new tablaSimbolos_1.default(tabla);
-                nuevaTabla.setNombre("Llamada metodo " + this.id);
+                nuevaTabla.setNombre("Llamada función " + this.id);
                 if (busqueda.parametros.length != this.parametros.length) {
                     arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
                     return new errores_1.default('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);
@@ -92,19 +92,6 @@ class Llamada extends instruccion_1.Instruccion {
                         arbol.Print(`Error Semántico: El parametro ${i} no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
                         return new errores_1.default('Semántico', `El parametro ${i} no coincide con la función ${this.id}`, this.linea, this.columna);
                     }
-                    /*let nuevaVar = this.parametros[i].interpretar(arbol, nuevaTabla);
-
-                    let variable = nuevaTabla.getVariable(busqueda.parametros[i].id)
-
-                    if (variable != null) {
-                        if (variable.getTipo().getTipo() != this.parametros[i].tipoDato.getTipo()) {
-                            return new Errores("Semantico", "Parametro " + i + " es de diferente tipo al que se esperaba", this.linea, this.columna)
-                        } else {
-                            variable.setValor(nuevaVar);
-                        }
-                    } else {
-                        return new Errores("Semantico", "Varible con ID " + busqueda.parametros[i].id + " no existe", this.linea, this.columna)
-                    }*/
                 }
                 let resultFunc = busqueda.interpretar(arbol, nuevaTabla);
                 if (resultFunc instanceof errores_1.default)

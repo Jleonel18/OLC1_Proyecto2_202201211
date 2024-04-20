@@ -54,5 +54,8 @@ class AccesoArr extends instruccion_1.Instruccion {
         }
         return vVector[posicionVar];
     }
+    obtenerAST(anterior) {
+        return "";
+    }
 }
 exports.default = AccesoArr;

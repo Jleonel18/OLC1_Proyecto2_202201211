@@ -14,7 +14,6 @@ export abstract class Instruccion {
     }
 
     abstract interpretar(arbol: Arbol, tabla: tablaSimbolos): any
-    /*abstract getCST(): Node
-    abstract getAST(): Node*/
+    abstract obtenerAST(anterior: string): string;
 
 }

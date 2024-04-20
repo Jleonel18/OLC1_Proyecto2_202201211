@@ -461,6 +461,10 @@ class Relacionales extends instruccion_1.Instruccion {
                 return new errores_1.default("Semantico", "Comparación inválida " + tipo2, this.linea, this.columna);
         }
     }
+    obtenerAST(anterior) {
+        let resultado = "";
+        return resultado;
+    }
 }
 exports.default = Relacionales;
 var Operadores;

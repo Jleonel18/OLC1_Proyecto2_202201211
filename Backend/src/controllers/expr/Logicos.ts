@@ -1,6 +1,7 @@
 import { Instruccion } from "../abstracto/instruccion";
 import Errores from "../excep/errores";
 import Arbol from "../simbol/arbol";
+import ContadorSingleton from "../simbol/contadorSingleton";
 import tablaSimbolo from "../simbol/tablaSimbolos";
 import Tipo, { tipoDato } from "../simbol/tipo";
 
@@ -95,6 +96,61 @@ export default class Logicos extends Instruccion {
                 return new Errores("Semantico", "Tipo de dato no es booleano", this.linea, this.columna)
         }
 
+    }
+
+    obtenerAST(anterior: string): string {
+
+        let result = "";
+
+        let contador = ContadorSingleton.getInstance();
+
+        if (this.operacion == Operadores.AND) {
+
+            let exp1 = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            let operador = `n${contador.getContador()}`;
+            result += `${exp1}[label=\"Expresion\"];\n`;
+            result += `${exp2}[label=\"Expresion\"];\n`;
+            result += `${operador}[label=\"&&\"];\n`;
+
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${operador};\n`;
+            result += `${anterior} -> ${exp2};\n`;
+
+            result += this.operando1?.obtenerAST(exp1);
+            result += this.operando2?.obtenerAST(exp2);
+
+        }else if(this.operacion == Operadores.OR){
+
+            let exp1 = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            let operador = `n${contador.getContador()}`;
+            result += `${exp1}[label=\"Expresion\"];\n`;
+            result += `${exp2}[label=\"Expresion\"];\n`;
+            result += `${operador}[label=\"||\"];\n`;
+
+            result += `${anterior} -> ${exp1};\n`;
+            result += `${anterior} -> ${operador};\n`;
+            result += `${anterior} -> ${exp2};\n`;
+
+            result += this.operando1?.obtenerAST(exp1);
+            result += this.operando2?.obtenerAST(exp2);
+
+        }else if(this.operacion == Operadores.NOT){
+
+            let nodoNot = `n${contador.getContador()}`;
+            let nodoExp = `n${contador.getContador()}`;
+            result += `${nodoNot}[label="!"];\n`;
+            result += `${nodoExp}[label="Expresion"];\n`;
+
+            result += `${anterior} -> ${nodoNot};\n`;
+            result += `${anterior} -> ${nodoExp};\n`;
+
+            result += this.operandoUnico?.obtenerAST(nodoExp);
+
+        }
+
+        return result;
     }
 
 

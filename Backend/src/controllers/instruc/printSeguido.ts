@@ -3,6 +3,7 @@ import Arbol from "../simbol/arbol";
 import tablaSimbolo from "../simbol/tablaSimbolos";
 import Tipo, { tipoDato } from "../simbol/tipo";
 import Errores from "../excep/errores";
+import ContadorSingleton from "../simbol/contadorSingleton";
 
 export default class Print extends Instruccion {
     private expresion: Instruccion
@@ -16,5 +17,29 @@ export default class Print extends Instruccion {
         let valor = this.expresion.interpretar(arbol, tabla)
         if (valor instanceof Errores) return valor
         arbol.PrintSeguido(valor)
+    }
+
+    obtenerAST(anterior: string): string {
+        let result = "";
+
+        let contador = ContadorSingleton.getInstance();
+        let cout = `n${contador.getContador()}`;
+        let dobleSigno = `n${contador.getContador()}`;
+        let nodoExpresion = `n${contador.getContador()}`;
+        let puntoComa = `n${contador.getContador()}`;
+        
+        result += `${cout}[label="cout"];\n`;
+        result += `${dobleSigno}[label="<<"];\n`;
+        result += `${nodoExpresion}[label="Expresion"];\n`;
+        result += `${puntoComa}[label=";"];\n`;
+
+        result += `${anterior} -> ${cout};\n`;
+        result += `${anterior} -> ${dobleSigno};\n`;
+        result += `${anterior} -> ${nodoExpresion};\n`;
+        result += `${anterior} -> ${puntoComa};\n`;
+
+        result += this.expresion.obtenerAST(nodoExpresion);
+
+        return result;
     }
 }

@@ -5,8 +5,11 @@ import Errores from './excep/errores';
 import Metodo from './instruc/metodo';
 import Declaracion from './instruc/declaracion';
 import Execute from './instruc/execute';
+import ContadorSingleton from './simbol/contadorSingleton';
 
 export let lista_errores: Array<Errores> = [];
+
+var dotAst: string = "";
 
 class controller{
     public prueba(req: Request, res: Response){
@@ -34,6 +37,8 @@ class controller{
         lista_errores = new Array<Errores>
 
         try{
+
+            dotAst = "";
 
             let parser = require('../../gramatica/gramatica')
             let ast = new Arbol(parser.parse(req.body.message));
@@ -101,6 +106,24 @@ class controller{
                 
             }
 
+            let contador = ContadorSingleton.getInstance();
+            let cadena  = "digraph arbol{\n";
+            cadena += `nInicio[label = "inicio"];\n`;
+            cadena += `nInstrucciones[label = "instrucciones"];\n`;
+            cadena += `nInicio -> nInstrucciones;\n`;
+
+            for(let i of ast.getInstrucciones()){
+                if(i instanceof Errores) continue;
+                let nodo = `n${contador.getContador()}`;
+                cadena += `${nodo}[label="instruccion"]\n`;
+                cadena += `nInstrucciones -> ${nodo};\n`;
+                cadena += i.obtenerAST(nodo);
+            }
+
+            cadena += "\n}"
+            dotAst = cadena;
+
+
             console.log(tabla);
             res.send({message: ast.getConsola()});
             console.log(ast.getConsola());
@@ -120,6 +143,15 @@ class controller{
         }catch(error: any){
             res.json({message: "Error en el analisis"});
             console.log(error);
+        }
+    }
+
+    public arbolAst(req: Request, res: Response){
+        try{
+            res.json({message: dotAst});
+        }catch(error: any){
+            console.log(error);
+            res.json({message: "Error al obtener el arbol AST"});
         }
     }
 }

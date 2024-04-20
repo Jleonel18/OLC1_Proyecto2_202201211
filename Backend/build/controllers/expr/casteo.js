@@ -108,5 +108,8 @@ class Casteo extends instruccion_1.Instruccion {
                 return new errores_1.default("Error Semantico", "No se puede castear el valor", this.linea, this.columna);
         }
     }
+    obtenerAST(anterior) {
+        return "";
+    }
 }
 exports.default = Casteo;

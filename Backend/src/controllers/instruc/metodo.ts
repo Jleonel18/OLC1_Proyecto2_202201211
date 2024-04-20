@@ -53,7 +53,7 @@ export default class Metodo extends Instruccion {
                     existeReturn = true;
                     if(i.expresion != undefined){
                         this.valorRetorno = i.expresion;
-                        console.log("lo que quiero probar es:"+i.expresion.tipoDato.getTipo()+" "+this.tipo.getTipo());
+                        //console.log("lo que quiero probar es:"+i.expresion.tipoDato.getTipo()+" "+this.tipo.getTipo());
                         if(this.tipo.getTipo() != i.expresion.tipoDato.getTipo()){
                             arbol.Print("Error Semantico: El tipo de retorno no coincide con el tipo de la función. linea:"+ this.linea+" columna: " +(this.columna+1));
                             return new Errores("Semantico", "El tipo de retorno no coincide con el tipo de la función", this.linea, this.columna);

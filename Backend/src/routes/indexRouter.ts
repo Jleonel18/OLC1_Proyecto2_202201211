@@ -12,6 +12,7 @@ class router {
         this.router.post('/post', indexController.metodoPost);
         this.router.post('/analizar', indexController.interpretar);
         this.router.get('/reporteErrores', indexController.reporteErrores);
+        this.router.get('/reporteAST', indexController.arbolAst);
     }
 }
 

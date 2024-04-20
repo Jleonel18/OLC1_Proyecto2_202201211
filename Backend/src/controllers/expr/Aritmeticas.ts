@@ -1,6 +1,8 @@
+import exp from "constants";
 import { Instruccion } from "../abstracto/instruccion";
 import Errores from "../excep/errores";
 import Arbol from "../simbol/arbol";
+import ContadorSingleton from "../simbol/contadorSingleton";
 import tablaSimbolo from "../simbol/tablaSimbolos";
 import Tipo, { tipoDato } from "../simbol/tipo";
 
@@ -48,7 +50,7 @@ export default class Aritmeticas extends Instruccion {
             case Operadores.POTENCIA:
                 return this.potencia(opIzq, opDer)
             default:
-                arbol.Print("\n Operador Aritmetico Invalido:"+ this.linea + " y columna " + (this.columna+1))
+                arbol.Print("\n Operador Aritmetico Invalido:" + this.linea + " y columna " + (this.columna + 1))
                 return new Errores("Semantico", "Operador Aritmetico Invalido", this.linea, this.columna)
         }
     }
@@ -70,15 +72,15 @@ export default class Aritmeticas extends Instruccion {
                         return parseInt(op1) + op2
                     case tipoDato.BOOL:
                         this.tipoDato = new Tipo(tipoDato.ENTERO)
-                        if(op2 == true){
+                        if (op2 == true) {
                             return parseInt(op1) + 1
-                        }else{
+                        } else {
                             return parseInt(op1) + 0
                         }
                     case tipoDato.CARACTER:
                         this.tipoDato = new Tipo(tipoDato.ENTERO)
                         return parseInt(op1) + parseInt(op2.charCodeAt(1))
-                        
+
                     default:
                         return new Errores("Semantico", "Suma Invalida", this.linea, this.columna)
                 }
@@ -95,9 +97,9 @@ export default class Aritmeticas extends Instruccion {
                         return parseFloat(op1) + op2
                     case tipoDato.BOOL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
-                        if(op2 == true){
+                        if (op2 == true) {
                             return parseFloat(op1) + 1
-                        }else{
+                        } else {
                             return parseFloat(op1) + 0
                         }
                     case tipoDato.CARACTER:
@@ -108,33 +110,33 @@ export default class Aritmeticas extends Instruccion {
                 }
 
             case tipoDato.BOOL:
-                switch(tipo2){
+                switch (tipo2) {
                     case tipoDato.ENTERO:
                         this.tipoDato = new Tipo(tipoDato.ENTERO)
-                        if(op1 == true){
+                        if (op1 == true) {
                             return 1 + parseInt(op2)
-                        }else{
+                        } else {
                             return 0 + parseInt(op2)
                         }
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
-                        if(op1 == true){
+                        if (op1 == true) {
                             return 1 + parseFloat(op2)
-                        }else{
+                        } else {
                             return 0 + parseFloat(op2)
                         }
                     case tipoDato.CADENA:
                         this.tipoDato = new Tipo(tipoDato.CADENA)
-                        if(op1 == true){
+                        if (op1 == true) {
                             return 'true' + op2
-                        }else{
+                        } else {
                             return 'false' + op2
                         }
                     default:
                         return new Errores("Semantico", "Suma Invalida", this.linea, this.columna)
                 }
             case tipoDato.CARACTER:
-                switch(tipo2){
+                switch (tipo2) {
                     case tipoDato.ENTERO:
                         this.tipoDato = new Tipo(tipoDato.ENTERO)
                         return parseInt(op1.charCodeAt(1)) + parseInt(op2)
@@ -151,7 +153,7 @@ export default class Aritmeticas extends Instruccion {
                         return new Errores("Semantico", "Suma Invalida", this.linea, this.columna)
                 }
             case tipoDato.CADENA:
-                switch(tipo2){
+                switch (tipo2) {
                     case tipoDato.ENTERO:
                         this.tipoDato = new Tipo(tipoDato.CADENA)
                         return op1 + parseInt(op2)
@@ -163,9 +165,9 @@ export default class Aritmeticas extends Instruccion {
                         return op1 + op2
                     case tipoDato.BOOL:
                         this.tipoDato = new Tipo(tipoDato.CADENA)
-                        if(op2 == true){
+                        if (op2 == true) {
                             return op1 + 'true'
-                        }else{
+                        } else {
                             return op1 + 'false'
                         }
                     case tipoDato.CARACTER:
@@ -197,9 +199,9 @@ export default class Aritmeticas extends Instruccion {
                         return parseInt(op1) - parseInt(op2.charCodeAt(1))
                     case tipoDato.BOOL:
                         this.tipoDato = new Tipo(tipoDato.ENTERO)
-                        if(op2 == 'true'){
+                        if (op2 == 'true') {
                             return parseInt(op1) - 1
-                        }else{
+                        } else {
                             return parseInt(op1) - 0
                         }
                     default:
@@ -218,9 +220,9 @@ export default class Aritmeticas extends Instruccion {
                         return parseFloat(op1) - parseFloat(op2.charCodeAt())
                     case tipoDato.BOOL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
-                        if(op2 == 'true'){
+                        if (op2 == 'true') {
                             return parseFloat(op1) - 1
-                        }else{
+                        } else {
                             return parseFloat(op1) - 0
                         }
                     default:
@@ -241,16 +243,16 @@ export default class Aritmeticas extends Instruccion {
                 switch (tipo2) {
                     case tipoDato.ENTERO:
                         this.tipoDato = new Tipo(tipoDato.ENTERO)
-                        if(op1 == 'true'){
+                        if (op1 == 'true') {
                             return 1 - parseInt(op2)
-                        }else{
+                        } else {
                             return 0 - parseInt(op2)
                         }
                     case tipoDato.DECIMAL:
                         this.tipoDato = new Tipo(tipoDato.DECIMAL)
-                        if(op1 == 'true'){
+                        if (op1 == 'true') {
                             return 1 - parseFloat(op2)
-                        }else{
+                        } else {
                             return 0 - parseFloat(op2)
                         }
                     default:
@@ -406,7 +408,7 @@ export default class Aritmeticas extends Instruccion {
                 return new Errores("Semantico", "Negacion Unaria invalida", this.linea, this.columna)
         }
     }
-    
+
     potencia(op1: any, op2: any) {
         let tipo1 = this.operando1?.tipoDato.getTipo()
         let tipo2 = this.operando2?.tipoDato.getTipo()
@@ -436,6 +438,124 @@ export default class Aritmeticas extends Instruccion {
             default:
                 return new Errores("Semantico", "Potencia Invalida", this.linea, this.columna)
         }
+    }
+
+    obtenerAST(anterior: string): string {
+
+        let contador = ContadorSingleton.getInstance();
+        let result = ""
+        if (this.operacion == Operadores.NEG) {
+
+            let nodoNeg = `n${contador.getContador()}`
+            let nodoExp = `n${contador.getContador()}`
+            result += `${nodoNeg}[label=\"Negacion Unaria\"];\n`
+            result += `${nodoExp}[label=\"Expresion\"];\n`
+            result += `${anterior}->${nodoNeg};\n`
+            result += `${anterior}-> ${nodoExp};\n`
+            result += this.operandoUnico?.obtenerAST(nodoExp)
+            //return result;
+        } else if (this.operacion == Operadores.SUMA) {
+
+            let exp1 = `n${contador.getContador()}`
+            let nodoOp = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+
+            result += `${exp1}[label= \"Expresion\"];\n`
+            result += `${nodoOp}[label=\"+\"];\n`
+            result += `${exp2}[label=\"Expresion\"];\n`
+            result += `${anterior}->${exp1};\n`
+            result += `${anterior}->${nodoOp};\n`
+            result += `${anterior}->${exp2};\n`
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+
+        }else if(this.operacion == Operadores.RESTA){
+
+            let exp1 = `n${contador.getContador()}`
+            let nodoOp = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+
+            result += `${exp1}[label= \"Expresion\"];\n`
+            result += `${nodoOp}[label=\"-\"];\n`
+            result += `${exp2}[label=\"Expresion\"];\n`
+            result += `${anterior}->${exp1};\n`
+            result += `${anterior}->${nodoOp};\n`
+            result += `${anterior}->${exp2};\n`
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+
+        }else if(this.operacion == Operadores.MULTIPLICACION){
+
+            let exp1 = `n${contador.getContador()}`
+            let nodoOp = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+
+            result += `${exp1}[label= \"Expresion\"];\n`
+            result += `${nodoOp}[label=\"*\"];\n`
+            result += `${exp2}[label=\"Expresion\"];\n`
+            result += `${anterior}->${exp1};\n`
+            result += `${anterior}->${nodoOp};\n`
+            result += `${anterior}->${exp2};\n`
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+        }else if(this.operacion == Operadores.DIVISION){
+
+            let exp1 = `n${contador.getContador()}`
+            let nodoOp = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+
+            result += `${exp1}[label= \"Expresion\"];\n`
+            result += `${nodoOp}[label=\"/\"];\n`
+            result += `${exp2}[label=\"Expresion\"];\n`
+            result += `${anterior}->${exp1};\n`
+            result += `${anterior}->${nodoOp};\n`
+            result += `${anterior}->${exp2};\n`
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+
+        }else if(this.operacion == Operadores.MODULO){
+
+            let exp1 = `n${contador.getContador()}`
+            let nodoOp = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+
+            result += `${exp1}[label= \"Expresion\"];\n`
+            result += `${nodoOp}[label=\"%\"];\n`
+            result += `${exp2}[label=\"Expresion\"];\n`
+            result += `${anterior}->${exp1};\n`
+            result += `${anterior}->${nodoOp};\n`
+            result += `${anterior}->${exp2};\n`
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+        }else if(this.operacion == Operadores.POTENCIA){
+
+            let exp1 = `n${contador.getContador()}`
+            let exp2 = `n${contador.getContador()}`
+            let par1 = `n${contador.getContador()}`
+            let par2 = `n${contador.getContador()}`
+            let nodoPow = `n${contador.getContador()}`
+            let nodoComa = `n${contador.getContador()}`
+            result += `${nodoPow}[label="pow"];\n`
+            result += `${par1}[label="("];\n`
+            result += `${exp1}[label="Expresion"];\n`
+            result += `${nodoComa}[label=","];\n`
+            result += `${exp2}[label="Expresion"];\n`
+            result += `${par2}[label=")"];\n`
+            result += `${anterior}->${nodoPow};\n`
+            result += `${anterior}->${par1};\n`
+            result += `${anterior}->${exp1};\n`
+            result += `${anterior}->${nodoComa};\n`
+            result += `${anterior}->${exp2};\n`
+            result += `${anterior}->${par2};\n`
+
+            result += this.operando1?.obtenerAST(exp1)
+            result += this.operando2?.obtenerAST(exp2)
+
+        }
+
+        return result;
+
+
     }
 
 }

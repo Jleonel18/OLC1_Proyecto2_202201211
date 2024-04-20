@@ -10,7 +10,9 @@ const errores_1 = __importDefault(require("./excep/errores"));
 const metodo_1 = __importDefault(require("./instruc/metodo"));
 const declaracion_1 = __importDefault(require("./instruc/declaracion"));
 const execute_1 = __importDefault(require("./instruc/execute"));
+const contadorSingleton_1 = __importDefault(require("./simbol/contadorSingleton"));
 exports.lista_errores = [];
+var dotAst = "";
 class controller {
     prueba(req, res) {
         res.json({ message: 'Hola mundo' });
@@ -31,6 +33,7 @@ class controller {
     interpretar(req, res) {
         exports.lista_errores = new Array;
         try {
+            dotAst = "";
             let parser = require('../../gramatica/gramatica');
             let ast = new arbol_1.default(parser.parse(req.body.message));
             let tabla = new tablaSimbolos_1.default();
@@ -82,6 +85,21 @@ class controller {
                     exports.lista_errores.push(res);
                 }
             }
+            let contador = contadorSingleton_1.default.getInstance();
+            let cadena = "digraph arbol{\n";
+            cadena += `nInicio[label = "inicio"];\n`;
+            cadena += `nInstrucciones[label = "instrucciones"];\n`;
+            cadena += `nInicio -> nInstrucciones;\n`;
+            for (let i of ast.getInstrucciones()) {
+                if (i instanceof errores_1.default)
+                    continue;
+                let nodo = `n${contador.getContador()}`;
+                cadena += `${nodo}[label="instruccion"]\n`;
+                cadena += `nInstrucciones -> ${nodo};\n`;
+                cadena += i.obtenerAST(nodo);
+            }
+            cadena += "\n}";
+            dotAst = cadena;
             console.log(tabla);
             res.send({ message: ast.getConsola() });
             console.log(ast.getConsola());
@@ -98,6 +116,15 @@ class controller {
         catch (error) {
             res.json({ message: "Error en el analisis" });
             console.log(error);
+        }
+    }
+    arbolAst(req, res) {
+        try {
+            res.json({ message: dotAst });
+        }
+        catch (error) {
+            console.log(error);
+            res.json({ message: "Error al obtener el arbol AST" });
         }
     }
 }

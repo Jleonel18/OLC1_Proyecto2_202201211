@@ -90,4 +90,8 @@ export default class Casteo extends Instruccion {
         }
     }
 
+    obtenerAST(anterior: string): string {
+        return "";
+    }
+
 }

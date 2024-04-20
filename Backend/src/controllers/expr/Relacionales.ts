@@ -442,6 +442,12 @@ export default class Relacionales extends Instruccion {
 
     }
 
+    obtenerAST(anterior: string): string {
+        let resultado =""
+
+        return resultado;
+    }
+
 }
 
 

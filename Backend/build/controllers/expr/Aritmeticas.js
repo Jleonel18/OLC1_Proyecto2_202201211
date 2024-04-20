@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Operadores = void 0;
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 class Aritmeticas extends instruccion_1.Instruccion {
     constructor(operador, fila, columna, op1, op2) {
@@ -463,6 +464,109 @@ class Aritmeticas extends instruccion_1.Instruccion {
             default:
                 return new errores_1.default("Semantico", "Potencia Invalida", this.linea, this.columna);
         }
+    }
+    obtenerAST(anterior) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+        let contador = contadorSingleton_1.default.getInstance();
+        let result = "";
+        if (this.operacion == Operadores.NEG) {
+            let nodoNeg = `n${contador.getContador()}`;
+            let nodoExp = `n${contador.getContador()}`;
+            result += `${nodoNeg}[label=\"Negacion Unaria\"];\n`;
+            result += `${nodoExp}[label=\"Expresion\"];\n`;
+            result += `${anterior}->${nodoNeg};\n`;
+            result += `${anterior}-> ${nodoExp};\n`;
+            result += (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.obtenerAST(nodoExp);
+            //return result;
+        }
+        else if (this.operacion == Operadores.SUMA) {
+            let exp1 = `n${contador.getContador()}`;
+            let nodoOp = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            result += `${exp1}[label= \"Expresion\"];\n`;
+            result += `${nodoOp}[label=\"+\"];\n`;
+            result += `${exp2}[label=\"Expresion\"];\n`;
+            result += `${anterior}->${exp1};\n`;
+            result += `${anterior}->${nodoOp};\n`;
+            result += `${anterior}->${exp2};\n`;
+            result += (_b = this.operando1) === null || _b === void 0 ? void 0 : _b.obtenerAST(exp1);
+            result += (_c = this.operando2) === null || _c === void 0 ? void 0 : _c.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.RESTA) {
+            let exp1 = `n${contador.getContador()}`;
+            let nodoOp = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            result += `${exp1}[label= \"Expresion\"];\n`;
+            result += `${nodoOp}[label=\"-\"];\n`;
+            result += `${exp2}[label=\"Expresion\"];\n`;
+            result += `${anterior}->${exp1};\n`;
+            result += `${anterior}->${nodoOp};\n`;
+            result += `${anterior}->${exp2};\n`;
+            result += (_d = this.operando1) === null || _d === void 0 ? void 0 : _d.obtenerAST(exp1);
+            result += (_e = this.operando2) === null || _e === void 0 ? void 0 : _e.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.MULTIPLICACION) {
+            let exp1 = `n${contador.getContador()}`;
+            let nodoOp = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            result += `${exp1}[label= \"Expresion\"];\n`;
+            result += `${nodoOp}[label=\"*\"];\n`;
+            result += `${exp2}[label=\"Expresion\"];\n`;
+            result += `${anterior}->${exp1};\n`;
+            result += `${anterior}->${nodoOp};\n`;
+            result += `${anterior}->${exp2};\n`;
+            result += (_f = this.operando1) === null || _f === void 0 ? void 0 : _f.obtenerAST(exp1);
+            result += (_g = this.operando2) === null || _g === void 0 ? void 0 : _g.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.DIVISION) {
+            let exp1 = `n${contador.getContador()}`;
+            let nodoOp = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            result += `${exp1}[label= \"Expresion\"];\n`;
+            result += `${nodoOp}[label=\"/\"];\n`;
+            result += `${exp2}[label=\"Expresion\"];\n`;
+            result += `${anterior}->${exp1};\n`;
+            result += `${anterior}->${nodoOp};\n`;
+            result += `${anterior}->${exp2};\n`;
+            result += (_h = this.operando1) === null || _h === void 0 ? void 0 : _h.obtenerAST(exp1);
+            result += (_j = this.operando2) === null || _j === void 0 ? void 0 : _j.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.MODULO) {
+            let exp1 = `n${contador.getContador()}`;
+            let nodoOp = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            result += `${exp1}[label= \"Expresion\"];\n`;
+            result += `${nodoOp}[label=\"%\"];\n`;
+            result += `${exp2}[label=\"Expresion\"];\n`;
+            result += `${anterior}->${exp1};\n`;
+            result += `${anterior}->${nodoOp};\n`;
+            result += `${anterior}->${exp2};\n`;
+            result += (_k = this.operando1) === null || _k === void 0 ? void 0 : _k.obtenerAST(exp1);
+            result += (_l = this.operando2) === null || _l === void 0 ? void 0 : _l.obtenerAST(exp2);
+        }
+        else if (this.operacion == Operadores.POTENCIA) {
+            let exp1 = `n${contador.getContador()}`;
+            let exp2 = `n${contador.getContador()}`;
+            let par1 = `n${contador.getContador()}`;
+            let par2 = `n${contador.getContador()}`;
+            let nodoPow = `n${contador.getContador()}`;
+            let nodoComa = `n${contador.getContador()}`;
+            result += `${nodoPow}[label="pow"];\n`;
+            result += `${par1}[label="("];\n`;
+            result += `${exp1}[label="Expresion"];\n`;
+            result += `${nodoComa}[label=","];\n`;
+            result += `${exp2}[label="Expresion"];\n`;
+            result += `${par2}[label=")"];\n`;
+            result += `${anterior}->${nodoPow};\n`;
+            result += `${anterior}->${par1};\n`;
+            result += `${anterior}->${exp1};\n`;
+            result += `${anterior}->${nodoComa};\n`;
+            result += `${anterior}->${exp2};\n`;
+            result += `${anterior}->${par2};\n`;
+            result += (_m = this.operando1) === null || _m === void 0 ? void 0 : _m.obtenerAST(exp1);
+            result += (_o = this.operando2) === null || _o === void 0 ? void 0 : _o.obtenerAST(exp2);
+        }
+        return result;
     }
 }
 exports.default = Aritmeticas;
