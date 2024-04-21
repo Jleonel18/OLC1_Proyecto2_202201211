@@ -56,6 +56,7 @@ export default class Declaracion extends Instruccion {
 
         let declar = `n${contador.getContador()}`;
 
+        let tipoD = `n${contador.getContador()}`;
         let ids = `n${contador.getContador()}`;
 
         let conjuntoID = [];
@@ -68,6 +69,18 @@ export default class Declaracion extends Instruccion {
         let puntocoma = `n${contador.getContador()}`;
 
         result += `${declar}[label="Declaracion"];\n`
+        if(this.tipoDato.getTipo() == tipoDato.ENTERO){
+            result += `${tipoD}[label="int"];\n`
+        }else if(this.tipoDato.getTipo() == tipoDato.DECIMAL){
+            result += `${tipoD}[label="double"];\n`
+        }else if(this.tipoDato.getTipo() == tipoDato.BOOL){
+            result += `${tipoD}[label="bool"];\n`
+        }else if(this.tipoDato.getTipo() == tipoDato.CADENA){
+            result += `${tipoD}[label="std::string"];\n`
+        }else if(this.tipoDato.getTipo() == tipoDato.CARACTER){
+            result += `${tipoD}[label="char"];\n`
+        }
+
         result += `${ids}[label="IDS"];\n`
 
         for(let i= 0; i < this.identificador.length; i++){
@@ -80,6 +93,7 @@ export default class Declaracion extends Instruccion {
 
         result += `${anterior} -> ${declar};\n`
         result += `${declar} -> ${ids};\n`
+        result += `${declar} -> ${tipoD};\n`
         
         for(let i= 0; i < this.identificador.length; i++){
             result += `${ids} -> ${conjuntoID[i]};\n`

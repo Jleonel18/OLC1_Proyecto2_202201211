@@ -85,7 +85,7 @@ class Execute extends instruccion_1.Instruccion {
         result += `${par2}[label=")"];\n`;
         result += `${puntocoma}[label=";"];\n`;
         for (let i = 0; i < this.parametros.length; i++) {
-            result += `${contParametros[i]}[label="Parametro"];\n`;
+            result += `${contParametros[i]}[label="Expresion"];\n`;
         }
         result += `${anterior} -> ${executee};\n`;
         result += `${anterior} -> ${ident};\n`;

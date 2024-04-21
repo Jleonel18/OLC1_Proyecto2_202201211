@@ -57,13 +57,17 @@ class AsignacionVar extends instruccion_1.Instruccion {
         let result = "";
         let padre = `n${contador.getContador()}`;
         let variable = `n${contador.getContador()}`;
+        let varNombre = `n${contador.getContador()}`;
         let igual = `n${contador.getContador()}`;
         let asignacion = `n${contador.getContador()}`;
         result += ` ${padre}[label="Asignacion"];\n`;
         result += `${variable}[label="ID"];\n`;
+        result += `${varNombre}[label="${this.id}"];\n`;
         result += `${igual}[label="="];\n`;
         result += `${asignacion}[label="Expresion"];\n`;
+        result += ` ${anterior} -> ${padre};\n`;
         result += `${padre} -> ${variable};\n`;
+        result += `${variable} -> ${varNombre};\n`;
         result += `${padre} -> ${igual};\n`;
         result += `${padre} -> ${asignacion};\n`;
         result += this.exp.obtenerAST(asignacion);

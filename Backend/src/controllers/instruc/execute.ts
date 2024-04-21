@@ -81,7 +81,7 @@ export default class Execute extends Instruccion {
         result += `${puntocoma}[label=";"];\n`;
 
         for(let i = 0; i < this.parametros.length; i++){
-            result += `${contParametros[i]}[label="Parametro"];\n`;
+            result += `${contParametros[i]}[label="Expresion"];\n`;
         }
 
         result += `${anterior} -> ${executee};\n`;

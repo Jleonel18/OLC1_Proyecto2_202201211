@@ -33,6 +33,7 @@ const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
 const Continue_1 = __importDefault(require("./Continue"));
 const return_1 = __importDefault(require("./return"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 class For extends instruccion_1.Instruccion {
     constructor(declaracion, condicion, incremento, insctrucciones, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
@@ -77,7 +78,55 @@ class For extends instruccion_1.Instruccion {
         }
     }
     obtenerAST(anterior) {
-        return "";
+        let contador = contadorSingleton_1.default.getInstance();
+        let result = "";
+        let contInstruc = [];
+        let padre = `n${contador.getContador()}`;
+        let nFor = `n${contador.getContador()}`;
+        let par1 = `n${contador.getContador()}`;
+        let decl = `n${contador.getContador()}`;
+        let cond = `n${contador.getContador()}`;
+        let inc = `n${contador.getContador()}`;
+        let par2 = `n${contador.getContador()}`;
+        let llav1 = `n${contador.getContador()}`;
+        let padreIns = `n${contador.getContador()}`;
+        for (let i = 0; i < this.instrucciones.length; i++) {
+            contInstruc.push(`n${contador.getContador()}`);
+        }
+        let llav2 = `n${contador.getContador()}`;
+        result += `${padre}[label="ciclo"];\n`;
+        result += `${nFor}[label="for"];\n`;
+        result += `${par1}[label="("];\n`;
+        result += `${decl}[label="expresion"];\n`;
+        result += `${cond}[label="condicion"];\n`;
+        result += `${inc}[label="expresion"];\n`;
+        result += `${par2}[label=")"];\n`;
+        result += `${llav1}[label="{"];\n`;
+        result += `${padreIns}[label="Instrucciones"];\n`;
+        for (let i = 0; i < contInstruc.length; i++) {
+            result += ` ${contInstruc[i]}[label="Instruccion"];\n`;
+        }
+        result += `${llav2}[label="}"];\n`;
+        result += `${anterior} -> ${padre};\n`;
+        result += `${padre} -> ${nFor};\n`;
+        result += `${padre} -> ${par1};\n`;
+        result += `${padre} -> ${decl};\n`;
+        result += `${padre} -> ${cond};\n`;
+        result += `${padre} -> ${inc};\n`;
+        result += `${padre} -> ${par2};\n`;
+        result += `${padre} -> ${llav1};\n`;
+        result += `${padre} -> ${padreIns};\n`;
+        for (let i = 0; i < contInstruc.length; i++) {
+            result += `${padreIns} -> ${contInstruc[i]};\n`;
+        }
+        result += `${padre} -> ${llav2};\n`;
+        result += this.declaracion.obtenerAST(decl);
+        result += this.condicion.obtenerAST(cond);
+        result += this.incremento.obtenerAST(inc);
+        for (let i = 0; i < contInstruc.length; i++) {
+            result += this.instrucciones[i].obtenerAST(contInstruc[i]);
+        }
+        return result;
     }
 }
 exports.default = For;
