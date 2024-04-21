@@ -405,8 +405,8 @@ return: R_RETURN expresion R_PUNTOYCOMA {$$ = new Return.default(@1.first_line, 
       | R_RETURN R_PUNTOYCOMA {$$ = new Return.default(@1.first_line, @1.first_column);}
 ;
 
-vector: tipos ID R_CORCHETEIZQ R_CORCHETEDER R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_NEW tipos R_CORCHETEIZQ expresion R_CORCHETEDER R_CORCHETEIZQ expresion R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclVector.default(@1.first_line, @1.first_column, $1, $11, $14, [], $9);}
-      | tipos ID R_CORCHETEIZQ R_CORCHETEDER R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_CORCHETEIZQ asignacion_v_vector R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclVector.default(@1.first_line,@1.first_column, $1, $2, [], [], $9, null);}
+vector: tipos ID R_CORCHETEIZQ R_CORCHETEDER R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_NEW tipos R_CORCHETEIZQ expresion R_CORCHETEDER R_CORCHETEIZQ expresion R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclVector.default(@1.first_line, @1.first_column, $1, $2, $11, $14, [], $9);}
+      | tipos ID R_CORCHETEIZQ R_CORCHETEDER R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_CORCHETEIZQ asignacion_v_vector R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclVector.default(@1.first_line,@1.first_column, $1, $2, [], [], $9);}
 ;
 
 lista_vector: R_CORCHETEIZQ lista_exp_vectores R_CORCHETEDER {$$ = $2;}

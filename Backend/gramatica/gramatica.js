@@ -351,10 +351,10 @@ case 112:
 this.$ = new Return.default(_$[$0-1].first_line, _$[$0-1].first_column);
 break;
 case 113:
-this.$ = new DeclVector.default(_$[$0-15].first_line, _$[$0-15].first_column, $$[$0-15], $$[$0-5], $$[$0-2], [], $$[$0-7]);
+this.$ = new DeclVector.default(_$[$0-15].first_line, _$[$0-15].first_column, $$[$0-15], $$[$0-14], $$[$0-5], $$[$0-2], [], $$[$0-7]);
 break;
 case 114:
-this.$ = new DeclVector.default(_$[$0-10].first_line,_$[$0-10].first_column, $$[$0-10], $$[$0-9], [], [], $$[$0-2], null);
+this.$ = new DeclVector.default(_$[$0-10].first_line,_$[$0-10].first_column, $$[$0-10], $$[$0-9], [], [], $$[$0-2],null);
 break;
 }
 },
