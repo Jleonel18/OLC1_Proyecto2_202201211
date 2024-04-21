@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 class Return extends instruccion_1.Instruccion {
     constructor(linea, columna, expresion) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
@@ -43,7 +44,25 @@ class Return extends instruccion_1.Instruccion {
         return this;
     }
     obtenerAST(anterior) {
-        return "";
+        let contador = contadorSingleton_1.default.getInstance();
+        let result = "";
+        let returnn = `n${contador.getContador()}`;
+        let exp = `n${contador.getContador()}`;
+        let puntocoma = `n${contador.getContador()}`;
+        result += `${returnn}[label="Return"];\n`;
+        if (this.expresion != undefined) {
+            result += `${exp}[label="Expresion"];\n`;
+        }
+        result += `${puntocoma}[label=";"];\n`;
+        result += `${anterior} -> ${returnn};\n`;
+        if (this.expresion != undefined) {
+            result += `${anterior} -> ${exp};\n`;
+        }
+        result += `${anterior} -> ${puntocoma};\n`;
+        if (this.expresion != undefined) {
+            result += this.expresion.obtenerAST(exp);
+        }
+        return result;
     }
 }
 exports.default = Return;

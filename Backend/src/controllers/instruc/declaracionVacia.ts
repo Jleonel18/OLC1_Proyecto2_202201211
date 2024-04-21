@@ -1,6 +1,7 @@
 import { Instruccion } from "../abstracto/instruccion";
 import Errores from "../excep/errores";
 import Arbol from "../simbol/arbol";
+import ContadorSingleton from "../simbol/contadorSingleton";
 import Simbolo from "../simbol/Simbolo";
 import tablaSimbolo from "../simbol/tablaSimbolos";
 import Tipo, { tipoDato } from "../simbol/tipo";
@@ -52,7 +53,37 @@ export default class DeclaracionVacia extends Instruccion{
     }
 
     obtenerAST(anterior: string): string {
+
+        let contador = ContadorSingleton.getInstance();
         let result = "";
+
+        let declar = `n${contador.getContador()}`;
+        let ids = `n${contador.getContador()}`;
+
+        let conjuntoID = [];
+        for(let i= 0; i < this.identificador.length; i++){
+            conjuntoID.push(`n${contador.getContador()}`);
+        }
+
+        let puntocoma = `n${contador.getContador()}`;
+
+        result += ` ${declar}[label="Declaracion"];\n`;
+        result += ` ${ids}[label="IDS"];\n`;
+
+        for(let i= 0; i < this.identificador.length; i++){
+            result += ` ${conjuntoID[i]} [label = "${this.identificador[i]}"];\n`;
+        }
+
+        result += `${puntocoma}[label=";"];\n`;
+
+        result += `${anterior} -> ${declar};\n`;
+        result += `${declar} -> ${ids};\n`;
+
+        for(let i= 0; i < this.identificador.length; i++){
+            result += `${ids} -> ${conjuntoID[i]};\n`;
+        }
+
+        result += `${declar} -> ${puntocoma};\n`;
 
         return result;
     }

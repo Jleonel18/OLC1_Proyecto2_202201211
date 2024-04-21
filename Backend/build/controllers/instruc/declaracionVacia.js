@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const Simbolo_1 = __importDefault(require("../simbol/Simbolo"));
 const tipo_1 = require("../simbol/tipo");
 class DeclaracionVacia extends instruccion_1.Instruccion {
@@ -42,7 +43,27 @@ class DeclaracionVacia extends instruccion_1.Instruccion {
         });
     }
     obtenerAST(anterior) {
+        let contador = contadorSingleton_1.default.getInstance();
         let result = "";
+        let declar = `n${contador.getContador()}`;
+        let ids = `n${contador.getContador()}`;
+        let conjuntoID = [];
+        for (let i = 0; i < this.identificador.length; i++) {
+            conjuntoID.push(`n${contador.getContador()}`);
+        }
+        let puntocoma = `n${contador.getContador()}`;
+        result += ` ${declar}[label="Declaracion"];\n`;
+        result += ` ${ids}[label="IDS"];\n`;
+        for (let i = 0; i < this.identificador.length; i++) {
+            result += ` ${conjuntoID[i]} [label = "${this.identificador[i]}"];\n`;
+        }
+        result += `${puntocoma}[label=";"];\n`;
+        result += `${anterior} -> ${declar};\n`;
+        result += `${declar} -> ${ids};\n`;
+        for (let i = 0; i < this.identificador.length; i++) {
+            result += `${ids} -> ${conjuntoID[i]};\n`;
+        }
+        result += `${declar} -> ${puntocoma};\n`;
         return result;
     }
 }

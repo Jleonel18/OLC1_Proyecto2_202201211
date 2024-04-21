@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const declaracion_1 = __importDefault(require("./declaracion"));
@@ -65,7 +66,39 @@ class Execute extends instruccion_1.Instruccion {
         }
     }
     obtenerAST(anterior) {
+        let contador = contadorSingleton_1.default.getInstance();
         let result = "";
+        let executee = `n${contador.getContador()}`;
+        let ident = `n${contador.getContador()}`;
+        let par1 = `n${contador.getContador()}`;
+        let padreParametros = `n${contador.getContador()}`;
+        let contParametros = [];
+        for (let i = 0; i < this.parametros.length; i++) {
+            contParametros.push(`n${contador.getContador()}`);
+        }
+        let par2 = `n${contador.getContador()}`;
+        let puntocoma = `n${contador.getContador()}`;
+        result += `${executee}[label="Execute"];\n`;
+        result += `${ident}[label="${this.id}"];\n`;
+        result += `${par1}[label="("];\n`;
+        result += `${padreParametros}[label="Parametros"];\n`;
+        result += `${par2}[label=")"];\n`;
+        result += `${puntocoma}[label=";"];\n`;
+        for (let i = 0; i < this.parametros.length; i++) {
+            result += `${contParametros[i]}[label="Parametro"];\n`;
+        }
+        result += `${anterior} -> ${executee};\n`;
+        result += `${anterior} -> ${ident};\n`;
+        result += `${anterior} -> ${par1};\n`;
+        result += `${anterior} -> ${padreParametros};\n`;
+        for (let i = 0; i < this.parametros.length; i++) {
+            result += `${padreParametros} -> ${contParametros[i]};\n`;
+        }
+        result += `${anterior} -> ${par2};\n`;
+        result += `${anterior} -> ${puntocoma};\n`;
+        for (let i = 0; i < this.parametros.length; i++) {
+            result += this.parametros[i].obtenerAST(contParametros[i]);
+        }
         return result;
     }
 }

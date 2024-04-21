@@ -1,6 +1,7 @@
 import { Instruccion } from "../abstracto/instruccion";
 import Errores from "../excep/errores";
 import Arbol from "../simbol/arbol";
+import ContadorSingleton from "../simbol/contadorSingleton";
 import tablaSimbolo from "../simbol/tablaSimbolos";
 import Tipo, { tipoDato } from "../simbol/tipo";
 import Declaracion from "./declaracion";
@@ -54,7 +55,48 @@ export default class Execute extends Instruccion {
     }
 
     obtenerAST(anterior: string): string {
+
+        let contador = ContadorSingleton.getInstance();
         let result = "";
+
+
+        let executee = `n${contador.getContador()}`;
+        let ident = `n${contador.getContador()}`;
+        let par1 = `n${contador.getContador()}`;
+        let padreParametros = `n${contador.getContador()}`;
+        let contParametros = [];
+
+        for (let i = 0; i < this.parametros.length; i++) {
+            contParametros.push(`n${contador.getContador()}`);
+        }
+
+        let par2 = `n${contador.getContador()}`;
+        let puntocoma = `n${contador.getContador()}`;
+
+        result += `${executee}[label="Execute"];\n`;
+        result += `${ident}[label="${this.id}"];\n`;
+        result += `${par1}[label="("];\n`;
+        result += `${padreParametros}[label="Parametros"];\n`;
+        result += `${par2}[label=")"];\n`;
+        result += `${puntocoma}[label=";"];\n`;
+
+        for(let i = 0; i < this.parametros.length; i++){
+            result += `${contParametros[i]}[label="Parametro"];\n`;
+        }
+
+        result += `${anterior} -> ${executee};\n`;
+        result += `${anterior} -> ${ident};\n`;
+        result += `${anterior} -> ${par1};\n`;
+        result += `${anterior} -> ${padreParametros};\n`;
+        for(let i = 0; i < this.parametros.length; i++){
+            result += `${padreParametros} -> ${contParametros[i]};\n`;
+        }
+        result += `${anterior} -> ${par2};\n`;
+        result += `${anterior} -> ${puntocoma};\n`;
+
+        for (let i = 0; i < this.parametros.length; i++) {
+            result += this.parametros[i].obtenerAST(contParametros[i]);
+        }
 
         return result;
     }

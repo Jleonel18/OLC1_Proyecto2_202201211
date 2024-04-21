@@ -5,6 +5,7 @@ import Arbol from "../simbol/arbol";
 import Tipo, { tipoDato } from "../simbol/tipo";
 import Break from "./Break";
 import Continue from "./Continue";
+import ContadorSingleton from "../simbol/contadorSingleton";
 
 export default class Default extends Instruccion {
 
@@ -40,7 +41,38 @@ export default class Default extends Instruccion {
     }
 
     obtenerAST(anterior: string): string {
+
+        let contador = ContadorSingleton.getInstance();
         let result = "";
+
+        let defaultN = `n${contador.getContador()}`;
+        let dospuntos = `n${contador.getContador()}`;
+        let padreInstrucciones = `n${contador.getContador()}`;
+        let contInstrucciones = [];
+
+        for(let i = 0; i < this.instrucciones.length; i++){
+            contInstrucciones.push(`n${contador.getContador()}`);
+        }
+
+        result += `${defaultN}[label="Default"];\n`;
+        result += `${dospuntos}[label=":"];\n`;
+        result += `${padreInstrucciones}[label="Instrucciones"];\n`;
+
+        for(let i = 0; i < this.instrucciones.length; i++){
+            result += `${contInstrucciones[i]}[label="Instruccion"];\n`;
+        }
+
+        result += `${anterior} -> ${defaultN};\n`;
+        result += `${anterior} -> ${dospuntos};\n`;
+        result += `${defaultN} -> ${padreInstrucciones};\n`;
+
+        for(let i = 0; i < this.instrucciones.length; i++){
+            result += `${padreInstrucciones} -> ${contInstrucciones[i]};\n`;
+        }
+
+        for(let i = 0; i < this.instrucciones.length; i++){
+            result += this.instrucciones[i].obtenerAST(contInstrucciones[i]);
+        }
 
         return result;
     }
