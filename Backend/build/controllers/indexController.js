@@ -69,7 +69,7 @@ class controller {
                 }
             }
             let contador = contadorSingleton_1.default.getInstance();
-            let cadena = "digraph arbol{\n";
+            let cadena = `digraph arbol{ splines="false" \n`;
             cadena += `nInicio[label = "inicio"];\n`;
             cadena += `nInstrucciones[label = "instrucciones"];\n`;
             cadena += `nInicio -> nInstrucciones;\n`;
