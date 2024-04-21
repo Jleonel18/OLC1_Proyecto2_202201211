@@ -64,7 +64,7 @@ export default class Llamada extends Instruccion {
                     if (result instanceof Errores) return result;
 
                     
-                    console.log("la nuevaVar es: "+nuevaVar);
+                    //console.log("la nuevaVar es: "+nuevaVar);
                     let varInterpretada = nuevaTabla.getVariable(busqueda.parametros[i].id[0]);
 
                     if(varInterpretada != null){

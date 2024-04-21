@@ -77,7 +77,7 @@ class Llamada extends instruccion_1.Instruccion {
                     let result = daclaraParam.interpretar(arbol, nuevaTabla);
                     if (result instanceof errores_1.default)
                         return result;
-                    console.log("la nuevaVar es: " + nuevaVar);
+                    //console.log("la nuevaVar es: "+nuevaVar);
                     let varInterpretada = nuevaTabla.getVariable(busqueda.parametros[i].id[0]);
                     if (varInterpretada != null) {
                         if (busqueda.parametros[i].tipo.getTipo() != varInterpretada.getTipo().getTipo()) {

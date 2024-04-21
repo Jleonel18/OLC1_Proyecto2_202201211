@@ -397,7 +397,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
             case tipo_1.tipoDato.ENTERO:
                 switch (tipo2) {
                     case tipo_1.tipoDato.ENTERO:
-                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
+                        this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
                         return parseInt(op1) % parseInt(op2);
                     case tipo_1.tipoDato.DECIMAL:
                         this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
@@ -425,7 +425,7 @@ class Aritmeticas extends instruccion_1.Instruccion {
         let opU = (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.tipoDato.getTipo();
         switch (opU) {
             case tipo_1.tipoDato.ENTERO:
-                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.ENTERO);
+                this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);
                 return parseInt(op1) * -1;
             case tipo_1.tipoDato.DECIMAL:
                 this.tipoDato = new tipo_1.default(tipo_1.tipoDato.DECIMAL);

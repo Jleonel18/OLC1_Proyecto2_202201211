@@ -33,6 +33,7 @@ const Metodo = require('../build/controllers/instruc/metodo')
 const Execute = require('../build/controllers/instruc/execute')
 const Llamada = require('../build/controllers/instruc/llamada')
 const Return = require('../build/controllers/instruc/return')
+const DeclVector = require('../build/controllers/instruc/declVector')
 
 const arb = require('../build/controllers/simbol/arbol')
 const indexRef = require('../build/controllers/indexController')
@@ -227,6 +228,7 @@ instruccion : impresion            {$$=$1;}
             |execute                            {$$ = $1;}
             |llamada R_PUNTOYCOMA               {$$ = $1;}
             |return                             {$$ = $1;}
+            |vector                             {$$ = $1;}
 ;
 
 impresion : R_COUT R_DOBLEMENOR expresion final_cout    {
@@ -401,4 +403,19 @@ llamada: ID R_PARIZQ parametros_llamada R_PARDER {$$ = new Llamada.default($1, $
 
 return: R_RETURN expresion R_PUNTOYCOMA {$$ = new Return.default(@1.first_line, @1.first_column,$2);}
       | R_RETURN R_PUNTOYCOMA {$$ = new Return.default(@1.first_line, @1.first_column);}
-;     
+;
+
+vector: tipos ID R_CORCHETEIZQ R_CORCHETEDER R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_NEW tipos R_CORCHETEIZQ expresion R_CORCHETEDER R_CORCHETEIZQ expresion R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclVector.default(@1.first_line, @1.first_column, $1, $11, $14, [], $9);}
+      | tipos ID R_CORCHETEIZQ R_CORCHETEDER R_CORCHETEIZQ R_CORCHETEDER R_IGUAL R_CORCHETEIZQ asignacion_v_vector R_CORCHETEDER R_PUNTOYCOMA {$$ = new DeclVector.default(@1.first_line,@1.first_column, $1, $2, [], [], $9, null);}
+;
+
+lista_vector: R_CORCHETEIZQ lista_exp_vectores R_CORCHETEDER {$$ = $2;}
+;
+
+lista_exp_vectores: lista_exp_vectores R_COMA expresion {$$.push($3); $$=$1;}
+                  | expresion {$$ = [$1];}
+;
+
+asignacion_v_vector : asignacion_v_vector R_COMA lista_vector {$$.push($3); $$=$1;}
+                    | lista_vector {$$ = [$1];}
+;
