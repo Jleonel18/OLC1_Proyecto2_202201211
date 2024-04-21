@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const Simbolo_1 = __importDefault(require("../simbol/Simbolo"));
 const tipo_1 = require("../simbol/tipo");
 class DeclaracionArreglo extends instruccion_1.Instruccion {
@@ -92,6 +93,188 @@ class DeclaracionArreglo extends instruccion_1.Instruccion {
     }
     obtenerAST(anterior) {
         let result = "";
+        let contador = contadorSingleton_1.default.getInstance();
+        if (this.booleano == false && this.segundoTipo != undefined) {
+            let tipoArr = `n${contador.getContador()}`;
+            let padreID = `n${contador.getContador()}`;
+            let ident = `n${contador.getContador()}`;
+            let corcP1 = `n${contador.getContador()}`;
+            let corcP2 = `n${contador.getContador()}`;
+            let igual = `n${contador.getContador()}`;
+            let nNew = `n${contador.getContador()}`;
+            let tipo2 = `n${contador.getContador()}`;
+            let corcS1 = `n${contador.getContador()}`;
+            let exp = `n${contador.getContador()}`;
+            let corcS2 = `n${contador.getContador()}`;
+            let puntoComa = `n${contador.getContador()}`;
+            if (this.primerTipo.getTipo() == tipo_1.tipoDato.ENTERO) {
+                result += `${tipoArr}[label="int"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.DECIMAL) {
+                result += `${tipoArr}[label="double"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.CADENA) {
+                result += `${tipoArr}[label="std::string"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.BOOL) {
+                result += `${tipoArr}[label="bool"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.CARACTER) {
+                result += `${tipoArr}[label="char"];\n`;
+            }
+            result += `${padreID}[label="ID"];\n`;
+            result += `${ident}[label="${this.identificador}"];\n`;
+            result += `${corcP1}[label="["];\n`;
+            result += `${corcP2}[label="]"];\n`;
+            result += `${igual}[label="="];\n`;
+            result += `${nNew}[label="new"];\n`;
+            if (this.segundoTipo.getTipo() == tipo_1.tipoDato.ENTERO) {
+                result += `${tipo2}[label="int"];\n`;
+            }
+            else if (this.segundoTipo.getTipo() == tipo_1.tipoDato.DECIMAL) {
+                result += `${tipo2}[label="double"];\n`;
+            }
+            else if (this.segundoTipo.getTipo() == tipo_1.tipoDato.CADENA) {
+                result += `${tipo2}[label="std::string"];\n`;
+            }
+            else if (this.segundoTipo.getTipo() == tipo_1.tipoDato.BOOL) {
+                result += `${tipo2}[label="bool"];\n`;
+            }
+            else if (this.segundoTipo.getTipo() == tipo_1.tipoDato.CARACTER) {
+                result += `${tipo2}[label="char"];\n`;
+            }
+            result += `${corcS1}[label="["];\n`;
+            result += `${exp}[label="Expresion"];\n`;
+            result += `${corcS2}[label="]"];\n`;
+            result += `${puntoComa}[label=";"];\n`;
+            result += anterior + " -> " + tipoArr + ";\n";
+            result += anterior + " -> " + padreID + ";\n";
+            result += padreID + " -> " + ident + ";\n";
+            result += anterior + " -> " + corcP1 + ";\n";
+            result += anterior + " -> " + corcP2 + ";\n";
+            result += anterior + " -> " + igual + ";\n";
+            result += anterior + " -> " + nNew + ";\n";
+            result += anterior + " -> " + tipo2 + ";\n";
+            result += anterior + " -> " + corcS1 + ";\n";
+            result += anterior + " -> " + exp + ";\n";
+            result += anterior + " -> " + corcS2 + ";\n";
+            result += anterior + " -> " + puntoComa + ";\n";
+            if (!Array.isArray(this.dimenValores)) {
+                result += this.dimenValores.obtenerAST(exp);
+            }
+        }
+        else if (this.booleano == false && this.segundoTipo == undefined) {
+            let tipoArr = `n${contador.getContador()}`;
+            let padreID = `n${contador.getContador()}`;
+            let ident = `n${contador.getContador()}`;
+            let corcP1 = `n${contador.getContador()}`;
+            let corcP2 = `n${contador.getContador()}`;
+            let igual = `n${contador.getContador()}`;
+            let corcS1 = `n${contador.getContador()}`;
+            let arreglo = [];
+            let padreDatos = `n${contador.getContador()}`;
+            if (Array.isArray(this.dimenValores)) {
+                for (let i = 0; i < this.dimenValores.length; i++) {
+                    arreglo.push(`n${contador.getContador()}`);
+                }
+            }
+            let corcS2 = `n${contador.getContador()}`;
+            let puntoComa = `n${contador.getContador()}`;
+            if (this.primerTipo.getTipo() == tipo_1.tipoDato.ENTERO) {
+                result += `${tipoArr}[label="int"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.DECIMAL) {
+                result += `${tipoArr}[label="double"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.CADENA) {
+                result += `${tipoArr}[label="std::string"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.BOOL) {
+                result += `${tipoArr}[label="bool"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.CARACTER) {
+                result += `${tipoArr}[label="char"];\n`;
+            }
+            result += `${padreID}[label="ID"];\n`;
+            result += `${ident}[label="${this.identificador}"];\n`;
+            result += `${corcP1}[label="["];\n`;
+            result += `${corcP2}[label="]"];\n`;
+            result += `${igual}[label="="];\n`;
+            result += `${corcS1}[label="["];\n`;
+            result += `${padreDatos}[label="Expresiones"];\n`;
+            if (Array.isArray(this.dimenValores)) {
+                for (let i = 0; i < this.dimenValores.length; i++) {
+                    result += `${arreglo[i]}[label="Expresion"];\n`;
+                }
+            }
+            result += `${corcS2}[label="]"];\n`;
+            result += `${puntoComa}[label=";"];\n`;
+            result += anterior + " -> " + tipoArr + ";\n";
+            result += anterior + " -> " + padreID + ";\n";
+            result += padreID + " -> " + ident + ";\n";
+            result += anterior + " -> " + corcP1 + ";\n";
+            result += anterior + " -> " + corcP2 + ";\n";
+            result += anterior + " -> " + igual + ";\n";
+            result += anterior + " -> " + corcS1 + ";\n";
+            result += anterior + " -> " + padreDatos + ";\n";
+            if (Array.isArray(this.dimenValores)) {
+                for (let i = 0; i < this.dimenValores.length; i++) {
+                    result += `${padreDatos} -> ${arreglo[i]};\n`;
+                }
+            }
+            result += anterior + " -> " + corcS2 + ";\n";
+            result += anterior + " -> " + puntoComa + ";\n";
+            if (Array.isArray(this.dimenValores)) {
+                for (let i = 0; i < this.dimenValores.length; i++) {
+                    result += this.dimenValores[i].obtenerAST(arreglo[i]);
+                }
+            }
+        }
+        else if (this.booleano == true) {
+            let tipoArr = `n${contador.getContador()}`;
+            let padreID = `n${contador.getContador()}`;
+            let ident = `n${contador.getContador()}`;
+            let corcP1 = `n${contador.getContador()}`;
+            let corcP2 = `n${contador.getContador()}`;
+            let igual = `n${contador.getContador()}`;
+            let exp = `n${contador.getContador()}`;
+            let puntoComa = `n${contador.getContador()}`;
+            if (this.primerTipo.getTipo() == tipo_1.tipoDato.CARACTER) {
+                result += `${tipoArr}[label="char"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.BOOL) {
+                result += `${tipoArr}[label="bool"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.CADENA) {
+                result += `${tipoArr}[label="std::string"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.DECIMAL) {
+                result += `${tipoArr}[label="double"];\n`;
+            }
+            else if (this.primerTipo.getTipo() == tipo_1.tipoDato.ENTERO) {
+                result += `${tipoArr}[label="int"];\n`;
+            }
+            result += `${padreID}[label="ID"];\n`;
+            result += `${ident}[label="${this.identificador}"];\n`;
+            result += `${corcP1}[label="["];\n`;
+            result += `${corcP2}[label="]"];\n`;
+            result += `${igual}[label="="];\n`;
+            if (!Array.isArray(this.dimenValores)) {
+                result += `${exp}[label="Expresion"];\n`;
+            }
+            result += `${puntoComa}[label=";"];\n`;
+            result += anterior + " -> " + tipoArr + ";\n";
+            result += anterior + " -> " + padreID + ";\n";
+            result += padreID + " -> " + ident + ";\n";
+            result += anterior + " -> " + corcP1 + ";\n";
+            result += anterior + " -> " + corcP2 + ";\n";
+            result += anterior + " -> " + igual + ";\n";
+            result += anterior + " -> " + exp + ";\n";
+            result += anterior + " -> " + puntoComa + ";\n";
+            if (!Array.isArray(this.dimenValores)) {
+                result += this.dimenValores.obtenerAST(exp);
+            }
+        }
         return result;
     }
 }

@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 class EditarArr extends instruccion_1.Instruccion {
     constructor(posicion, identificador, editar, linea, columna) {
@@ -57,7 +58,35 @@ class EditarArr extends instruccion_1.Instruccion {
         vVector[posicionArr] = valorNew;
     }
     obtenerAST(anterior) {
-        return "";
+        let result = "";
+        let contador = contadorSingleton_1.default.getInstance();
+        let padreID = `n${contador.getContador()}`;
+        let ident = `n${contador.getContador()}`;
+        let corc1 = `n${contador.getContador()}`;
+        let pos = `n${contador.getContador()}`;
+        let corc2 = `n${contador.getContador()}`;
+        let igual = `n${contador.getContador()}`;
+        let exp = `n${contador.getContador()}`;
+        let puntocoma = `n${contador.getContador()}`;
+        result += `${padreID}[label="ID"];\n`;
+        result += `${ident}[label="${this.identificador}"];\n`;
+        result += `${corc1}[label="["];\n`;
+        result += `${pos}[label="Expresion"];\n`;
+        result += `${corc2}[label="]"];\n`;
+        result += `${igual}[label="="];\n`;
+        result += `${exp}[label="Expresion"];\n`;
+        result += `${puntocoma}[label=";"];\n`;
+        result += anterior + " -> " + padreID + ";\n";
+        result += padreID + " -> " + ident + ";\n";
+        result += anterior + " -> " + corc1 + ";\n";
+        result += anterior + " -> " + pos + ";\n";
+        result += anterior + " -> " + corc2 + ";\n";
+        result += anterior + " -> " + igual + ";\n";
+        result += anterior + " -> " + exp + ";\n";
+        result += anterior + " -> " + puntocoma + ";\n";
+        result += this.posicion.obtenerAST(pos);
+        result += this.editar.obtenerAST(exp);
+        return result;
     }
 }
 exports.default = EditarArr;

@@ -1,6 +1,7 @@
 import { Instruccion } from "../abstracto/instruccion";
 import Errores from "../excep/errores";
 import Arbol from "../simbol/arbol";
+import ContadorSingleton from "../simbol/contadorSingleton";
 import Simbolo from "../simbol/Simbolo";
 import tablaSimbolo from "../simbol/tablaSimbolos";
 import Tipo, { tipoDato } from "../simbol/tipo";
@@ -46,6 +47,40 @@ export default class EditarArr extends Instruccion{
     }
 
     obtenerAST(anterior: string): string {
-        return "";
+
+        let result ="";
+        let contador = ContadorSingleton.getInstance();
+
+        let padreID = `n${contador.getContador()}`;
+        let ident = `n${contador.getContador()}`;
+        let corc1 = `n${contador.getContador()}`;
+        let pos = `n${contador.getContador()}`;
+        let corc2 = `n${contador.getContador()}`;
+        let igual = `n${contador.getContador()}`;
+        let exp = `n${contador.getContador()}`;
+        let puntocoma = `n${contador.getContador()}`;
+
+        result += `${padreID}[label="ID"];\n`;
+        result += `${ident}[label="${this.identificador}"];\n`;
+        result += `${corc1}[label="["];\n`;
+        result += `${pos}[label="Expresion"];\n`;
+        result += `${corc2}[label="]"];\n`;
+        result += `${igual}[label="="];\n`;
+        result += `${exp}[label="Expresion"];\n`;
+        result += `${puntocoma}[label=";"];\n`;
+
+        result += anterior + " -> " + padreID + ";\n";
+        result += padreID + " -> " + ident + ";\n";
+        result += anterior + " -> " + corc1 + ";\n";
+        result += anterior + " -> " + pos + ";\n";
+        result += anterior + " -> " + corc2 + ";\n";
+        result += anterior + " -> " + igual + ";\n";
+        result += anterior + " -> " + exp + ";\n";
+        result += anterior + " -> " + puntocoma + ";\n";
+
+        result += this.posicion.obtenerAST(pos);
+        result += this.editar.obtenerAST(exp);
+        
+        return result;
     }
 }
