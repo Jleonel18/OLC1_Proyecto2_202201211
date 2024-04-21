@@ -2,11 +2,13 @@ import { useRef } from "react"
 import './App.css';
 import Editor from '@monaco-editor/react';
 import { useState } from "react";
+import { Graphviz } from 'graphviz-react';
 
 function App() {
   const editorRef = useRef(null);
   const consolaRef = useRef(null);
   const [errores, setErrores] = useState([]);
+  const [ast, setAst] = useState("");
 
   function handleEditorDidMount(editor, id) {
     if (id === "editor") {
@@ -55,6 +57,25 @@ function App() {
       });
   }
 
+  function reporteAST(){
+    fetch('http://localhost:4000/reporteAST', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setAst(data.message);
+        console.log(data.message);
+        //consolaRef.current.setValue(data.message);
+      })
+      .catch((error) => {
+        alert("Error al interpretar el archivo.")
+        console.error('Error:', error);
+      });
+  }
+
   const CargarArchivo = (event) => {
     var file = event.target.files[0];
     var reader = new FileReader();
@@ -82,14 +103,10 @@ function App() {
               <li class="nav-item">
                 <a class="nav-link"  >Reporte Símbolos</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" >Reporte AST</a>
-              </li>
             </ul>
           </div>
         </div>
       </nav>
-      <br></br>
       <div class="container">
         <div class="row">
           <div class="col">
@@ -135,13 +152,13 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {errores.map((error,i) => (
+                  {errores.map((error, i) => (
                     <tr>
-                      <th scope="row">{(i+1)}</th>
+                      <th scope="row">{(i + 1)}</th>
                       <td>{error.tipoError}</td>
                       <td>{error.desc}</td>
                       <td>{error.fila}</td>
-                      <td>{(error.col+1)}</td>
+                      <td>{(error.col + 1)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -154,6 +171,10 @@ function App() {
           </div>
         </div>
       </div>
+      <br></br>
+      <h1>Arbol AST</h1>
+      <button class="btn btn-secondary" onClick={reporteAST}>Generar Arbol AST</button>
+      {ast && <Graphviz dot={ast} />}
 
     </div>
   );
