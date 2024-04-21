@@ -64,7 +64,7 @@ export default class Default extends Instruccion {
 
         result += `${anterior} -> ${defaultN};\n`;
         result += `${anterior} -> ${dospuntos};\n`;
-        result += `${defaultN} -> ${padreInstrucciones};\n`;
+        result += `${anterior} -> ${padreInstrucciones};\n`;
 
         for(let i = 0; i < this.instrucciones.length; i++){
             result += `${padreInstrucciones} -> ${contInstrucciones[i]};\n`;

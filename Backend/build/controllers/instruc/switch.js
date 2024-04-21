@@ -33,6 +33,7 @@ const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
 const Continue_1 = __importDefault(require("./Continue"));
 const return_1 = __importDefault(require("./return"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 class Switch extends instruccion_1.Instruccion {
     constructor(cond, instCase, instDefault, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
@@ -95,6 +96,60 @@ class Switch extends instruccion_1.Instruccion {
     }
     obtenerAST(anterior) {
         let reult = "";
+        let contador = contadorSingleton_1.default.getInstance();
+        let contDefault = undefined;
+        let contCase = [];
+        let switchN = `n${contador.getContador()}`;
+        let par1 = `n${contador.getContador()}`;
+        let exp = `n${contador.getContador()}`;
+        let par2 = `n${contador.getContador()}`;
+        let llav1 = `n${contador.getContador()}`;
+        let padreCase = `n${contador.getContador()}`;
+        if (this.instruccionesCase != undefined) {
+            for (let i = 0; i < this.instruccionesCase.length; i++) {
+                contCase.push(`n${contador.getContador()}`);
+            }
+        }
+        if (this.instruccionDefault != undefined) {
+            contDefault = `n${contador.getContador()}`;
+        }
+        reult += `${switchN}[label="Switch"];\n`;
+        reult += `${par1}[label="("];\n`;
+        reult += `${exp}[label="Expresion"];\n`;
+        reult += `${par2}[label=")"];\n`;
+        reult += `${llav1}[label="{"];\n`;
+        reult += `${padreCase}[label="cases_default"];\n`;
+        if (this.instruccionesCase != undefined) {
+            for (let i = 0; i < this.instruccionesCase.length; i++) {
+                reult += `${contCase[i]}[label="Case"];\n`;
+            }
+        }
+        if (this.instruccionDefault != undefined) {
+            reult += `${contDefault}[label="Default"];\n`;
+        }
+        reult += `${anterior} -> ${switchN};\n`;
+        reult += `${anterior} -> ${par1};\n`;
+        reult += `${anterior} -> ${exp};\n`;
+        reult += `${anterior} -> ${par2};\n`;
+        reult += `${anterior} -> ${llav1};\n`;
+        reult += `${anterior} -> ${padreCase};\n`;
+        if (this.instruccionesCase != undefined) {
+            for (let i = 0; i < this.instruccionesCase.length; i++) {
+                reult += `${padreCase} -> ${contCase[i]};\n`;
+            }
+        }
+        if (this.instruccionDefault != undefined) {
+            reult += `${padreCase} -> ${contDefault};\n`;
+        }
+        reult += this.condicion.obtenerAST(exp);
+        if (this.instruccionesCase != undefined) {
+            for (let i = 0; i < this.instruccionesCase.length; i++) {
+                reult += this.instruccionesCase[i].obtenerAST(contCase[i]);
+            }
+        }
+        if (this.instruccionDefault != undefined) {
+            reult += this.instruccionDefault.obtenerAST(contDefault);
+        }
         return reult;
     }
 }

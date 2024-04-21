@@ -32,6 +32,7 @@ const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
 const Continue_1 = __importDefault(require("./Continue"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 class Case extends instruccion_1.Instruccion {
     constructor(condicion, instrucciones, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
@@ -62,7 +63,34 @@ class Case extends instruccion_1.Instruccion {
         }
     }
     obtenerAST(anterior) {
+        let contador = contadorSingleton_1.default.getInstance();
         let result = "";
+        let caseN = `n${contador.getContador()}`;
+        let cond = `n${contador.getContador()}`;
+        let dospuntos = `n${contador.getContador()}`;
+        let padreInstrucciones = `n${contador.getContador()}`;
+        let contInstrucciones = [];
+        for (let i = 0; i < this.instrucciones.length; i++) {
+            contInstrucciones.push(`n${contador.getContador()}`);
+        }
+        result += `${caseN}[label="case"];\n`;
+        result += `${cond}[label="Expresion"];\n`;
+        result += `${dospuntos}[label=":"];\n`;
+        result += `${padreInstrucciones}[label="Instrucciones"];\n`;
+        for (let i = 0; i < this.instrucciones.length; i++) {
+            result += `${contInstrucciones[i]}[label="Instruccion"];\n`;
+        }
+        result += `${anterior} -> ${caseN};\n`;
+        result += `${anterior} -> ${cond};\n`;
+        result += `${anterior} -> ${dospuntos};\n`;
+        result += `${anterior} -> ${padreInstrucciones};\n`;
+        for (let i = 0; i < this.instrucciones.length; i++) {
+            result += `${padreInstrucciones} -> ${contInstrucciones[i]};\n`;
+        }
+        result += this.condicion.obtenerAST(cond);
+        for (let i = 0; i < this.instrucciones.length; i++) {
+            result += this.instrucciones[i].obtenerAST(contInstrucciones[i]);
+        }
         return result;
     }
 }
