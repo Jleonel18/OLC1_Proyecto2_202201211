@@ -78,7 +78,7 @@ class Llamada extends instruccion_1.Instruccion {
                     if (result instanceof errores_1.default)
                         return result;
                     console.log("la nuevaVar es: " + nuevaVar);
-                    let varInterpretada = nuevaTabla.getVariable(busqueda.parametros[i].id);
+                    let varInterpretada = nuevaTabla.getVariable(busqueda.parametros[i].id[0]);
                     if (varInterpretada != null) {
                         if (busqueda.parametros[i].tipo.getTipo() != varInterpretada.getTipo().getTipo()) {
                             arbol.Print(`Error Semántico: El tipo de parametro ${i} no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
@@ -86,7 +86,7 @@ class Llamada extends instruccion_1.Instruccion {
                         }
                         else {
                             varInterpretada.setValor(nuevaVar);
-                            console.log("la var interpretada es:" + varInterpretada.getValor());
+                            //console.log("la var interpretada es:"+varInterpretada.getValor());
                         }
                     }
                     else {

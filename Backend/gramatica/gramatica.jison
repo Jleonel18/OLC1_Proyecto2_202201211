@@ -225,7 +225,7 @@ instruccion : impresion            {$$=$1;}
             |editar_arreglo                     {$$ = $1;}
             |metodo                             {$$ = $1;}
             |execute                            {$$ = $1;}
-            |llamada                            {$$ = $1;}
+            |llamada R_PUNTOYCOMA               {$$ = $1;}
             |return                             {$$ = $1;}
 ;
 
@@ -302,7 +302,7 @@ expresion : expresion R_MAS expresion          {$$ = new Aritmeticas.default(Ari
           | casteo                              {$$ = $1;}
           | expresion R_TERNARIO expresion R_DOSPUNTOS expresion {$$ = new OpTernario.default($1, $3, $5, @1.first_line, @1.first_column);}
           | buscar_arreglo                     {$$ = $1;}
-          | ID R_PARIZQ parametros_llamada R_PARDER { $$ = new Llamada.default($1, $3, @1.first_line, @1.first_column);}
+          | llamada                             {$$ = $1;}
 ;
 
 f_nativas: R_TOLOWER R_PARIZQ expresion R_PARDER    {$$ = new FNativas.default(FNativas.Operadores.TOLOWER, @1.first_line, @1.first_column, $3);} 
@@ -395,8 +395,8 @@ parametros_llamada: parametros_llamada R_COMA expresion {$$.push($3); $$=$1;}
                   | expresion {$$ = [$1];}
 ;
 
-llamada: ID R_PARIZQ parametros_llamada R_PARDER R_PUNTOYCOMA {$$ = new Llamada.default($1, $3, @1.first_line, @1.first_column);}
-      | ID R_PARIZQ R_PARDER R_PUNTOYCOMA                     {$$ = new Llamada.default($1, [], @1.first_line, @1.first_column);}
+llamada: ID R_PARIZQ parametros_llamada R_PARDER {$$ = new Llamada.default($1, $3, @1.first_line, @1.first_column);}
+      | ID R_PARIZQ R_PARDER                     {$$ = new Llamada.default($1, [], @1.first_line, @1.first_column);}
 ;
 
 return: R_RETURN expresion R_PUNTOYCOMA {$$ = new Return.default(@1.first_line, @1.first_column,$2);}
