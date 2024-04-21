@@ -28,14 +28,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 class AccesoVar extends instruccion_1.Instruccion {
     constructor(id, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
+        this.valor = null;
         this.id = id;
     }
     interpretar(arbol, tabla) {
         let valorVariable = tabla.getVariable(this.id);
+        this.valor = valorVariable.getValor();
         if (valorVariable == null) {
             arbol.Print("\nError Semántico: Variable inexistente: " + this.id + " en la linea " + this.linea + " y columna " + (this.columna + 1));
             return new errores_1.default("Error semantico", "Variable inexistente", this.linea, this.columna);
@@ -44,7 +47,12 @@ class AccesoVar extends instruccion_1.Instruccion {
         return valorVariable.getValor();
     }
     obtenerAST(anterior) {
-        return "";
+        let result = "";
+        let contador = contadorSingleton_1.default.getInstance();
+        let declar = `n${contador.getContador()}`;
+        result += ` ${declar}[label="${this.valor}"];\n`;
+        result += ` ${anterior} -> ${declar};\n`;
+        return result;
     }
 }
 exports.default = AccesoVar;

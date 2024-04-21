@@ -59,5 +59,8 @@ class OpTernario extends instruccion_1.Instruccion {
             return exp2;
         }
     }
+    obtenerAST(anterior) {
+        return "";
+    }
 }
 exports.default = OpTernario;

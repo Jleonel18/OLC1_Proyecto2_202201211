@@ -61,4 +61,8 @@ export default class For extends Instruccion{
         }
 
     }
+
+    obtenerAST(anterior: string): string {
+        return "";
+    }
 }

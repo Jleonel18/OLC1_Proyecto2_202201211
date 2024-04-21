@@ -77,26 +77,7 @@ class controller{
 
             }
 
-            /*for(let i of ast.getInstrucciones()){
-
-                if(i instanceof Errores){
-                    //console.log("entro aqui") 
-                    lista_errores.push(i)
-
-                }
-                var resultado = i.interpretar(ast, tabla);
-
-                if (resultado instanceof Errores) {
-                    //console.log("aqui entro xd")
-                    lista_errores.push(resultado)
-                }
-                console.log(resultado);
-
-            }*/
-
             if(recorrido1 != null){
-
-                //console.log("voy a hacer el execute")
 
                 let res = recorrido1.interpretar(ast, tabla);
 

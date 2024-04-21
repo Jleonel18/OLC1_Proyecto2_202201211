@@ -32,6 +32,7 @@ const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const metodo_1 = __importDefault(require("./metodo"));
 const declaracion_1 = __importDefault(require("./declaracion"));
+const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 class Llamada extends instruccion_1.Instruccion {
     constructor(id, parametros, linea, columna) {
         super(new tipo_1.default(tipo_1.tipoDato.VOID), linea, columna);
@@ -102,6 +103,39 @@ class Llamada extends instruccion_1.Instruccion {
                 return busqueda.valorRetorno.interpretar(arbol, nuevaTabla);
             }
         }
+    }
+    obtenerAST(anterior) {
+        let contador = contadorSingleton_1.default.getInstance();
+        let result = "";
+        let llamada = `n${contador.getContador()}`;
+        let ident = `n${contador.getContador()}`;
+        let par1 = `n${contador.getContador()}`;
+        let puntocoma = `n${contador.getContador()}`;
+        let arrayParametros = [];
+        for (let i = 0; i < this.parametros.length; i++) {
+            arrayParametros.push(`n${contador.getContador()}`);
+        }
+        let par2 = `n${contador.getContador()}`;
+        result += `${llamada}[label="Llamada"];\n`;
+        result += `${ident}[label="${this.id}"];\n`;
+        result += `${par1}[label="("];\n`;
+        for (let i = 0; i < this.parametros.length; i++) {
+            result += `${arrayParametros[i]}[label="Parametro"];\n`;
+        }
+        result += `${par2}[label=")"];\n`;
+        result += `${puntocoma}[label=";"];\n`;
+        result += `${anterior} -> ${llamada};\n`;
+        result += `${llamada} -> ${ident};\n`;
+        result += `${llamada} -> ${par1};\n`;
+        for (let i = 0; i < this.parametros.length; i++) {
+            result += `${llamada} -> ${arrayParametros[i]};\n`;
+        }
+        result += `${llamada} -> ${par2};\n`;
+        result += `${llamada} -> ${puntocoma};\n`;
+        for (let i = 0; i < this.parametros.length; i++) {
+            result += this.parametros[i].obtenerAST(arrayParametros[i]);
+        }
+        return result;
     }
 }
 exports.default = Llamada;

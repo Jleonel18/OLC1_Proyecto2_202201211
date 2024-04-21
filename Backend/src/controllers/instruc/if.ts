@@ -79,4 +79,8 @@ export default class If extends Instruccion {
 
     }
 
+    obtenerAST(anterior: string): string {
+        return "";
+    }
+
 }

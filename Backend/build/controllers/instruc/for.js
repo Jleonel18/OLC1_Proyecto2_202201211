@@ -76,5 +76,8 @@ class For extends instruccion_1.Instruccion {
             this.incremento.interpretar(arbol, nuevaTabla2);
         }
     }
+    obtenerAST(anterior) {
+        return "";
+    }
 }
 exports.default = For;

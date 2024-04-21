@@ -44,4 +44,8 @@ export default class EditarArr extends Instruccion{
         vVector[posicionArr] = valorNew;
         
     }
+
+    obtenerAST(anterior: string): string {
+        return "";
+    }
 }

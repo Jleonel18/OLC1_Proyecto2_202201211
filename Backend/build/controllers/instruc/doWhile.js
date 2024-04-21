@@ -70,5 +70,8 @@ class While extends instruccion_1.Instruccion {
             }
         } while (this.condicion.interpretar(arbol, tabla));
     }
+    obtenerAST(anterior) {
+        return "";
+    }
 }
 exports.default = While;

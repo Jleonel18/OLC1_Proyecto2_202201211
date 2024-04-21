@@ -20,4 +20,8 @@ export default class Return extends Instruccion{
         }
         return this;
     }
+
+    obtenerAST(anterior: string): string {
+        return "";
+    }
 }

@@ -56,5 +56,8 @@ class EditarArr extends instruccion_1.Instruccion {
         }
         vVector[posicionArr] = valorNew;
     }
+    obtenerAST(anterior) {
+        return "";
+    }
 }
 exports.default = EditarArr;

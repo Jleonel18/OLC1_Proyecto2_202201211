@@ -93,5 +93,9 @@ class Switch extends instruccion_1.Instruccion {
             }
         }*/
     }
+    obtenerAST(anterior) {
+        let reult = "";
+        return reult;
+    }
 }
 exports.default = Switch;

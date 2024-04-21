@@ -57,4 +57,10 @@ export default class While extends Instruccion{
             }
         }
     }
+
+    obtenerAST(anterior: string): string {
+        let result = "";
+
+        return result;
+    }
 }

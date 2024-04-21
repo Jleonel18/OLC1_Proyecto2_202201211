@@ -5,6 +5,7 @@ import Arbol from "../simbol/arbol";
 import Tipo, { tipoDato } from "../simbol/tipo";
 import Metodo from "./metodo";
 import Declaracion from "./declaracion";
+import ContadorSingleton from "../simbol/contadorSingleton";
 
 export default class Llamada extends Instruccion {
 
@@ -94,6 +95,54 @@ export default class Llamada extends Instruccion {
 
         }
 
+    }
+
+    obtenerAST(anterior: string): string {
+
+        let contador = ContadorSingleton.getInstance();
+        let result = "";
+
+        let llamada = `n${contador.getContador()}`;
+        let ident = `n${contador.getContador()}`;
+        let par1 = `n${contador.getContador()}`;
+        let puntocoma = `n${contador.getContador()}`;
+
+        let arrayParametros = [];
+
+        for (let i = 0; i < this.parametros.length; i++) {
+            arrayParametros.push(`n${contador.getContador()}`);
+        }
+
+        let par2 = `n${contador.getContador()}`;
+
+        result += `${llamada}[label="Llamada"];\n`;
+        result += `${ident}[label="${this.id}"];\n`;
+        result += `${par1}[label="("];\n`;
+
+        for(let i = 0; i < this.parametros.length; i++){
+            result += `${arrayParametros[i]}[label="Parametro"];\n`;
+        }
+
+        result += `${par2}[label=")"];\n`;
+        result += `${puntocoma}[label=";"];\n`
+
+
+        result += `${anterior} -> ${llamada};\n`;
+        result += `${llamada} -> ${ident};\n`;
+        result += `${llamada} -> ${par1};\n`;
+
+        for(let i = 0; i < this.parametros.length; i++){
+            result += `${llamada} -> ${arrayParametros[i]};\n`;
+        }
+
+        result += `${llamada} -> ${par2};\n`;
+        result += `${llamada} -> ${puntocoma};\n`;
+        
+        for(let i = 0; i < this.parametros.length; i++){
+            result += this.parametros[i].obtenerAST(arrayParametros[i]);
+        }
+
+        return result;
     }
 
 }

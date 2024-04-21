@@ -109,5 +109,8 @@ class If extends instruccion_1.Instruccion {
             }
         }
     }
+    obtenerAST(anterior) {
+        return "";
+    }
 }
 exports.default = If;

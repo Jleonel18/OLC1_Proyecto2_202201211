@@ -77,4 +77,10 @@ export default class Switch extends Instruccion {
         }*/
 
     }
+
+    obtenerAST(anterior: string): string {
+        let reult = "";
+
+        return reult;
+    }
 }

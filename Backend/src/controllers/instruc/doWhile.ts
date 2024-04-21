@@ -48,4 +48,8 @@ export default class While extends Instruccion {
             }
         } while (this.condicion.interpretar(arbol, tabla));
     }
+
+    obtenerAST(anterior: string): string {
+        return "";
+    }
 }
