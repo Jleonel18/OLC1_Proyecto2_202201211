@@ -13,6 +13,7 @@ class router {
         this.router.post('/analizar', indexController_1.indexController.interpretar);
         this.router.get('/reporteErrores', indexController_1.indexController.reporteErrores);
         this.router.get('/reporteAST', indexController_1.indexController.arbolAst);
+        this.router.get('/reporteSimbolos', indexController_1.indexController.reporteSimbol);
     }
 }
 const indexRouter = new router();

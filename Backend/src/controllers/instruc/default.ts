@@ -20,6 +20,7 @@ export default class Default extends Instruccion {
 
         let nuevaTabla = new tablaSimbolo(tabla);
         nuevaTabla.setNombre("default");
+        Arbol.lista_simbolos.push(nuevaTabla);
 
         for (let i of this.instrucciones) {
 

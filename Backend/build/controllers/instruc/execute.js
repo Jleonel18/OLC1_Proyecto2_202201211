@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
+const arbol_1 = __importDefault(require("../simbol/arbol"));
 const contadorSingleton_1 = __importDefault(require("../simbol/contadorSingleton"));
 const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
@@ -48,6 +49,7 @@ class Execute extends instruccion_1.Instruccion {
         if (busqueda instanceof metodo_1.default) {
             let nuevaTabla = new tablaSimbolos_1.default(arbol.getTablaGlobal());
             nuevaTabla.setNombre("Execute");
+            arbol_1.default.lista_simbolos.push(nuevaTabla);
             if (busqueda.parametros.length != this.parametros.length) {
                 arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${this.columna}`);
                 return new errores_1.default('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);

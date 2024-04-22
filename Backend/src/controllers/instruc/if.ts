@@ -35,6 +35,7 @@ export default class If extends Instruccion {
         if(cond){
             let nuevaTabla = new tablaSimbolo(tabla);
             nuevaTabla.setNombre("if");
+            Arbol.lista_simbolos.push(nuevaTabla);
 
             for(let i of this.instrucciones){
                 if(i instanceof Break) return i;
@@ -52,6 +53,7 @@ export default class If extends Instruccion {
             if(this.instruccionesElse != undefined){
                 let nuevaTabla = new tablaSimbolo(tabla);
                 nuevaTabla.setNombre("else");
+                Arbol.lista_simbolos.push(nuevaTabla);
 
                 for(let i of this.instruccionesElse){
                     if(i instanceof Break) return i;

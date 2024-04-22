@@ -8,6 +8,7 @@ function App() {
   const editorRef = useRef(null);
   const consolaRef = useRef(null);
   const [errores, setErrores] = useState([]);
+  const [simbolos, setSimbolos] = useState([]);
   const [ast, setAst] = useState("");
 
   function handleEditorDidMount(editor, id) {
@@ -57,7 +58,26 @@ function App() {
       });
   }
 
-  function reporteAST(){
+  function reporteSimbolos() {
+    fetch('http://localhost:4000/reporteSimbolos', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setSimbolos(data.message);
+        console.log(data.message);
+        //consolaRef.current.setValue(data.message);
+      })
+      .catch((error) => {
+        alert("Error al interpretar el archivo.")
+        console.error('Error:', error);
+      });
+  }
+
+  function reporteAST() {
     fetch('http://localhost:4000/reporteAST', {
       method: 'GET',
       headers: {
@@ -101,7 +121,7 @@ function App() {
                 <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalErrores" onClick={reporteErrores}>Reporte Errores</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link"  >Reporte Símbolos</a>
+                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#modalSimbolos" onClick={reporteSimbolos}>Reporte Símbolos</a>
               </li>
             </ul>
           </div>
@@ -159,6 +179,44 @@ function App() {
                       <td>{error.desc}</td>
                       <td>{error.fila}</td>
                       <td>{(error.col + 1)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="modalSimbolos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Reporte Símbolos</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Entorno</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {simbolos.map((sim, i) => (
+                    <tr key={i}> {/* Agrega un key único para cada fila */}
+                      <th scope="row">{(i + 1)}</th>
+                      <td>{sim.id}</td> {/* Accede a las propiedades del objeto sim directamente */}
+                      <td>{sim.tipoVar}</td>
+                      <td>{sim.tipoDato}</td>
+                      <td>{sim.entorno}</td>
                     </tr>
                   ))}
                 </tbody>

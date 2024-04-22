@@ -30,6 +30,8 @@ export default class Llamada extends Instruccion {
             if (busqueda.tipo.getTipo() == tipoDato.VOID) {
                 let nuevaTabla = new tablaSimbolo(tabla);
                 nuevaTabla.setNombre("Llamada metodo " + this.id);
+                Arbol.lista_simbolos.push(nuevaTabla);
+
                 if (busqueda.parametros.length != this.parametros.length) {
                     arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
                     return new Errores('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);
@@ -50,6 +52,8 @@ export default class Llamada extends Instruccion {
 
                 let nuevaTabla = new tablaSimbolo(tabla);
                 nuevaTabla.setNombre("Llamada función " + this.id);
+                Arbol.lista_simbolos.push(nuevaTabla);
+
                 if (busqueda.parametros.length != this.parametros.length) {
                     arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${(this.columna + 1)}`);
                     return new Errores('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);

@@ -15,6 +15,12 @@ class Arbol {
     Print(contenido) {
         this.consola = `${this.consola}${contenido}\n`;
     }
+    agregarTSimbolos(tabla) {
+        Arbol.lista_simbolos.push(tabla);
+    }
+    eliminarTSimbolos() {
+        Arbol.lista_simbolos = [];
+    }
     PrintSeguido(contenido) {
         this.consola = `${this.consola}${contenido}`;
     }
@@ -55,4 +61,5 @@ class Arbol {
         }
     }
 }
+Arbol.lista_simbolos = new Array();
 exports.default = Arbol;

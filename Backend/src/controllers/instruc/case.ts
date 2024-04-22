@@ -27,6 +27,7 @@ export default class Case extends Instruccion {
 
             let nuevaTabla = new tablaSimbolo(tabla);
             nuevaTabla.setNombre("case");
+            Arbol.lista_simbolos.push(nuevaTabla);
 
             for (let i of this.instrucciones) {
 

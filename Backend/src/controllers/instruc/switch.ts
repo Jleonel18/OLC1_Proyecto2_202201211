@@ -29,6 +29,7 @@ export default class Switch extends Instruccion {
 
         let nuevaTabla = new tablaSimbolo(tabla);
         nuevaTabla.setNombre("switch");
+        Arbol.lista_simbolos.push(nuevaTabla);
 
         if (this.instruccionesCase != undefined) {
 

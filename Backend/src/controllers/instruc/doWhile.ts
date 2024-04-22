@@ -31,7 +31,8 @@ export default class While extends Instruccion {
         do {
             let nuevaTabla = new tablaSimbolo(tabla);
             nuevaTabla.setNombre("while");
-            console.log("paso por aqui")
+            Arbol.lista_simbolos.push(nuevaTabla);
+            //console.log("paso por aqui")
             for (let i of this.instrucciones) {
 
                 if (i instanceof Break) return;

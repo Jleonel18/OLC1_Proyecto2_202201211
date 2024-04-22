@@ -28,6 +28,7 @@ export default class Execute extends Instruccion {
         if (busqueda instanceof Metodo) {
             let nuevaTabla = new tablaSimbolo(arbol.getTablaGlobal());
             nuevaTabla.setNombre("Execute");
+            Arbol.lista_simbolos.push(nuevaTabla);
 
             if (busqueda.parametros.length != this.parametros.length) {
                 arbol.Print(`Error Semántico: La cantidad de parametros no coincide con la función ${this.id}. Linea: ${this.linea} Columna: ${this.columna}`);

@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const instruccion_1 = require("../abstracto/instruccion");
 const errores_1 = __importDefault(require("../excep/errores"));
 const tablaSimbolos_1 = __importDefault(require("../simbol/tablaSimbolos"));
+const arbol_1 = __importDefault(require("../simbol/arbol"));
 const tipo_1 = __importStar(require("../simbol/tipo"));
 const Break_1 = __importDefault(require("./Break"));
 const Continue_1 = __importDefault(require("./Continue"));
@@ -47,6 +48,7 @@ class Switch extends instruccion_1.Instruccion {
             return cond;
         let nuevaTabla = new tablaSimbolos_1.default(tabla);
         nuevaTabla.setNombre("switch");
+        arbol_1.default.lista_simbolos.push(nuevaTabla);
         if (this.instruccionesCase != undefined) {
             for (let i of this.instruccionesCase) {
                 i.condicionGlobal = this.condicion;

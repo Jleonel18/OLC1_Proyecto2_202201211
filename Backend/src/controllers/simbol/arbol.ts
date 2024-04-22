@@ -7,6 +7,7 @@ export default class Arbol {
     private consola: string
     private tablaGlobal: tablaSimbolo
     private funciones: Array<Instruccion>
+    public static lista_simbolos: Array<tablaSimbolo> = new Array<tablaSimbolo>();
 
     constructor(instrucciones: Array<Instruccion>) {
         this.instrucciones = instrucciones
@@ -17,6 +18,14 @@ export default class Arbol {
 
     public Print(contenido: any) {
         this.consola = `${this.consola}${contenido}\n`;
+    }
+
+    public agregarTSimbolos(tabla: tablaSimbolo) {
+        Arbol.lista_simbolos.push(tabla)
+    }
+
+    public eliminarTSimbolos() {
+        Arbol.lista_simbolos = [];
     }
 
     public PrintSeguido(contenido: any) {

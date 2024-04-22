@@ -6,8 +6,11 @@ import Metodo from './instruc/metodo';
 import Declaracion from './instruc/declaracion';
 import Execute from './instruc/execute';
 import ContadorSingleton from './simbol/contadorSingleton';
+import reporteSimbolo from './simbol/reporteSimbol';
+import { tipoDato } from './simbol/tipo';
 
 export let lista_errores: Array<Errores> = [];
+export let simbolos_tabla: Array<reporteSimbolo> = [];
 
 var dotAst: string = "";
 
@@ -35,6 +38,8 @@ class controller{
     public interpretar(req: Request, res: Response){
 
         lista_errores = new Array<Errores>
+        Arbol.lista_simbolos = [];
+        simbolos_tabla = [];
 
         try{
 
@@ -44,6 +49,7 @@ class controller{
             let ast = new Arbol(parser.parse(req.body.message));
             let tabla = new tablaSimbolo();
             tabla.setNombre("Global");
+            Arbol.lista_simbolos.push(tabla);
             ast.setTablaGlobal(tabla);
             ast.setConsola("");
 
@@ -119,6 +125,40 @@ class controller{
 
             }
 
+            /*console.log("La tabla de simbolos es:")
+            console.log(Arbol.lista_simbolos);*/
+
+            for(let i of Arbol.lista_simbolos){
+                let nombreAmbito = i.getNombre();
+                let ident:any = [];
+                let tipoD: any = [];
+                let valor: any =  [];
+                let fila: any =  [];
+                let columna: [];
+                i.getTabla().forEach((value, key) => {
+                    ident.push(value.getId());
+                    if(value.getTipo().getTipo() == tipoDato.BOOL){
+                        tipoD.push("bool");
+                    }else if(value.getTipo().getTipo() == tipoDato.DECIMAL){
+                        tipoD.push("double");
+                    }else if(value.getTipo().getTipo() == tipoDato.CADENA){
+                        tipoD.push("std::string");
+                    }else if(value.getTipo().getTipo() == tipoDato.ENTERO){
+                        tipoD.push("int");
+                    }
+
+                    valor.push(value.getValor());
+                        
+                });
+
+                for(let i =0; i<ident.length; i++){
+                    simbolos_tabla.push(new reporteSimbolo(ident[i], "variable", tipoD[i], nombreAmbito, 0, 0));
+                }
+            }
+
+            console.log("La tabla de simbolos es:")
+            console.log(simbolos_tabla);
+
         }catch(error: any){
             res.json({message: "Error en el analisis"});
             console.log(error);
@@ -131,6 +171,15 @@ class controller{
         }catch(error: any){
             console.log(error);
             res.json({message: "Error al obtener el arbol AST"});
+        }
+    }
+
+    public reporteSimbol(req: Request, res: Response){
+        try{
+            res.json({message: simbolos_tabla});
+        }catch(error: any){
+            console.log(error);
+            res.json({message: "Error al obtener el reporte de simbolos"});
         }
     }
 }

@@ -31,6 +31,7 @@ export default class While extends Instruccion{
         while(this.condicion.interpretar(arbol,tabla)){
             let nuevaTabla = new tablaSimbolo(tabla);
             nuevaTabla.setNombre("while");
+            Arbol.lista_simbolos.push(nuevaTabla);
             for (let i of this.instrucciones){
                 
                 if(i instanceof Break){

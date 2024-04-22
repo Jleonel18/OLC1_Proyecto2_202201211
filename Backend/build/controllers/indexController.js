@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.indexController = exports.lista_errores = void 0;
+exports.indexController = exports.simbolos_tabla = exports.lista_errores = void 0;
 const arbol_1 = __importDefault(require("./simbol/arbol"));
 const tablaSimbolos_1 = __importDefault(require("./simbol/tablaSimbolos"));
 const errores_1 = __importDefault(require("./excep/errores"));
@@ -11,7 +11,10 @@ const metodo_1 = __importDefault(require("./instruc/metodo"));
 const declaracion_1 = __importDefault(require("./instruc/declaracion"));
 const execute_1 = __importDefault(require("./instruc/execute"));
 const contadorSingleton_1 = __importDefault(require("./simbol/contadorSingleton"));
+const reporteSimbol_1 = __importDefault(require("./simbol/reporteSimbol"));
+const tipo_1 = require("./simbol/tipo");
 exports.lista_errores = [];
+exports.simbolos_tabla = [];
 var dotAst = "";
 class controller {
     prueba(req, res) {
@@ -32,12 +35,15 @@ class controller {
     }
     interpretar(req, res) {
         exports.lista_errores = new Array;
+        arbol_1.default.lista_simbolos = [];
+        exports.simbolos_tabla = [];
         try {
             dotAst = "";
             let parser = require('../../gramatica/gramatica');
             let ast = new arbol_1.default(parser.parse(req.body.message));
             let tabla = new tablaSimbolos_1.default();
             tabla.setNombre("Global");
+            arbol_1.default.lista_simbolos.push(tabla);
             ast.setTablaGlobal(tabla);
             ast.setConsola("");
             for (let err of exports.lista_errores) {
@@ -93,6 +99,37 @@ class controller {
                 console.log(it.getDesc());
                 console.log("-------------------------");
             }
+            /*console.log("La tabla de simbolos es:")
+            console.log(Arbol.lista_simbolos);*/
+            for (let i of arbol_1.default.lista_simbolos) {
+                let nombreAmbito = i.getNombre();
+                let ident = [];
+                let tipoD = [];
+                let valor = [];
+                let fila = [];
+                let columna;
+                i.getTabla().forEach((value, key) => {
+                    ident.push(value.getId());
+                    if (value.getTipo().getTipo() == tipo_1.tipoDato.BOOL) {
+                        tipoD.push("bool");
+                    }
+                    else if (value.getTipo().getTipo() == tipo_1.tipoDato.DECIMAL) {
+                        tipoD.push("double");
+                    }
+                    else if (value.getTipo().getTipo() == tipo_1.tipoDato.CADENA) {
+                        tipoD.push("std::string");
+                    }
+                    else if (value.getTipo().getTipo() == tipo_1.tipoDato.ENTERO) {
+                        tipoD.push("int");
+                    }
+                    valor.push(value.getValor());
+                });
+                for (let i = 0; i < ident.length; i++) {
+                    exports.simbolos_tabla.push(new reporteSimbol_1.default(ident[i], "variable", tipoD[i], nombreAmbito, 0, 0));
+                }
+            }
+            console.log("La tabla de simbolos es:");
+            console.log(exports.simbolos_tabla);
         }
         catch (error) {
             res.json({ message: "Error en el analisis" });
@@ -106,6 +143,15 @@ class controller {
         catch (error) {
             console.log(error);
             res.json({ message: "Error al obtener el arbol AST" });
+        }
+    }
+    reporteSimbol(req, res) {
+        try {
+            res.json({ message: exports.simbolos_tabla });
+        }
+        catch (error) {
+            console.log(error);
+            res.json({ message: "Error al obtener el reporte de simbolos" });
         }
     }
 }

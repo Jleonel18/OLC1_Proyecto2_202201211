@@ -25,6 +25,8 @@ export default class For extends Instruccion{
     interpretar(arbol: Arbol, tabla: tablaSimbolo) {
 
         let nuevaTabla = new tablaSimbolo(tabla);
+        nuevaTabla.setNombre("parametros for");
+        Arbol.lista_simbolos.push(nuevaTabla);
 
         this.declaracion.interpretar(arbol, nuevaTabla);
         
@@ -39,6 +41,7 @@ export default class For extends Instruccion{
         while(this.condicion.interpretar(arbol,nuevaTabla)){
             let nuevaTabla2 = new tablaSimbolo(nuevaTabla);
             nuevaTabla.setNombre("for");
+            Arbol.lista_simbolos.push(nuevaTabla2);
             for(let i of this.instrucciones){
                 
                 if(i instanceof Break) return;
