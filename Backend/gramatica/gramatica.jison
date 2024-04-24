@@ -385,8 +385,8 @@ metodo: tipos ID R_PARIZQ parametros R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDE
       | tipos ID R_PARIZQ R_PARDER R_LLAVEIZQ instrucciones R_LLAVEDER {$$ = new Metodo.default($2, $1, [], $6, @1.first_line, @1.first_column);}
 ;
 
-parametros: parametros R_COMA tipos ID {$$.push({tipo:$3, id:$4}); $$=$1;}
-          | tipos ID {$$ = [{tipo:$1, id:$2}];}
+parametros: parametros R_COMA tipos ID {$$.push({tipo:$3, id:[$4]}); $$=$1;}
+          | tipos ID {$$ = [{tipo:$1, id:[$2]}];}
 ;
 
 execute: R_EXECUTE ID R_PARIZQ parametros_llamada R_PARDER R_PUNTOYCOMA       {$$ = new Execute.default($2, $4, @1.first_line, @1.first_column);}

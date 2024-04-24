@@ -57,7 +57,7 @@ class Llamada extends instruccion_1.Instruccion {
                     return new errores_1.default('Semántico', `La cantidad de parametros no coincide con la función ${this.id}`, this.linea, this.columna);
                 }
                 for (let i = 0; i < busqueda.parametros.length; i++) {
-                    let daclaraParam = new declaracion_1.default(busqueda.parametros[i].tipo, this.linea, this.columna, [busqueda.parametros[i].id], this.parametros[i]);
+                    let daclaraParam = new declaracion_1.default(busqueda.parametros[i].tipo, this.linea, this.columna, busqueda.parametros[i].id, this.parametros[i]);
                     let result = daclaraParam.interpretar(arbol, nuevaTabla);
                     if (result instanceof errores_1.default)
                         return result;
@@ -76,7 +76,7 @@ class Llamada extends instruccion_1.Instruccion {
                 }
                 for (let i = 0; i < busqueda.parametros.length; i++) {
                     let nuevaVar = this.parametros[i].interpretar(arbol, nuevaTabla);
-                    let daclaraParam = new declaracion_1.default(busqueda.parametros[i].tipo, this.linea, this.columna, [busqueda.parametros[i].id[0]], this.parametros[i]);
+                    let daclaraParam = new declaracion_1.default(busqueda.parametros[i].tipo, this.linea, this.columna, busqueda.parametros[i].id, this.parametros[i]);
                     let result = daclaraParam.interpretar(arbol, nuevaTabla);
                     if (result instanceof errores_1.default)
                         return result;

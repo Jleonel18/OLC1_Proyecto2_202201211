@@ -20,34 +20,36 @@ export default class Declaracion extends Instruccion {
 
     interpretar(arbol: Arbol, tabla: tablaSimbolo) {
         
-        let valorFinal = this.valor.interpretar(arbol, tabla)
-        if (valorFinal instanceof Errores) return valorFinal
+        let vFinal = this.valor.interpretar(arbol, tabla)
+        if (vFinal instanceof Errores) return vFinal;
 
         if(this.valor.tipoDato.getTipo() == tipoDato.ENTERO && this.tipoDato.getTipo() == tipoDato.DECIMAL){
-            //console.log("entro al if")
+
             this.identificador.forEach(id => {
-                valorFinal = parseFloat(valorFinal);
-                if (!tabla.setVariable(new Simbolo(this.tipoDato, id, valorFinal))){
-                    arbol.Print("\nError Semántico. Variable ya existente. Linea: " + this.linea + " Columna: " + this.columna)
-                    return new Errores("Semántico", "No se puede declarar variable que ya existe", this.linea, this.columna)
+
+                vFinal = parseFloat(vFinal);
+                if (!tabla.setVariable(new Simbolo(this.tipoDato, id, vFinal))){
+                    arbol.Print("Error Semantico: No se puede declarar variable ya existene:"+ this.linea+" columna: " +(this.columna+1));
+                    
+                    return new Errores("Semantico", "No se puede declarar variable que ya existe", this.linea, this.columna)
                 }   
             });
-        }else{
-
+        }
+        else{
             if (this.valor.tipoDato.getTipo() != this.tipoDato.getTipo()) {
-                arbol.Print("\nError Semántico. Tipo de dato incorrecto. Linea: " + this.linea + " Columna: " + this.columna)
-                return new Errores("Semántico", "No se puede declarar variable", this.linea, this.columna)
-            }
-
-            for(let elemento of this.identificador){
-                if (!tabla.setVariable(new Simbolo(this.tipoDato, elemento, valorFinal))){
-                    arbol.Print("\nError Semántico. Variable ya existente. Linea: " + this.linea + " Columna: " + this.columna)
-                    return new Errores("Semántico", "variable ya existe!", this.linea, this.columna)
-                }  
+                arbol.Print("Error Semantico: El tipo de dato no coincide con la variable. Linea:"+ this.linea+" columna: " +(this.columna+1));
+                return new Errores("SEMANTICO", "El tipo de dato no coincide con la variable.", this.linea, this.columna)
             }
             
+            this.identificador.forEach(elemento => {
+
+                if (!tabla.setVariable(new Simbolo(this.tipoDato, elemento, vFinal))){
+                    arbol.Print("Error Semantico: Variable ya existente en el sistema. Linea::"+ this.linea+" columna: " +(this.columna+1));
+                    return new Errores("SEMANTICO", "Variable ya existente en el sistema.", this.linea, this.columna)
+                }   
+            })
+            
         }
-        
     }
 
     obtenerAST(anterior: string): string {
