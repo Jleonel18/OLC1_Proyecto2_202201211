@@ -169,5 +169,18 @@ Empieza = <inicio>
 			| <expresion>
 
 <llamada> ::= ID "(" <parametros_llamada> ")" PYC
-		ID "(" ")" PYC		  
+		ID "(" ")" PYC	
 
+<return> ::= RES_RETURN <expresion> PYC
+			| RES_RETURN PYC
+
+<vector> ::= <tipos> ID "[" "]" "[" "]""=" RES_NEW <tipos> "[" <expresion> "]" "[" <expresion> "]"
+			| <tipos> ID "[" "]" "[" "]" "=" "["<asignacion_v_vector> "]"
+
+<lista_vector> ::= "[" <lista_exp_vectores> "]"
+
+<lista_exp_vectores> ::= <lista_exp_vectores> "," <expresion>
+						| <expresion>
+
+<asignacion_v_vector> ::= <asignacion_v_vector> "," <lista_vector>
+							| <lista_vector>
